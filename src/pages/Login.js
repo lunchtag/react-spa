@@ -49,7 +49,7 @@ export default class Login extends React.Component {
           <Button block size="lg" variant="danger" type="submit">
             Login
           </Button>
-          <Link to="/register">No account yet? Register</Link>
+          <p>No account yet? Contact the secretary</p>
         </form>
       </div>
     );
