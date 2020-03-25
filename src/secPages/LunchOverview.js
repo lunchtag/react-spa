@@ -2,56 +2,84 @@ import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table'
 
 import LunchItem from '../components/LunchItem'
+import { Row, Container, Col, Button } from 'react-bootstrap';
+
+import '../css/LunchOverview.css'
+
 
 class LunchOverview extends Component {
-    
-    constructor(props){
+
+    constructor(props) {
         super(props)
 
         this.state = {
-            userId: '',
             lunches: []
         }
 
         this.getLunches()
     }
 
-    getLunches(){
+    getLunches() {
         fetch('api/url')
-        .then(res => res.json()).catch()
-        .then((data) => {
-            this.setState({ lunches: data})
-        })
+            .then(res => res.json()).catch()
+            .then((data) => {
+                this.setState({ lunches: data })
+            })
     }
 
 
-render(){
-    const { userId, lunches } = this.state;
+    render() {
+        const { userId, lunches } = this.state;
 
-    return (
-        <React.Fragment>
-            <div>
-                <h1>Overzicht lunch</h1> 
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Naam</th>
-                            <th>Datum</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {lunches.map((item) => (
-                            <LunchItem key={item.id} lunch={item}/>
-                        ))}
-                    </tbody>
-                </Table>
-            </div>
+        return (
+            <React.Fragment>
+                <div>
 
-        </React.Fragment >
-    )
+                    <Row>
+                        <Col><Button variant="outline-primary" size="lg" block>Vorige</Button></Col>
+                        <Col><Button variant="outline-primary" size="lg" block>Huidige</Button></Col>
+                        <Col><Button variant="outline-primary" size="lg" block>Volgende</Button></Col>
+                    </Row>
+                    <Container>
+                        <Row >
+                            <Col><h1>Overzicht lunch</h1></Col>
+                        </Row>
+                        <Row>
+                            <Col><Button variant="info" size="sm" block>Week</Button></Col>
+                            <Col><Button variant="info" size="sm" block>Maand</Button></Col>
+                        </Row>
+                    </Container>
 
-}
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Naam</th>
+                                <th>Datum</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {lunches.map((item) => (
+                                <LunchItem key={item.id} lunch={item} />
+                            ))}
+                        </tbody>
+                    </Table>
+
+                    <Container>
+                        <Row>
+                            <Col><Button variant="primary" size="lg" block>Lunch toevoegen</Button></Col>
+                            <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
+                        </Row>
+                    </Container>
+
+
+
+                </div>
+
+            </React.Fragment >
+        )
+
+    }
 
 }
 

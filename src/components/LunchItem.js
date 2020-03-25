@@ -18,7 +18,6 @@ function LunchItem(...props) {
         }).then(
             window.alert("De lunch is succesvol verwijderd!")
         )
-
     }
 
 
