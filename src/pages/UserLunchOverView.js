@@ -43,7 +43,7 @@ export default class UserLunchOverView extends React.Component {
             date.getMonth() === loopDate.getMonth() &&
             date.getDate() === loopDate.getDate()
           ) {
-            return <p>Lunched</p>;
+            return <p className="pcOnly">Lunched</p>;
           }
         }
       }

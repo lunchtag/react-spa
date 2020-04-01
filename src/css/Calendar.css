@@ -7,7 +7,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
 }
 
 .calendar {
@@ -30,3 +29,13 @@
 .headline{
     text-align: center;
 }
+
+@media only screen and (max-width: 850px) {
+    .calendar {
+        width: 90vw;
+    }
+
+    .pcOnly{
+        visibility: hidden;
+    }
+  }
