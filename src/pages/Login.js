@@ -1,57 +1,72 @@
-import React from "react";
-import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
-import { Link } from 'react-router-dom';
-import '../css/Login.css'
+import React, { Component } from 'react'
+import auth from '../service/auth'
+import { Container, Row, Col, Button } from 'react-bootstrap'
 
-export default class Login extends React.Component {
+class Login extends Component {
   constructor(props) {
-    super(props);
-    console.log(props);
+    super(props)
+
     this.state = {
-      email: "",
-      password: "",
-      submitted: false
-    };
-    this.handleChange = this.handleChange.bind(this);
+      email: '',
+      password: ''
+    }
   }
 
-  handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
+  handleEmailChange = event => {
+    this.setState({
+      email: event.target.value
+    })
   }
 
+  handlePasswordChange = event => {
+    this.setState({
+      password: event.target.value
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    fetch('https://lunchtag-auth.herokuapp.com/auth/login', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+      })
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data)
+        if (data.token != null) {
+          console.log('Gebruiker is ingelogd heeft een valide token');
+          auth.login(data)
+          //this.props.history.push('')
+
+        }
+
+      });
+  }
 
   render() {
-    const { email, password } = this.state;
-
     return (
-      <div className="login">
-        <form name="form" className="loginForm">
-          <FormGroup controlId="email" size="lg">
-            <FormLabel>Email</FormLabel>
-            <FormControl
-              autoFocus
-              type="email"
-              name="email"
-              onChange={this.handleChange}
-              value={email}
-            />
-          </FormGroup>
-          <FormGroup controlId="password" size="lg">
-            <FormLabel>Password</FormLabel>
-            <FormControl
-              onChange={this.handleChange}
-              type="password"
-              name="password"
-              value={password}
-            />
-          </FormGroup>
-          <Button block size="lg" variant="danger" type="submit">
-            Login
-          </Button>
-          <p>No account yet? Contact the secretary</p>
-        </form>
-      </div>
-    );
+      <Container>
+        <Row><h3>Inloggen:</h3></Row>
+        <Row>
+          <Col>
+            <label>Emailadres:</label>
+            <input required type="text" className="form-control" placeholder="Vul hier uw emailadres in" onChange={this.handleEmailChange} />
+          </Col>
+          <Col>
+            <label>Wachtwoord:</label>
+            <input required type="password" className="form-control" placeholder="Vul uw wachtwoord in" onChange={this.handlePasswordChange} />
+          </Col>
+        </Row>
+        <Row><Button size="lg" block onClick={this.handleSubmit}>Bevestig</Button></Row>
+      </Container>
+        );
   }
 }
+
+export default Login
