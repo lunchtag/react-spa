@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Container, Row, Button } from 'react-bootstrap'
 
 class Register extends Component {
     constructor(props) {
@@ -45,15 +46,15 @@ class Register extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-               email: this.state.email,
-               password: this.state.password,
-               firstName: this.state.firstName,
-               lastName: this.state.lastName
+                email: this.state.email,
+                password: this.state.password,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName
             })
         }).then(response => response.json())
             .then(data => {
                 console.log(data)
-                if(data.token != null){
+                if (data.token != null) {
                     window.alert("De gebruiker is succesvol aangemaakt!")
                 }
             });
@@ -61,26 +62,26 @@ class Register extends Component {
 
     render() {
         return (
-                <div className="div">
-                    <h3>Registreer</h3>
-                    <div className="form-group">
-                        <label>Email:</label>
-                        <input required type="text" className="form-control" placeholder="Vul uw email adres in" onChange={this.handleEmailChange} />
-                    </div>
-                    <div className="form-group">
-                        <label>Wachtwoord:</label>
-                        <input required type="password" className="form-control" placeholder="Vul uw wachtwoord in" onChange={this.handlePasswordChange} />
-                    </div>
-                    <div className="form-group">
-                        <label>Voornaam:</label>
-                        <input required type="text" className="form-control" placeholder="Vul uw voornaam in" onChange={this.handleFirstNameChange} />
-                    </div>
-                    <div className="form-group">
-                        <label>Achternaam:</label>
-                        <input required type="text" className="form-control" placeholder="Vul uw achternaam in" onChange={this.handleLastNameChange} />
-                    </div>
-                    <button className="btn btn-primary btn-block" onClick={this.handleSubmit}>Bevestig</button>
-                </div>
+            <Container>
+                <Row><h3>Registreren</h3></Row>
+                <Row>
+                    <label>Email:</label>
+                    <input required type="text" className="form-control" placeholder="Vul uw emailadres in" onChange={this.handleEmailChange} />
+                </Row>
+                <Row>
+                    <label>Wachtwoord:</label>
+                    <input required type="password" className="form-control" placeholder="Vul uw wachtwoord in" onChange={this.handlePasswordChange} />
+                </Row>
+                <Row>
+                    <label>Voornaam:</label>
+                    <input required type="text" className="form-control" placeholder="Vul uw voornaam in" onChange={this.handleFirstNameChange} />
+                </Row>
+                <Row>
+                    <label>Achternaam:</label>
+                    <input required type="text" className="form-control" placeholder="Vul uw achternaam in" onChange={this.handleLastNameChange} />
+                </Row>
+                <Row><Button className="btn btn-primary btn-block" onClick={this.handleSubmit}>Bevestig</Button></Row>
+            </Container>
         );
     }
 }
