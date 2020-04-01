@@ -20,7 +20,15 @@ class LunchOverview extends Component {
     }
 
     getLunches() {
-        fetch('api/url')
+        const url = 'http://localhost:7575/accounts/' + window.sessionStorage.getItem("userId") + '/lunches'
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
+            }
+        })
             .then(res => res.json()).catch()
             .then((data) => {
                 this.setState({ lunches: data })

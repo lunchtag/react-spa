@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button'
 
 function LunchItem(...props) {
 
+    const lunchItem = props.lunch;
+
     function deleteLunch(event){
         event.preventDefault();
         fetch('api/delete', {
@@ -13,7 +15,7 @@ function LunchItem(...props) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                lunchId: props[0].key
+                lunchId: lunchItem.lunchID
             })
         }).then(
             window.alert("De lunch is succesvol verwijderd!")
@@ -23,8 +25,8 @@ function LunchItem(...props) {
 
     return (
         <tr>
-            <td align="right">{props[0].lunch.username}</td>
-            <td align="right">{props[0].lunch.date}</td>
+            <td align="right">{lunchItem.username}</td>
+            <td align="right">{lunchItem.date}</td>
             <td align="right">
                 <Button onClick={deleteLunch} variant="primary">X</Button>
             </td>
