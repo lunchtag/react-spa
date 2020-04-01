@@ -20,7 +20,7 @@ class LunchOverview extends Component {
     }
 
     getLunches() {
-        const url = 'http://localhost:7575/accounts/' + window.sessionStorage.getItem("userId") + '/lunches'
+        const url = 'http://localhost:7575/lunches'
         fetch(url, {
             method: 'GET',
             headers: {
@@ -37,7 +37,7 @@ class LunchOverview extends Component {
 
 
     render() {
-        const { userId, lunches } = this.state;
+        const { lunches } = this.state;
 
         return (
             <React.Fragment>
@@ -79,11 +79,7 @@ class LunchOverview extends Component {
                             <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
                         </Row>
                     </Container>
-
-
-
                 </div>
-
             </React.Fragment >
         )
 
