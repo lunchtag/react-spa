@@ -6,7 +6,7 @@ function LunchItem(...props) {
 
     const lunchItem = props.lunch;
 
-    function deleteLunch(event){
+    function deleteLunch(event) {
         event.preventDefault();
         fetch('api/delete', {
             method: 'POST',
@@ -21,7 +21,6 @@ function LunchItem(...props) {
             window.alert("De lunch is succesvol verwijderd!")
         )
     }
-
 
     return (
         <tr>
