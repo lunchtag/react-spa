@@ -2,22 +2,36 @@ import React from "react";
 import Calander from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../css/Calendar.css";
+import { getAllLunchesForUser, addLunch } from "../service/lunchService";
 
 export default class UserLunchOverView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       date: new Date(),
-      lunchedDays: [new Date()]
+      lunchedDays: []
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    getAllLunchesForUser().then(value =>{
+      console.log(value)
+      const dates =[]
+      value.forEach(element => {
+        const res = element.date.split("T", 1);
+        dates.push({id: element.lunchID, date: new Date(res)})
+      });
+      console.log(dates);
+      this.setState({
+        lunchedDays : dates
+      })
+    })
+  }
 
   render() {
     const onChange = date => {
       for (var i = 0; i < this.state.lunchedDays.length; i++) {
-        const loopDate = this.state.lunchedDays[i];
+        const loopDate = this.state.lunchedDays[i].date;
         if (
           date.getFullYear() === loopDate.getFullYear() &&
           date.getMonth() === loopDate.getMonth() &&
@@ -29,15 +43,21 @@ export default class UserLunchOverView extends React.Component {
           return;
         }
       }
-      let newLunchedDays = this.state.lunchedDays;
-      newLunchedDays.push(date);
-      this.setState({ date: date, lunchedDays: newLunchedDays });
+      // eerst api call doen
+      addLunch(date).then(value => {
+        console.log(value);
+        if(value.status == 201){
+          let newLunchedDays = this.state.lunchedDays;
+          newLunchedDays.push({lunchId: value.data.lunchID, date: date});
+          this.setState({ date: date, lunchedDays: newLunchedDays });
+        }
+      })
     };
 
     const tileContent = ({ date, view }) => {
       if (view === "month") {
         for (var i = 0; i < this.state.lunchedDays.length; i++) {
-          const loopDate = this.state.lunchedDays[i];
+          const loopDate = this.state.lunchedDays[i].date;
           if (
             date.getFullYear() === loopDate.getFullYear() &&
             date.getMonth() === loopDate.getMonth() &&
@@ -53,7 +73,7 @@ export default class UserLunchOverView extends React.Component {
     const tileClassName = ({ date, view }) => {
       if (view === "month") {
         for (var i = 0; i < this.state.lunchedDays.length; i++) {
-          const loopDate = this.state.lunchedDays[i];
+          const loopDate = this.state.lunchedDays[i].date;
           if (
             date.getFullYear() === loopDate.getFullYear() &&
             date.getMonth() === loopDate.getMonth() &&

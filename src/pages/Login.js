@@ -26,7 +26,7 @@ class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    fetch('https://lunchtag-auth.herokuapp.com/auth/login', {
+    fetch('http://localhost:7575/auth/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
