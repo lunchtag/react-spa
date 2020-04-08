@@ -68,7 +68,6 @@ class LunchOverview extends Component {
         this.state.filterValue = filterValue
 
         this.filterLunches()
-
         this.forceUpdate()
     }
 
@@ -85,6 +84,7 @@ class LunchOverview extends Component {
             .then(res => res.json()).catch()
             .then((data) => {
                 this.setState({ lunches: data })
+                console.log(data)
             })
     }
 
@@ -165,9 +165,6 @@ class LunchOverview extends Component {
                                 <Col><Button onClick={() => { this.setFilterValue('month') }} variant="success" size="sm" block>Maand</Button></Col>
                             </Row>
                         }
-
-
-
 
 
                         <Table striped bordered hover>
