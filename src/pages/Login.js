@@ -26,7 +26,7 @@ class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:7575/auth/login', {
+    fetch('https://lunchtag-resource-server.herokuapp.com/auth/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -38,12 +38,17 @@ class Login extends Component {
       })
     }).then(response => response.json())
       .then(data => {
-        console.log(data)
+    
         if (data.token != null) {
           console.log('Gebruiker is ingelogd heeft een valide token');
           auth.login(data)
+          window.alert("Succesvol ingelogd")
+          console.log(data)
           //this.props.history.push('')
 
+        }
+        else{
+          console.log("Inloggen mislukt")
         }
 
       });
@@ -52,20 +57,18 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        <Row><h3>Inloggen:</h3></Row>
-        <Row>
-          <Col>
+        <Row><Col><h3>Inloggen:</h3></Col></Row>
+        <Row><Col>
             <label>Emailadres:</label>
             <input required type="text" className="form-control" placeholder="Vul hier uw emailadres in" onChange={this.handleEmailChange} />
-          </Col>
-          <Col>
-            <label>Wachtwoord:</label>
-            <input required type="password" className="form-control" placeholder="Vul uw wachtwoord in" onChange={this.handlePasswordChange} />
-          </Col>
-        </Row>
+          </Col></Row>
+        <Row><Col>
+          <label>Wachtwoord:</label>
+          <input required type="password" className="form-control" placeholder="Vul uw wachtwoord in" onChange={this.handlePasswordChange} />
+        </Col></Row>
         <Row><Button size="lg" block onClick={this.handleSubmit}>Bevestig</Button></Row>
       </Container>
-        );
+    );
   }
 }
 

@@ -1,20 +1,15 @@
 class Auth {
-    register(data) {
-
-    }
 
     login(data) {
         this.logout()
         console.log(this.parseJwt(data.token))
 
         window.sessionStorage.setItem("token", data.token);
-        window.sessionStorage.setItem("username", data.user.username);
         window.sessionStorage.setItem("role", data.user.role);
     }
 
     logout() {
         window.sessionStorage.removeItem("token");
-        window.sessionStorage.removeItem("username");
         window.sessionStorage.removeItem("role");
     }
 
