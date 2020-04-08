@@ -1,7 +1,4 @@
 class Auth {
-    register(data) {
-
-    }
 
     login(data) {
         this.logout()
