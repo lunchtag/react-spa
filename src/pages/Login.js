@@ -26,7 +26,7 @@ class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    fetch('https://lunchtag-auth.herokuapp.com/auth/login', {
+    fetch('https://lunchtag-resource-server.herokuapp.com/auth/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -43,6 +43,7 @@ class Login extends Component {
           console.log('Gebruiker is ingelogd heeft een valide token');
           auth.login(data)
           window.alert("Succesvol ingelogd")
+          console.log(data)
           //this.props.history.push('')
 
         }

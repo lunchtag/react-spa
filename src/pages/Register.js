@@ -39,7 +39,7 @@ class Register extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        fetch('https:lunchtag-auth.herokuapp.com/auth/register', {
+        fetch('https:lunchtag-resource-server.herokuapp.com/auth/register', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
