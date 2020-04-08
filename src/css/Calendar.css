@@ -1,0 +1,41 @@
+.lunched{
+    background-color: green !important;
+    color: white;
+}
+
+.monthlyLunchOverView{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar {
+    width: 70vw;
+    max-width: 100%;
+}
+
+.calendar > .react-calendar{
+    width: 100vw;
+}
+
+.react-calendar__tile--active{
+    color: black;
+}
+
+.content{
+    text-align: center;
+}
+
+.headline{
+    text-align: center;
+}
+
+@media only screen and (max-width: 850px) {
+    .calendar {
+        width: 90vw;
+    }
+
+    .pcOnly{
+        visibility: hidden;
+    }
+  }
