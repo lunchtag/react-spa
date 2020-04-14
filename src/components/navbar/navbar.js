@@ -9,8 +9,9 @@ class Navbar extends React.Component {
 				<div class="welcome">Welkom</div>
 
 				<nav>
-					<Link to="/inschrijven">Inschrijven</Link>
-					<Link to="/overzicht">Overzicht</Link>
+					<Link to="/dashboard">Lunch maandoverzicht </Link>
+					<Link to="/add"> Lunch weekoverzicht</Link>
+					<Link to="/lunch">Lunch overview</Link>
 
 					<Link to="/logout">Logout</Link>
 				</nav>

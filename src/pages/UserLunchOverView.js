@@ -7,7 +7,6 @@ import {
 	addLunch,
 	deleteLunch,
 } from "../service/lunchService";
-
 import Navbar from "../components/navbar/navbar";
 
 export default class UserLunchOverView extends React.Component {
