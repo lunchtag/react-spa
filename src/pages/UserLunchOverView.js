@@ -43,7 +43,6 @@ export default class UserLunchOverView extends React.Component {
           return;
         }
       }
-      // eerst api call doen
       addLunch(date).then(value => {
         console.log(value);
         if(value.status == 201){
