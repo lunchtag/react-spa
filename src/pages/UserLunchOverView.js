@@ -19,7 +19,6 @@ export default class UserLunchOverView extends React.Component {
 
   componentDidMount() {
     getAllLunchesForUser().then((value) => {
-      debugger
       if (value.status == 200) {
         const dates = [];
         value.data.forEach((element) => {
@@ -43,6 +42,7 @@ export default class UserLunchOverView extends React.Component {
           date.getMonth() === loopDate.date.getMonth() &&
           date.getDate() === loopDate.date.getDate()
         ) {
+          debugger
           deleteLunch(loopDate.id).then((value) => {
             if (value) {
               console.log(value);
@@ -60,7 +60,7 @@ export default class UserLunchOverView extends React.Component {
         console.log(value);
         if (value.status == 200) {
           let newLunchedDays = this.state.lunchedDays;
-          newLunchedDays.push({ lunchId: value.data.id, date: date });
+          newLunchedDays.push({ id: value.data.id, date: date });
           this.setState({ date: date, lunchedDays: newLunchedDays });
         }
       });
