@@ -1,4 +1,7 @@
-import React, { useState, Component } from 'react'
+import React, { useState, useEffect } from 'react';
+import auth from '../service/auth'
+import dateFormat from 'dateformat';
+
 import { Button } from "react-bootstrap";
 
 import FullCalendar from "@fullcalendar/react";
@@ -11,6 +14,8 @@ import "@fullcalendar/daygrid/main.css";
 import '../css/RegisterLunch.css'
 function RegisterLunch() {
 
+    const jwtData = auth.parseJwt(window.sessionStorage.getItem("token"));
+
     const [lunch, setLunch] = useState([
         {
             title: "Lunch",
@@ -19,7 +24,7 @@ function RegisterLunch() {
     ])
 
     function getLunches() {
-        const url = 'http://localhost:8090/accounts/' + window.sessionStorage.getItem("userId") + '/lunches'
+        const url = 'https://lunchtag-resource-server.herokuapp.com/accounts/' + jwtData.sub + '/lunches'
         fetch(url, {
             method: 'GET',
             headers: {
@@ -28,26 +33,35 @@ function RegisterLunch() {
                 'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
             }
         })
-            .then(res => res.json()).catch()
-            .then((data) => {
+            .then(res => res.json())
+            .then(data => {
                 setLunch(data)
             })
     }
 
     function addlunchApi(lunch) {
-        fetch('http://localhost:8090/accounts/' + window.sessionStorage.getItem("userId") + '/lunches', {
+        console.log(lunch.date);
+        fetch('https://lunchtag-resource-server.herokuapp.com/accounts/' + jwtData.sub + '/lunches', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
             },
             body: JSON.stringify({
                 name: lunch.title,
                 date: lunch.date
             })
-        }).then(() => {
-            window.alert("De lunch is succesvol toegevoegd!");
+        }).then(response => {
+            if (response.status == 201) {
+                window.alert("De lunch is succesvol toegevoegd!");
+            } else {
+                // console.log(data.message);
+                window.alert("Er is iets fout gegaan.");
+            }
+            getLunches();
         })
+
     }
 
 
@@ -59,28 +73,31 @@ function RegisterLunch() {
 
         today = mm + '/' + dd + '/' + yyyy;
 
-        const date = new Date(today);
+        const date = dateFormat(today, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
 
         const newLunch = {
             title: "Lunch",
             date: date
         }
         setLunch(oldLunches => [...oldLunches, newLunch]);
-        //addlunchApi(lunch);
+        addlunchApi(newLunch);
     }
 
     // Wanneer er op een datum wordt geklikt
     const handleDateClick = arg => {
-        const date = new Date(arg.dateStr);
+        const date = dateFormat(arg.dateStr, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
+        console.log(date);
         const newLunch = {
             title: "Lunch",
             date: date
         }
-        // addlunchApi(lunch)
+        addlunchApi(newLunch)
         setLunch(oldLunches => [...oldLunches, newLunch]); // Dit update de lunch array , Wanneer dit samen werkt met de api, kunnen we ook alle lunches ophalen en die in de array zetten
-        console.log(lunch);
     }
 
+    useEffect(() => {
+        getLunches();
+    }, []);
     return (
         <div className="container">
             <h1>Wanneer heb jij meegegeten?</h1>
