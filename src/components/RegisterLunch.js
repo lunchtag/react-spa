@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import auth from '../service/auth'
-import dateFormat from 'dateformat';
+import React, { useState, useEffect } from "react";
+import auth from "../service/auth";
+import dateFormat from "dateformat";
 
 import { Button } from "react-bootstrap";
 
@@ -10,8 +10,9 @@ import interactionPlugin from "@fullcalendar/interaction";
 
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
+import "../css/RegisterLunch.css";
+import Navbar from "../components/navbar/navbar";
 
-import '../css/RegisterLunch.css'
 function RegisterLunch() {
 
     const jwtData = auth.parseJwt(window.sessionStorage.getItem("token"));
@@ -128,46 +129,37 @@ function RegisterLunch() {
     useEffect(() => {
         getLunches();
     }, []);
-    return (
-        <div className="container">
-            <h1>Wanneer heb jij meegegeten?</h1>
-            <p>Weekoverzicht</p>
-            <FullCalendar
-                defaultView="dayGridWeek"
-                plugins={[dayGridPlugin, interactionPlugin]}
-                events={lunch}
-                locale="nl"
-                contentHeight='auto'
-                dateClick={handleDateClick}
-
-
-            />
-            <Button block size="lg" variant="success" type="submit" onClick={addToday}>
-                Ik heb vandaag meegeluncht
-                </Button>
-        </div>
-    )
-
+   
+	return (
+		<div class="flexboxes">
+			<div class="leftpanel">
+				<Navbar />
+			</div>
+			<div class="rightpanel">
+				<div className="container">
+					<h1>Wanneer heb jij meegegeten?</h1>
+					<p>Weekoverzicht</p>
+					<FullCalendar
+						defaultView="dayGridWeek"
+						plugins={[dayGridPlugin, interactionPlugin]}
+						events={lunch}
+						locale="nl"
+						contentHeight="auto"
+						dateClick={handleDateClick}
+					/>
+					<Button
+						block
+						size="lg"
+						variant="success"
+						type="submit"
+						onClick={addToday}
+					>
+						Ik heb vandaag meegeluncht
+					</Button>
+				</div>
+			</div>
+		</div>
+	);
 }
 
-export default RegisterLunch
-
-
-
-// function addTomorrow() {
-//     let d = new Date("2020-04-10")
-//     let a = new Date("2020-04-11")
-
-    // let datums = [
-    //     {
-    //         title: "Lunch",
-    //         date: d
-    //     },
-    //     {
-    //         title: "Lunch",
-    //         date: a
-    //     }
-    // ]
-
-//     setLunch(datums)
-// }
+export default RegisterLunch;
