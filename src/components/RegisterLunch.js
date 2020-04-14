@@ -18,13 +18,14 @@ function RegisterLunch() {
 
     const [lunch, setLunch] = useState([
         {
+            id: "",
             title: "Lunch",
             date: new Date("2020-04-10")
         }
     ])
 
     function getLunches() {
-        const url = 'https://lunchtag-resource-server.herokuapp.com/accounts/' + jwtData.sub + '/lunches'
+        const url = 'https://lunchtag-resource-server.herokuapp.com/lunch'
         fetch(url, {
             method: 'GET',
             headers: {
@@ -36,12 +37,42 @@ function RegisterLunch() {
             .then(res => res.json())
             .then(data => {
                 setLunch(data)
+                console.log(lunch);
+
             })
     }
 
-    function addlunchApi(lunch) {
-        console.log(lunch.date);
-        fetch('https://lunchtag-resource-server.herokuapp.com/accounts/' + jwtData.sub + '/lunches', {
+    function deleteLunchApi(lunchId) {
+        console.log(lunchId);
+        fetch('https://lunchtag-resource-server.herokuapp.com/lunch/' + lunchId, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
+            }
+        }).then(response => {
+            if (response.status == 200) {
+                window.alert("De lunch is succesvol verwijderd!");
+            } else {
+                window.alert("Er is iets fout gegaan.");
+            }
+            getLunches();
+        })
+    }
+
+    function addlunchApi(newLunch) {
+        // Eerst even kijken of er gedeleted moet worden of niet
+        lunch.forEach(l => {
+            let dateJavascript = new Date(newLunch.date);
+            let dateDB = new Date(l.date);
+            if (dateJavascript == dateDB) {
+                console.log("deleted");
+                deleteLunchApi(l.id);
+            }
+        })
+
+        fetch('https://lunchtag-resource-server.herokuapp.com/lunch', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -49,11 +80,11 @@ function RegisterLunch() {
                 'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
             },
             body: JSON.stringify({
-                name: lunch.title,
-                date: lunch.date
+                name: newLunch.title,
+                date: newLunch.date
             })
         }).then(response => {
-            if (response.status == 201) {
+            if (response.status == 200) {
                 window.alert("De lunch is succesvol toegevoegd!");
             } else {
                 // console.log(data.message);
@@ -86,7 +117,6 @@ function RegisterLunch() {
     // Wanneer er op een datum wordt geklikt
     const handleDateClick = arg => {
         const date = dateFormat(arg.dateStr, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
-        console.log(date);
         const newLunch = {
             title: "Lunch",
             date: date
@@ -109,6 +139,8 @@ function RegisterLunch() {
                 locale="nl"
                 contentHeight='auto'
                 dateClick={handleDateClick}
+
+
             />
             <Button block size="lg" variant="success" type="submit" onClick={addToday}>
                 Ik heb vandaag meegeluncht
