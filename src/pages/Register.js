@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Row, Button } from 'react-bootstrap'
+import auth from '../service/auth'
 
 class Register extends Component {
     constructor(props) {
@@ -55,6 +56,7 @@ class Register extends Component {
             .then(data => {
                 console.log(data)
                 if (data.token != null) {
+                    auth.login(data)
                     window.alert("De gebruiker is succesvol aangemaakt!")
                 }
             });
