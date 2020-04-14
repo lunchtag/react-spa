@@ -1,0 +1,1 @@
+export const server = "https://lunchtag-resource-server.herokuapp.com"
