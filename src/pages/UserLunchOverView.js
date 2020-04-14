@@ -3,19 +3,21 @@ import Calander from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../css/Calendar.css";
 import {
-  getAllLunchesForUser,
-  addLunch,
-  deleteLunch,
+	getAllLunchesForUser,
+	addLunch,
+	deleteLunch,
 } from "../service/lunchService";
+import Navbar from "../components/navbar/navbar";
 
 export default class UserLunchOverView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      date: new Date(),
-      lunchedDays: [],
-    };
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			date: new Date(),
+			lunchedDays: [],
+		};
+	}
+
 
   componentDidMount() {
     getAllLunchesForUser().then((value) => {
@@ -66,61 +68,68 @@ export default class UserLunchOverView extends React.Component {
       });
     };
 
-    const tileContent = ({ date, view }) => {
-      if (view === "month") {
-        for (var i = 0; i < this.state.lunchedDays.length; i++) {
-          const loopDate = this.state.lunchedDays[i].date;
-          if (
-            date.getFullYear() === loopDate.getFullYear() &&
-            date.getMonth() === loopDate.getMonth() &&
-            date.getDate() === loopDate.getDate()
-          ) {
-            return <p className="pcOnly">Lunched</p>;
-          }
-        }
-      }
-      return null;
-    };
+		const tileContent = ({ date, view }) => {
+			if (view === "month") {
+				for (var i = 0; i < this.state.lunchedDays.length; i++) {
+					const loopDate = this.state.lunchedDays[i].date;
+					if (
+						date.getFullYear() === loopDate.getFullYear() &&
+						date.getMonth() === loopDate.getMonth() &&
+						date.getDate() === loopDate.getDate()
+					) {
+						return <p className="pcOnly">Lunched</p>;
+					}
+				}
+			}
+			return null;
+		};
 
-    const tileClassName = ({ date, view }) => {
-      if (view === "month") {
-        for (var i = 0; i < this.state.lunchedDays.length; i++) {
-          const loopDate = this.state.lunchedDays[i].date;
-          if (
-            date.getFullYear() === loopDate.getFullYear() &&
-            date.getMonth() === loopDate.getMonth() &&
-            date.getDate() === loopDate.getDate()
-          ) {
-            return "lunched";
-          }
-        }
-      }
-      return null;
-    };
+		const tileClassName = ({ date, view }) => {
+			if (view === "month") {
+				for (var i = 0; i < this.state.lunchedDays.length; i++) {
+					const loopDate = this.state.lunchedDays[i].date;
+					if (
+						date.getFullYear() === loopDate.getFullYear() &&
+						date.getMonth() === loopDate.getMonth() &&
+						date.getDate() === loopDate.getDate()
+					) {
+						return "lunched";
+					}
+				}
+			}
+			return null;
+		};
 
-    const { date } = this.state;
-    return (
-      <div className="content">
-        <div className="headline">
-          <h1>Maand overzicht</h1>
-        </div>
-        <div className="monthlyLunchOverView">
-          <div className="calendar">
-            <Calander
-              onChange={onChange}
-              value={date}
-              showWeekNumbers
-              maxDate={new Date()}
-              onClickDay={this.onClickDay}
-              tileContent={tileContent}
-              tileClassName={tileClassName}
-            />
-          </div>
-        </div>
-        <div className="tip">
-          <p>Klik op een datum om aan te geven of je hebt meegeluncht</p>
-        </div>
-      </div>
-    );
-  }
+		const { date } = this.state;
+		return (
+			<div class="flexboxes">
+				<div class="leftpanel">
+					<Navbar />
+				</div>
+				<div class="rightpanel">
+					<div className="content">
+						<div className="headline">
+							<h1>Maand overzicht</h1>
+						</div>
+						<div className="monthlyLunchOverView">
+							<div className="calendar">
+								<Calander
+									onChange={onChange}
+									value={date}
+									showWeekNumbers
+									maxDate={new Date()}
+									onClickDay={this.onClickDay}
+									tileContent={tileContent}
+									tileClassName={tileClassName}
+								/>
+							</div>
+						</div>
+						<div className="tip">
+							<p>Klik op een datum om aan te geven of je hebt meegeluncht</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
