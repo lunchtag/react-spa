@@ -45,3 +45,19 @@ export async function addLunch(lunchDate){
         return null;
     })
 }
+
+export async function deleteLunch(lunchId){
+    const token = auth.parseJwt(window.sessionStorage.getItem("token"))
+    return Axios.delete(`${server}/accounts/${token.sub}/lunches/${lunchId}`,
+    {
+        headers:{
+            'Authorization' : `Bearer ${window.sessionStorage.getItem('token')}`
+        }
+    }).then(res =>{
+        return res;
+    })
+    .catch(error =>{
+        console.log(error);
+        return null;
+    })
+}
