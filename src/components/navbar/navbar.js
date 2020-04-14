@@ -7,7 +7,7 @@ class Navbar extends React.Component {
 		return (
 			<div class="flexboxes">
 				<div class="leftpanel">
-					<div class="welcome">Welkom lilleke natnek</div>
+					<div class="welcome">Welkom</div>
 
 					<nav>
 						<Link to="/inschrijven">Inschrijven</Link>
