@@ -5,18 +5,15 @@ import "./navbar.css";
 class Navbar extends React.Component {
 	render() {
 		return (
-			<div class="flexboxes">
-				<div class="leftpanel">
-					<div class="welcome">Welkom</div>
+			<div>
+				<div class="welcome">Welkom</div>
 
-					<nav>
-						<Link to="/inschrijven">Inschrijven</Link>
-						<Link to="/overzicht">Overzicht</Link>
+				<nav>
+					<Link to="/inschrijven">Inschrijven</Link>
+					<Link to="/overzicht">Overzicht</Link>
 
-						<Link to="/logout">Logout</Link>
-					</nav>
-				</div>
-				<div class="rightpanel"></div>
+					<Link to="/logout">Logout</Link>
+				</nav>
 			</div>
 		);
 	}
