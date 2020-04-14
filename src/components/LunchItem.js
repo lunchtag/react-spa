@@ -10,7 +10,7 @@ function LunchItem(...props) {
 
     function deleteLunch(event) {
         event.preventDefault();
-        const url = 'localhost:3000/accounts/' + Auth.parseJwt(window.sessionStorage.getItem("token").sub) + '/lunches/' + props.key
+        const url = 'https://lunchtag-resource-server.herokuapp.com/accounts/' + Auth.parseJwt(window.sessionStorage.getItem("token").sub) + '/lunches/' + props.key
         fetch(url,  {
             method: 'DELETE',
             headers: {
