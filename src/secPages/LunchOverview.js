@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table'
 
 import 'react-moment'
 import Auth from '../service/auth'
+import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
 import { Row, Container, Col, Button } from 'react-bootstrap';
@@ -112,7 +113,12 @@ class LunchOverview extends Component {
     render() {
         const { filteredLunches } = this.state;
         return (
-            <React.Fragment>
+            <div class="flexboxes">
+                <div class="leftpanel">
+                    <Navbar/>
+                </div>
+                <div class="rightpanel">
+                <React.Fragment>
                 <div>
                     <Row>
                         <Col><Button onClick={() => { this.filterByPrevious() }} variant="outline-primary" size="lg" block>Vorige</Button></Col>
@@ -167,6 +173,8 @@ class LunchOverview extends Component {
                     </Row>
                 </div>
             </React.Fragment >
+                </div>
+            </div>
         )
 
     }

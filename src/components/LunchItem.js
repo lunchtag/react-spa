@@ -24,7 +24,7 @@ function LunchItem(...props) {
     return (
         <tr>
             <td align="right">{lunchItem.account.name}</td>
-            <td align="right">{lunchItem.date}</td>
+            <td align="right">{Date(lunchItem.date)}</td>
             <td align="right">
                 <Button onClick={deleteLunch} variant="danger" block>X</Button>
             </td>
