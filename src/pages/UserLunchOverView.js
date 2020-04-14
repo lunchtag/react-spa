@@ -21,7 +21,7 @@ export default class UserLunchOverView extends React.Component {
 
   componentDidMount() {
     getAllLunchesForUser().then((value) => {
-      if (value.status == 200) {
+      if (value.status === 200) {
         const dates = [];
         value.data.forEach((element) => {
           const res = element.date.split("T", 1);
@@ -48,7 +48,7 @@ export default class UserLunchOverView extends React.Component {
           deleteLunch(loopDate.id).then((value) => {
             if (value) {
               console.log(value);
-              if (value.status == 200) {
+              if (value.status === 200) {
                 let newLunchedDays = this.state.lunchedDays;
                 newLunchedDays.splice(i, 1);
                 this.setState({ date: date, LunchedDays: newLunchedDays });
@@ -60,7 +60,7 @@ export default class UserLunchOverView extends React.Component {
       }
       addLunch(date).then((value) => {
         console.log(value);
-        if (value.status == 200) {
+        if (value.status === 200) {
           let newLunchedDays = this.state.lunchedDays;
           newLunchedDays.push({ id: value.data.id, date: date });
           this.setState({ date: date, lunchedDays: newLunchedDays });
@@ -102,11 +102,11 @@ export default class UserLunchOverView extends React.Component {
 
 		const { date } = this.state;
 		return (
-			<div class="flexboxes">
-				<div class="leftpanel">
+			<div className="flexboxes">
+				<div className="leftpanel">
 					<Navbar />
 				</div>
-				<div class="rightpanel">
+				<div className="rightpanel">
 					<div className="content">
 						<div className="headline">
 							<h1>Maand overzicht</h1>

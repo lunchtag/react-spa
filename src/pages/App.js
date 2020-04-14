@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import '../css/App.css';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import PublicRoute from '../components/PublicRoute'

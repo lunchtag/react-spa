@@ -1,6 +1,6 @@
 import Axios from "axios";
 import {server} from './constants.js'
-import auth from "./auth.js"
+//import auth from "./auth.js"
 
 export async function getAllLunchesForUser(){
     return Axios.get(
@@ -45,7 +45,7 @@ export async function addLunch(lunchDate){
 }
 
 export async function deleteLunch(lunchId){
-    const token = auth.parseJwt(window.sessionStorage.getItem("token"))
+    // const token = auth.parseJwt(window.sessionStorage.getItem("token"))
     return Axios.delete(`${server}/lunch/${lunchId}`,
     {
         headers:{
