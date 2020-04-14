@@ -3,9 +3,8 @@ import {server} from './constants.js'
 import auth from "./auth.js"
 
 export async function getAllLunchesForUser(){
-    const token = auth.parseJwt(window.sessionStorage.getItem("token"))
     return Axios.get(
-        `${server}/accounts/${token.sub}/lunches`,
+        `${server}/lunch`,
         {
             headers:{
                 'Authorization' : `Bearer ${window.sessionStorage.getItem('token')}`,
@@ -14,19 +13,18 @@ export async function getAllLunchesForUser(){
         }
     )
     .then(res =>{
-        return res.data;
+        return res;
     })
     .catch(error =>{
         console.log(error)
-        return null
+        return error.response;
     });
 }
 
 export async function addLunch(lunchDate){
-    const token = auth.parseJwt(window.sessionStorage.getItem("token"))
     lunchDate.setHours(3)
     return Axios.post(
-        `${server}/accounts/${token.sub}/lunches`,
+        `${server}/lunch`,
         {
             date: lunchDate.toISOString()
         },
@@ -42,13 +40,13 @@ export async function addLunch(lunchDate){
     })
     .catch(error =>{
         console.log(error)
-        return null;
+        return error.response
     })
 }
 
 export async function deleteLunch(lunchId){
     const token = auth.parseJwt(window.sessionStorage.getItem("token"))
-    return Axios.delete(`${server}/accounts/${token.sub}/lunches/${lunchId}`,
+    return Axios.delete(`${server}/lunch/${lunchId}`,
     {
         headers:{
             'Authorization' : `Bearer ${window.sessionStorage.getItem('token')}`
