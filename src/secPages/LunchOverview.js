@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table'
 
 import 'react-moment'
+import Auth from '../service/auth'
 
 import LunchItem from '../components/LunchItem'
 import { Row, Container, Col, Button } from 'react-bootstrap';
@@ -45,7 +46,7 @@ class LunchOverview extends Component {
                 date: new Date("2020-05-15T09:22:48.939Z"),
                 lunchID: 5,
                 name: "sander"
-            }
+            },
             ],
             filteredLunches: [],
 
@@ -56,6 +57,7 @@ class LunchOverview extends Component {
 
             currentWeek: 1
         }
+        //this.getLunches()
 
         this.state.filteredLunches = this.state.lunches
     }
@@ -72,7 +74,7 @@ class LunchOverview extends Component {
     }
 
     getLunches() {
-        const url = 'http://localhost:7575/lunches'
+        const url = 'https://lunchtag-resource-server.herokuapp.com/lunches'
         fetch(url, {
             method: 'GET',
             headers: {
@@ -84,6 +86,7 @@ class LunchOverview extends Component {
             .then(res => res.json()).catch()
             .then((data) => {
                 this.setState({ lunches: data })
+                console.log(Auth.parseJwt(window.sessionStorage.getItem("token")))
                 console.log(data)
             })
     }
@@ -124,14 +127,14 @@ class LunchOverview extends Component {
         }
 
         var beginWeek = moment().startOf('week').add(1, 'day').subtract(this.state.currentWeek, 'week')._d;
-        var endWeek = moment().startOf('week').subtract(this.state.currentWeek -1, 'week')._d;
+        var endWeek = moment().startOf('week').subtract(this.state.currentWeek - 1, 'week')._d;
         console.log(beginWeek)
         console.log(endWeek)
 
         if (this.state.filterValue == 'week') {
             this.state.filteredLunches = this.state.lunches.filter((item) => {
                 return item.date >= beginWeek &&
-                    item.date <= endWeek    
+                    item.date <= endWeek
             })
             this.forceUpdate()
         }
@@ -181,14 +184,14 @@ class LunchOverview extends Component {
                                 ))}
                             </tbody>
                         </Table>
-
-
-                        <Row>
+                    </Container>
+                </div>
+                <div className="sticky">
+                        <Row >
                             <Col><Button variant="primary" size="lg" block>Lunch toevoegen</Button></Col>
                             <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
                         </Row>
-                    </Container>
-                </div>
+                        </div>
             </React.Fragment >
         )
 
