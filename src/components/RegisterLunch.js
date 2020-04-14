@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import auth from "../service/auth";
+//import auth from "../service/auth";
 import dateFormat from "dateformat";
 
 import { Button } from "react-bootstrap";
@@ -15,7 +15,7 @@ import Navbar from "../components/navbar/navbar";
 
 function RegisterLunch() {
 
-    const jwtData = auth.parseJwt(window.sessionStorage.getItem("token"));
+    //const jwtData = auth.parseJwt(window.sessionStorage.getItem("token"));
 
     const [lunch, setLunch] = useState([
         {
@@ -53,7 +53,7 @@ function RegisterLunch() {
                 'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
             }
         }).then(response => {
-            if (response.status == 200) {
+            if (response.status === 200) {
                 window.alert("De lunch is succesvol verwijderd!");
             } else {
                 window.alert("Er is iets fout gegaan.");
@@ -67,7 +67,7 @@ function RegisterLunch() {
         lunch.forEach(l => {
             let dateJavascript = new Date(newLunch.date);
             let dateDB = new Date(l.date);
-            if (dateJavascript == dateDB) {
+            if (dateJavascript === dateDB) {
                 console.log("deleted");
                 deleteLunchApi(l.id);
             }
@@ -85,7 +85,7 @@ function RegisterLunch() {
                 date: newLunch.date
             })
         }).then(response => {
-            if (response.status == 200) {
+            if (response.status === 200) {
                 window.alert("De lunch is succesvol toegevoegd!");
             } else {
                 // console.log(data.message);

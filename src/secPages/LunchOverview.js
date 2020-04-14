@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table'
 
 import 'react-moment'
-import Auth from '../service/auth'
+//import Auth from '../service/auth'
 import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
@@ -24,22 +24,23 @@ class LunchOverview extends Component {
             filterValue: 'month',
             currentMonth: new Date().getMonth(),
 
-            currentWeek: 1
+            currentWeek: 0
         }
+        
 
         this.getLunches()
     }
 
 
 
-    setFilterValue(filterValue) {
+    setFilterValue(newFilterValue) {
         this.state.currentMonth = new Date().getMonth()
         this.state.startWeek = moment().startOf('day').subtract(1, 'week')._d
         this.state.endWeek = new Date()
 
-        this.state.filterValue = filterValue
+        this.state.filterValue = newFilterValue
 
-        this.filterLunches()
+        this.filterByCurrent()
         this.forceUpdate()
     }
 
@@ -66,7 +67,6 @@ class LunchOverview extends Component {
         this.state.currentMonth = new Date().getMonth()
         this.state.currentWeek = 0
 
-
         this.filterLunches()
     }
 
@@ -89,10 +89,12 @@ class LunchOverview extends Component {
     }
 
     filterLunches() {
-        if (this.state.filterValue == 'month') {
-            this.state.filteredLunches = this.state.lunches.filter((item) => {
-                return new Date(item.date).getMonth() == this.state.currentMonth
-            })
+        if (this.state.filterValue === 'month') {
+
+            this.setState({filteredLunches: this.state.lunches.filter((item) => {
+                return new Date(item.date).getMonth() === this.state.currentMonth
+            })})
+
             this.forceUpdate()
             return
         }
@@ -100,11 +102,11 @@ class LunchOverview extends Component {
         var beginWeek = moment().startOf('week').add(1, 'day').subtract(this.state.currentWeek, 'week')._d;
         var endWeek = moment().startOf('week').subtract(this.state.currentWeek - 1, 'week')._d;
 
-        if (this.state.filterValue == 'week') {
-            this.state.filteredLunches = this.state.lunches.filter((item) => {
+        if (this.state.filterValue === 'week') {
+            this.setState({filteredLunches: this.state.lunches.filter((item) => {
                 return new Date(item.date) >= beginWeek &&
                     new Date(item.date) <= endWeek
-            })
+            })})
             this.forceUpdate()
         }
     }
@@ -113,11 +115,11 @@ class LunchOverview extends Component {
     render() {
         const { filteredLunches } = this.state;
         return (
-            <div class="flexboxes">
-                <div class="leftpanel">
+            <div className="flexboxes">
+                <div className="leftpanel">
                     <Navbar/>
                 </div>
-                <div class="rightpanel">
+                <div className="rightpanel">
                 <React.Fragment>
                 <div>
                     <Row>
@@ -130,13 +132,13 @@ class LunchOverview extends Component {
                             <Col><h1>Overzicht lunch</h1></Col>
                         </Row>
                         <Row><Col>
-                            {this.state.filterValue == 'month' ?
+                            {this.state.filterValue === 'month' ?
                                 <h4>Huidig maandnummer: {this.state.currentMonth}</h4> :
                                 <h4>Huidig week: {this.state.currentWeek}</h4>}
                         </Col></Row>
 
 
-                        {this.state.filterValue == 'week' ?
+                        {this.state.filterValue === 'week' ?
                             <Row>
                                 <Col><Button onClick={() => { this.setFilterValue('week') }} variant="success" size="sm" block>Week</Button></Col>
                                 <Col><Button onClick={() => { this.setFilterValue('month') }} variant="info" size="sm" block>Maand</Button></Col>
@@ -166,12 +168,10 @@ class LunchOverview extends Component {
                         </Table>
                     </Container>
                 </div>
-                <div className="sticky">
                     <Row >
                         <Col><Button variant="primary" size="lg" block>Lunch toevoegen</Button></Col>
                         <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
                     </Row>
-                </div>
             </React.Fragment >
                 </div>
             </div>
