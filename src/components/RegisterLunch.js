@@ -15,6 +15,7 @@ import Navbar from "../components/navbar/navbar";
 import { startOfDay } from "@fullcalendar/core";
 
 function RegisterLunch() {
+    let deleted;
 
     //const jwtData = auth.parseJwt(window.sessionStorage.getItem("token"));
 
@@ -63,8 +64,8 @@ function RegisterLunch() {
         })
     }
 
-    function addlunchApi(newLunch) {
-        let deleted = false;
+    function checkDelete(newLunch) {
+        deleted = false;
         // Eerst even kijken of er gedeleted moet worden of niet
         lunch.forEach(l => {
             let dateJavascript = new Date(newLunch.date);
@@ -80,7 +81,10 @@ function RegisterLunch() {
                 deleted = true;
             }
         })
+    }
 
+    function addlunchApi(newLunch) {
+        checkDelete(newLunch);
         if (!deleted) {
             fetch('https://lunchtag-resource-server.herokuapp.com/lunch', {
                 method: 'POST',
