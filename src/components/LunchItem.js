@@ -2,16 +2,12 @@ import React from 'react'
 
 import Button from 'react-bootstrap/Button'
 
-import Auth from '../service/auth'
-
 function LunchItem(...props) {
-
     const lunchItem = props[0].lunch;
 
     function deleteLunch(event) {
-        event.preventDefault();
-        const url = 'localhost:3000/accounts/' + Auth.parseJwt(window.sessionStorage.getItem("token").sub) + '/lunches/' + props.key
-        fetch(url,  {
+        const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/' + lunchItem.id
+        fetch(url, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -24,9 +20,10 @@ function LunchItem(...props) {
     }
 
     return (
+        
         <tr>
-            <td align="right">{lunchItem.name}</td>
-            <td align="right">{lunchItem.date.toString()}</td>
+            <td align="right">{lunchItem.account.name}</td>
+            <td align="right">{new Date(lunchItem.date).toString()}</td>
             <td align="right">
                 <Button onClick={deleteLunch} variant="danger" block>X</Button>
             </td>

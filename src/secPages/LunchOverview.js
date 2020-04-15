@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table'
 
 import 'react-moment'
+//import Auth from '../service/auth'
+import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
 import { Row, Container, Col, Button } from 'react-bootstrap';
@@ -16,63 +18,34 @@ class LunchOverview extends Component {
         super(props)
 
         this.state = {
-            lunches: [{
-                date: new Date("2020-04-08T09:22:48.939Z"),
-                lunchID: 0,
-                name: "jorg"
-            },
-            {
-                date: new Date("2020-04-12T09:22:48.939Z"),
-                lunchID: 1,
-                name: "rens"
-            },
-            {
-                date: new Date("2020-04-15T09:22:48.939Z"),
-                lunchID: 2,
-                name: "odin"
-            },
-            {
-                date: new Date("2020-05-08T09:22:48.939Z"),
-                lunchID: 3,
-                name: "karin"
-            },
-            {
-                date: new Date("2020-05-12T09:22:48.939Z"),
-                lunchID: 4,
-                name: "niray"
-            },
-            {
-                date: new Date("2020-05-15T09:22:48.939Z"),
-                lunchID: 5,
-                name: "sander"
-            }
-            ],
+            lunches: [],
             filteredLunches: [],
-
-
 
             filterValue: 'month',
             currentMonth: new Date().getMonth(),
 
-            currentWeek: 1
+            currentWeek: 0
         }
+        
 
-        this.state.filteredLunches = this.state.lunches
+        this.getLunches()
     }
 
-    setFilterValue(filterValue) {
+
+
+    setFilterValue(newFilterValue) {
         this.state.currentMonth = new Date().getMonth()
         this.state.startWeek = moment().startOf('day').subtract(1, 'week')._d
         this.state.endWeek = new Date()
 
-        this.state.filterValue = filterValue
+        this.state.filterValue = newFilterValue
 
-        this.filterLunches()
+        this.filterByCurrent()
         this.forceUpdate()
     }
 
     getLunches() {
-        const url = 'http://localhost:7575/lunches'
+        const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/all'
         fetch(url, {
             method: 'GET',
             headers: {
@@ -84,14 +57,15 @@ class LunchOverview extends Component {
             .then(res => res.json()).catch()
             .then((data) => {
                 this.setState({ lunches: data })
-                console.log(data)
+
+                this.state.filteredLunches = this.state.lunches
+                this.forceUpdate()
             })
     }
 
     filterByCurrent() {
         this.state.currentMonth = new Date().getMonth()
         this.state.currentWeek = 0
-
 
         this.filterLunches()
     }
@@ -115,24 +89,24 @@ class LunchOverview extends Component {
     }
 
     filterLunches() {
-        if (this.state.filterValue == 'month') {
-            this.state.filteredLunches = this.state.lunches.filter((item) => {
-                return item.date.getMonth() == this.state.currentMonth
-            })
+        if (this.state.filterValue === 'month') {
+
+            this.setState({filteredLunches: this.state.lunches.filter((item) => {
+                return new Date(item.date).getMonth() === this.state.currentMonth
+            })})
+
             this.forceUpdate()
             return
         }
 
         var beginWeek = moment().startOf('week').add(1, 'day').subtract(this.state.currentWeek, 'week')._d;
-        var endWeek = moment().startOf('week').subtract(this.state.currentWeek -1, 'week')._d;
-        console.log(beginWeek)
-        console.log(endWeek)
+        var endWeek = moment().startOf('week').subtract(this.state.currentWeek - 1, 'week')._d;
 
-        if (this.state.filterValue == 'week') {
-            this.state.filteredLunches = this.state.lunches.filter((item) => {
-                return item.date >= beginWeek &&
-                    item.date <= endWeek    
-            })
+        if (this.state.filterValue === 'week') {
+            this.setState({filteredLunches: this.state.lunches.filter((item) => {
+                return new Date(item.date) >= beginWeek &&
+                    new Date(item.date) <= endWeek
+            })})
             this.forceUpdate()
         }
     }
@@ -141,7 +115,12 @@ class LunchOverview extends Component {
     render() {
         const { filteredLunches } = this.state;
         return (
-            <React.Fragment>
+            <div className="flexboxes">
+                <div className="leftpanel">
+                    <Navbar/>
+                </div>
+                <div className="rightpanel">
+                <React.Fragment>
                 <div>
                     <Row>
                         <Col><Button onClick={() => { this.filterByPrevious() }} variant="outline-primary" size="lg" block>Vorige</Button></Col>
@@ -152,9 +131,14 @@ class LunchOverview extends Component {
                         <Row >
                             <Col><h1>Overzicht lunch</h1></Col>
                         </Row>
+                        <Row><Col>
+                            {this.state.filterValue === 'month' ?
+                                <h4>Huidig maandnummer: {this.state.currentMonth}</h4> :
+                                <h4>Huidig week: {this.state.currentWeek}</h4>}
+                        </Col></Row>
 
 
-                        {this.state.filterValue == 'week' ?
+                        {this.state.filterValue === 'week' ?
                             <Row>
                                 <Col><Button onClick={() => { this.setFilterValue('week') }} variant="success" size="sm" block>Week</Button></Col>
                                 <Col><Button onClick={() => { this.setFilterValue('month') }} variant="info" size="sm" block>Maand</Button></Col>
@@ -177,19 +161,20 @@ class LunchOverview extends Component {
                             </thead>
                             <tbody>
                                 {filteredLunches.map((item) => (
-                                    <LunchItem key={item.lunchID} lunch={item} />
+
+                                    <LunchItem key={item.id} lunch={item} />
                                 ))}
                             </tbody>
                         </Table>
-
-
-                        <Row>
-                            <Col><Button variant="primary" size="lg" block>Lunch toevoegen</Button></Col>
-                            <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
-                        </Row>
                     </Container>
                 </div>
+                    <Row >
+                        <Col><Button variant="primary" size="lg" block>Lunch toevoegen</Button></Col>
+                        <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
+                    </Row>
             </React.Fragment >
+                </div>
+            </div>
         )
 
     }
