@@ -23,8 +23,8 @@ class LunchOverview extends Component {
 
             filterValue: 'month',
             currentMonth: new Date().getMonth(),
-
-            currentWeek: 0
+            currentWeek: 0,
+            currentWeekNr: dateHelper.getWeek(Date())
         }
 
     }
@@ -42,15 +42,11 @@ class LunchOverview extends Component {
         })
             .then(res => res.json()).catch()
             .then((data) => {
-                this.setState({ lunches: data , filteredLunches: data})
+                this.setState({ lunches: data, filteredLunches: data })
             })
     }
 
     filterLunches() {
-        console.log(this.state.filterValue)
-        console.log(this.state.currentWeek)
-        console.log(this.state.currentMonth)
-
         if (this.state.filterValue === 'month') {
 
             this.setState({
@@ -77,17 +73,8 @@ class LunchOverview extends Component {
     }
 
 
-
-    getFirstDate() {
-        if (this.state.filteredLunches.length > 0) {
-            return this.state.filteredLunches[0].date
-        }
-        return null
-    }
-
-
     render() {
-        const { filteredLunches, currentMonth, currentWeek } = this.state;
+        const { filteredLunches, currentMonth, currentWeek, currentWeekNr } = this.state;
 
         const setFilterValue = (newFilterValue) => {
             this.setState({
@@ -101,14 +88,22 @@ class LunchOverview extends Component {
         }
 
         const filterByCurrent = () => {
-            this.setState({ currentMonth: new Date().getMonth(), currentWeek: 0 }, () => {
+            this.setState({
+                currentMonth: new Date().getMonth(),
+                currentWeek: 0,
+                currentWeekNr: dateHelper.getWeek(Date())
+            }, () => {
                 this.filterLunches();
             })
         }
 
         const filterByNext = () => {
-            if (this.state.currentMonth < 12) {
+            if (this.state.currentMonth < 11) {
                 this.setState({ currentMonth: currentMonth + 1 })
+            }
+
+            if (this.state.currentWeekNr < 52) {
+                this.setState({ currentWeekNr: currentWeekNr + 1 })
             }
 
             this.setState({ currentWeek: currentWeek - 1 }, () => {
@@ -118,11 +113,16 @@ class LunchOverview extends Component {
 
         const filterByPrevious = () => {
             if (this.state.currentMonth > 0) {
-                this.setState({ currentMonth: currentMonth- 1 }, () => {
+                this.setState({ currentMonth: currentMonth - 1 }, () => {
                     this.filterLunches();
                 })
             }
-            this.setState({ currentWeek: currentWeek+ 1 }, () => {
+
+            if (this.state.currentWeekNr > 1) {
+                this.setState({ currentWeekNr: currentWeekNr - 1 })
+            }
+
+            this.setState({ currentWeek: currentWeek + 1 }, () => {
                 this.filterLunches();
             })
         }
@@ -147,8 +147,8 @@ class LunchOverview extends Component {
                                 </Row>
                                 <Row><Col>
                                     {this.state.filterValue === 'month' ?
-                                        <h4>Huidige maand: {this.state.currentMonth + 1}</h4> :
-                                        <h4>Huidig week: {dateHelper.getWeek(this.getFirstDate())}</h4>}
+                                        <h4>Huidige maand: {dateHelper.getMonthFromNumber(this.state.currentMonth)}</h4> :
+                                        <h4>Huidig week: {this.state.currentWeekNr}</h4>}
                                 </Col></Row>
 
 
