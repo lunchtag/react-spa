@@ -12,8 +12,10 @@ import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "../css/RegisterLunch.css";
 import Navbar from "../components/navbar/navbar";
+import { startOfDay } from "@fullcalendar/core";
 
 function RegisterLunch() {
+    let deleted;
 
     //const jwtData = auth.parseJwt(window.sessionStorage.getItem("token"));
 
@@ -46,7 +48,7 @@ function RegisterLunch() {
     function deleteLunchApi(lunchId) {
         console.log(lunchId);
         fetch('https://lunchtag-resource-server.herokuapp.com/lunch/' + lunchId, {
-            method: 'POST',
+            method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -62,38 +64,52 @@ function RegisterLunch() {
         })
     }
 
-    function addlunchApi(newLunch) {
+    function checkDelete(newLunch) {
+        deleted = false;
         // Eerst even kijken of er gedeleted moet worden of niet
         lunch.forEach(l => {
             let dateJavascript = new Date(newLunch.date);
             let dateDB = new Date(l.date);
-            if (dateJavascript === dateDB) {
-                console.log("deleted");
+
+            if (
+                dateJavascript.getFullYear() === dateDB.getFullYear() &&
+                dateJavascript.getMonth() === dateDB.getMonth() &&
+                dateJavascript.getDate() === dateDB.getDate()
+            ) {
+                // Alle lunches verwijderen met deze datum (dateDB)
                 deleteLunchApi(l.id);
+                deleted = true;
             }
         })
+    }
 
-        fetch('https://lunchtag-resource-server.herokuapp.com/lunch', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
-            },
-            body: JSON.stringify({
-                name: newLunch.title,
-                date: newLunch.date
+    function addlunchApi(newLunch) {
+        checkDelete(newLunch);
+        if (!deleted) {
+            fetch('https://lunchtag-resource-server.herokuapp.com/lunch', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
+                },
+                body: JSON.stringify({
+                    name: newLunch.title,
+                    date: newLunch.date
+                })
+            }).then(response => {
+                if (response.status === 200) {
+                    window.alert("De lunch is succesvol toegevoegd!");
+                } else {
+                    // console.log(data.message);
+                    window.alert("Er is iets fout gegaan.");
+                }
+                getLunches();
             })
-        }).then(response => {
-            if (response.status === 200) {
-                window.alert("De lunch is succesvol toegevoegd!");
-            } else {
-                // console.log(data.message);
-                window.alert("Er is iets fout gegaan.");
-            }
-            getLunches();
-        })
 
+            setLunch(oldLunches => [...oldLunches, newLunch]); // Dit update de lunch array , Wanneer dit samen werkt met de api, kunnen we ook alle lunches ophalen en die in de array zetten
+
+        }
     }
 
 
@@ -111,55 +127,56 @@ function RegisterLunch() {
             title: "Lunch",
             date: date
         }
-        setLunch(oldLunches => [...oldLunches, newLunch]);
         addlunchApi(newLunch);
     }
 
     // Wanneer er op een datum wordt geklikt
     const handleDateClick = arg => {
+        const currentDate = new Date();
         const date = dateFormat(arg.dateStr, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
         const newLunch = {
             title: "Lunch",
             date: date
         }
-        addlunchApi(newLunch)
-        setLunch(oldLunches => [...oldLunches, newLunch]); // Dit update de lunch array , Wanneer dit samen werkt met de api, kunnen we ook alle lunches ophalen en die in de array zetten
+        if (arg.date < currentDate) {
+            addlunchApi(newLunch)
+        }
     }
 
     useEffect(() => {
         getLunches();
     }, []);
-   
-	return (
-		<div class="flexboxes">
-			<div class="leftpanel">
-				<Navbar />
-			</div>
-			<div class="rightpanel">
-				<div className="container">
-					<h1>Wanneer heb jij meegegeten?</h1>
-					<p>Weekoverzicht</p>
-					<FullCalendar
-						defaultView="dayGridWeek"
-						plugins={[dayGridPlugin, interactionPlugin]}
-						events={lunch}
-						locale="nl"
-						contentHeight="auto"
-						dateClick={handleDateClick}
-					/>
-					<Button
-						block
-						size="lg"
-						variant="success"
-						type="submit"
-						onClick={addToday}
-					>
-						Ik heb vandaag meegeluncht
+
+    return (
+        <div class="flexboxes">
+            <div class="leftpanel">
+                <Navbar />
+            </div>
+            <div class="rightpanel">
+                <div className="container">
+                    <h1>Wanneer heb jij meegegeten?</h1>
+                    <p>Weekoverzicht</p>
+                    <FullCalendar
+                        defaultView="dayGridWeek"
+                        plugins={[dayGridPlugin, interactionPlugin]}
+                        events={lunch}
+                        locale="nl"
+                        contentHeight="auto"
+                        dateClick={handleDateClick}
+                    />
+                    <Button
+                        block
+                        size="lg"
+                        variant="success"
+                        type="submit"
+                        onClick={addToday}
+                    >
+                        Ik heb vandaag meegeluncht
 					</Button>
-				</div>
-			</div>
-		</div>
-	);
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default RegisterLunch;
