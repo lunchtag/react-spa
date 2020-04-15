@@ -12,6 +12,7 @@ import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "../css/RegisterLunch.css";
 import Navbar from "../components/navbar/navbar";
+import { startOfDay } from "@fullcalendar/core";
 
 function RegisterLunch() {
 
@@ -46,7 +47,7 @@ function RegisterLunch() {
     function deleteLunchApi(lunchId) {
         console.log(lunchId);
         fetch('https://lunchtag-resource-server.herokuapp.com/lunch/' + lunchId, {
-            method: 'POST',
+            method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -63,37 +64,48 @@ function RegisterLunch() {
     }
 
     function addlunchApi(newLunch) {
+        let deleted = false;
         // Eerst even kijken of er gedeleted moet worden of niet
         lunch.forEach(l => {
             let dateJavascript = new Date(newLunch.date);
             let dateDB = new Date(l.date);
-            if (dateJavascript === dateDB) {
-                console.log("deleted");
+
+            if (
+                dateJavascript.getFullYear() === dateDB.getFullYear() &&
+                dateJavascript.getMonth() === dateDB.getMonth() &&
+                dateJavascript.getDate() === dateDB.getDate()
+            ) {
+                // Alle lunches verwijderen met deze datum (dateDB)
                 deleteLunchApi(l.id);
+                deleted = true;
             }
         })
 
-        fetch('https://lunchtag-resource-server.herokuapp.com/lunch', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
-            },
-            body: JSON.stringify({
-                name: newLunch.title,
-                date: newLunch.date
+        if (!deleted) {
+            fetch('https://lunchtag-resource-server.herokuapp.com/lunch', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
+                },
+                body: JSON.stringify({
+                    name: newLunch.title,
+                    date: newLunch.date
+                })
+            }).then(response => {
+                if (response.status === 200) {
+                    window.alert("De lunch is succesvol toegevoegd!");
+                } else {
+                    // console.log(data.message);
+                    window.alert("Er is iets fout gegaan.");
+                }
+                getLunches();
             })
-        }).then(response => {
-            if (response.status === 200) {
-                window.alert("De lunch is succesvol toegevoegd!");
-            } else {
-                // console.log(data.message);
-                window.alert("Er is iets fout gegaan.");
-            }
-            getLunches();
-        })
 
+            setLunch(oldLunches => [...oldLunches, newLunch]); // Dit update de lunch array , Wanneer dit samen werkt met de api, kunnen we ook alle lunches ophalen en die in de array zetten
+
+        }
     }
 
 
@@ -111,19 +123,20 @@ function RegisterLunch() {
             title: "Lunch",
             date: date
         }
-        setLunch(oldLunches => [...oldLunches, newLunch]);
         addlunchApi(newLunch);
     }
 
     // Wanneer er op een datum wordt geklikt
     const handleDateClick = arg => {
+        const currentDate = new Date();
         const date = dateFormat(arg.dateStr, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
         const newLunch = {
             title: "Lunch",
             date: date
         }
-        addlunchApi(newLunch)
-        setLunch(oldLunches => [...oldLunches, newLunch]); // Dit update de lunch array , Wanneer dit samen werkt met de api, kunnen we ook alle lunches ophalen en die in de array zetten
+        if (arg.date < currentDate) {
+            addlunchApi(newLunch)
+        }
     }
 
     useEffect(() => {
