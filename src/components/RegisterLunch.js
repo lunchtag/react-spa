@@ -109,6 +109,7 @@ function RegisterLunch() {
                 locale="nl"
                 contentHeight='auto'
                 dateClick={handleDateClick}
+
             />
             <Button block size="lg" variant="success" type="submit" onClick={addToday}>
                 Ik heb vandaag meegeluncht
