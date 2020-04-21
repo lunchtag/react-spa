@@ -14,6 +14,7 @@ class Navbar extends React.Component {
 					<Link to="/lunch">Lunch overview</Link>
 
 					<Link to="/secaddlunch">Secretaresse add lunch</Link>
+					<Link to="/seccreateuser">Secretarrese create user</Link>
 					<Link to="/logout">Logout</Link>
 				</nav>
 			</div>

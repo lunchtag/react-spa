@@ -9,6 +9,7 @@ import LunchOverview from "../secPages/LunchOverview";
 import Navbar from "../components/navbar/navbar.js";
 import RegisterLunch from "../components/RegisterLunch";
 import SecAddLunch from "../secPages/SecAddLunch";
+import CreateUser from "../secPages/CreateUser";
 
 export default class App extends React.Component {
 	render() {
@@ -32,8 +33,12 @@ export default class App extends React.Component {
 					<PublicRoute path="/register" component={Register}></PublicRoute>
 					<PublicRoute path="/add" component={RegisterLunch}></PublicRoute>
 					<PublicRoute
-						parth="/secaddlunch"
+						path="/secaddlunch"
 						component={SecAddLunch}
+					></PublicRoute>
+					<PublicRoute
+						path="/seccreateuser"
+						component={CreateUser}
 					></PublicRoute>
 				</Switch>
 			</BrowserRouter>
