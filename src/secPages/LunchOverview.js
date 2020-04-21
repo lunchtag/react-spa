@@ -6,7 +6,8 @@ import dateHelper from '../service/dateHelper'
 import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
-import { Row, Container, Col, Button, Alert } from 'react-bootstrap';
+import { Row, Container, Col, Button, Alert, ButtonGroup } from 'react-bootstrap';
+import { Calendar, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
 
 import '../css/LunchOverview.css'
 import moment from 'moment';
@@ -135,11 +136,6 @@ class LunchOverview extends Component {
                 <div className="rightpanel">
                     <React.Fragment>
                         <div>
-                            <Row>
-                                <Col><Button onClick={() => { filterByPrevious() }} variant="outline-primary" size="lg" block>Vorige</Button></Col>
-                                <Col><Button onClick={() => { filterByCurrent() }} variant="outline-primary" size="lg" block>Huidige</Button></Col>
-                                <Col><Button onClick={() => { filterByNext() }} variant="outline-primary" size="lg" block>Volgende</Button></Col>
-                            </Row>
                             <Container>
                                 <Row >
                                     <Col><h1>Overzicht lunch</h1></Col>
@@ -162,12 +158,18 @@ class LunchOverview extends Component {
                                     </Row>
                                 }
 
-                                <Table striped bordered hover>
+                                <Row>
+                                    <Col><Button onClick={() => { filterByPrevious() }} variant="outline-primary" size="sm" block><ArrowLeft></ArrowLeft></Button></Col>
+                                    <Col><Button onClick={() => { filterByCurrent() }} variant="outline-primary" size="sm" block>Vandaag</Button></Col>
+                                    <Col><Button onClick={() => { filterByNext() }} variant="outline-primary" size="sm" block><ArrowRight></ArrowRight></Button></Col>
+                                </Row>
+                                <Table size="sm" variant="dark" striped bordered>
                                     <thead>
                                         <tr>
-                                            <th>Naam</th>
-                                            <th>Datum</th>
-                                            <th></th>
+                                            <th><Person></Person></th>
+                                            <th><Calendar></Calendar></th>
+                                            <th>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -177,9 +179,9 @@ class LunchOverview extends Component {
                                     </tbody>
                                 </Table>
                                 {filteredLunches[0] == null && filterValue == "month" &&
-                                <Row><Col><Alert variant="warning">Er zijn geen lunches deze maand</Alert></Col></Row>}
+                                    <Row><Col><Alert variant="warning">Er zijn geen lunches deze maand</Alert></Col></Row>}
                                 {filteredLunches[0] == null && filterValue == "week" &&
-                                <Row><Col><Alert variant="warning">Er zijn geen lunches deze week</Alert></Col></Row>
+                                    <Row><Col><Alert variant="warning">Er zijn geen lunches deze week</Alert></Col></Row>
                                 }
                             </Container>
                         </div>

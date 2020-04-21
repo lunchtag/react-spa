@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Button from 'react-bootstrap/Button'
+import { Trash } from 'react-bootstrap-icons'
 
 function LunchItem(...props) {
     const lunchItem = props[0].lunch;
@@ -22,10 +23,10 @@ function LunchItem(...props) {
     return (
         
         <tr>
-            <td align="right">{lunchItem.account.name}</td>
-            <td align="right">{new Date(lunchItem.date).toString()}</td>
-            <td align="right">
-                <Button onClick={deleteLunch} variant="danger" block>X</Button>
+            <td>{lunchItem.account.name + " " + lunchItem.account.lastName}</td>
+            <td>{new Date(lunchItem.date).toDateString()}</td>
+            <td>
+                <Button onClick={deleteLunch} variant="danger"><Trash></Trash></Button>
             </td>
         </tr>
     )

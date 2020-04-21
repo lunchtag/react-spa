@@ -149,9 +149,9 @@ class EmployeeDetails extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredLunches.map((item) => (
+                                        {/* {filteredLunches.map((item) => (
                                             <EmployeeLunchItem key={item.id} lunch={item} />
-                                        ))}
+                                        ))} */}
                                     </tbody>
                                 </Table>
                                 {filteredLunches[0] == null &&
