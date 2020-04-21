@@ -8,7 +8,7 @@ import Register from "./Register";
 import LunchOverview from "../secPages/LunchOverview";
 import Navbar from "../components/navbar/navbar.js";
 import RegisterLunch from "../components/RegisterLunch";
-import SecAddLunch from "../secPages/AddLunch";
+import SecAddLunch from "../secPages/SecAddLunch";
 
 export default class App extends React.Component {
 	render() {
