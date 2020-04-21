@@ -25,7 +25,8 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "react-week-calendar": "^0.1.3"
+    "react-week-calendar": "^0.1.3",
+    "reactjs-popup": "^1.5.0"
   },
   "scripts": {
     "start": "react-scripts start",

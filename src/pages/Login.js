@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import auth from "../service/auth";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import PinLogin from "../components/PinLogin"
 
 class Login extends Component {
 	constructor(props) {
@@ -10,6 +10,7 @@ class Login extends Component {
 		this.state = {
 			email: "",
 			password: "",
+			pinLogin: true
 		};
 	}
 
@@ -41,21 +42,32 @@ class Login extends Component {
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.token != null) {
-					console.log("Gebruiker is ingelogd heeft een valide token");
 					auth.login(data);
-					window.alert("Succesvol ingelogd");
-					console.log(data);
-					//this.props.history.push('')
 					this.props.history.push("/dashboard");
-				} else {
-					console.log("Inloggen mislukt");
 				}
 			});
 	};
 
+	
+
 	render() {
-		return (
-			<Container>
+		const setPinLogin = () => {
+			this.setState({pinLogin: true})
+		}
+		const setPasswordLogin = () => {
+			this.setState({pinLogin: false})
+		}
+		let loginPage;
+		if(this.state.pinLogin){
+			loginPage=(
+				<div className="pinLoginHolder">
+					<PinLogin/>
+					<button onClick={setPasswordLogin}>Password login</button>
+				</div>
+			)
+		}else{
+			loginPage=(
+				<Container>
 				<Row>
 					<Col>
 						<h3>Inloggen:</h3>
@@ -91,8 +103,13 @@ class Login extends Component {
 					</Button>
 				</Row>
 
-				<Link to="/register">Register</Link>
-			</Container>
+				<button onClick={setPinLogin}>Pincode Login</button>
+			</Container>)
+		}
+		return (
+			<div className= "content">
+				{loginPage}
+			</div>
 		);
 	}
 }
