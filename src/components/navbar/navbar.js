@@ -12,6 +12,7 @@ class Navbar extends React.Component {
 					<Link to="/dashboard">Lunch maandoverzicht </Link>
 					<Link to="/add"> Lunch weekoverzicht</Link>
 					<Link to="/lunch">Lunch overview</Link>
+					<Link to="/employees">Medewerker detail</Link>
 
 					<Link to="/logout">Logout</Link>
 				</nav>
