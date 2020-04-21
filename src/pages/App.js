@@ -8,6 +8,8 @@ import Register from './Register'
 import LunchOverview from '../secPages/LunchOverview'
 import Navbar from '../components/navbar/navbar.js'
 import RegisterLunch from '../components/RegisterLunch';
+import UserOverview from './UserOverview';
+
 
 export default class App extends React.Component {
   render() {
@@ -20,6 +22,7 @@ export default class App extends React.Component {
           <PublicRoute path="/lunch" component={LunchOverview}></PublicRoute>
           <PublicRoute path="/register" component={Register}></PublicRoute>
           <PublicRoute path="/add" component={RegisterLunch}></PublicRoute>
+          <PublicRoute path="/users" component={UserOverview}></PublicRoute>
         </Switch>
       </BrowserRouter>
     )
