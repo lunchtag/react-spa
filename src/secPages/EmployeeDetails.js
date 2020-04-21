@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import Table from 'react-bootstrap/Table'
 
-import 'react-moment'
 import dateHelper from '../service/dateHelper'
 import Navbar from '../components/navbar/navbar'
+import '../css/EmployeeDetails.css'
 
-import LunchItem from '../components/LunchItem'
-import { Row, Container, Col, Button, ButtonGroup, Alert } from 'react-bootstrap';
+import { Row, Container, Col, Button, Alert, Dropdown, Table, ButtonGroup } from 'react-bootstrap';
 
-import '../css/LunchOverview.css'
-import moment from 'moment';
 import EmployeeLunchItem from '../components/EmployeeLunchItem';
 
 
@@ -19,7 +15,8 @@ class EmployeeDetails extends Component {
         super(props)
 
         this.state = {
-            user: '',
+            selectedUser: '',
+            users: [],
 
             lunches: [],
             filteredLunches: [],
@@ -31,7 +28,7 @@ class EmployeeDetails extends Component {
 
 
     componentDidMount() {
-        const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/all'
+        const url = 'https://lunchtag-resource-server.herokuapp.com/account/all'
         fetch(url, {
             method: 'GET',
             headers: {
@@ -42,6 +39,26 @@ class EmployeeDetails extends Component {
         })
             .then(res => res.json()).catch()
             .then((data) => {
+                this.setState({ users: data, selectedUser: data[0] })
+                this.getLunchesFromUser()
+            })
+    }
+
+    getLunchesFromUser() {
+        const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/account/' + this.state.selectedUser.id
+        console.log(this.state.selectedUser)
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
+            }
+        })
+            .then(res => res.json()).catch()
+            .then((data) => {
+                console.log("data")
+                console.log(data)
                 this.setState({ lunches: data, filteredLunches: data })
             })
     }
@@ -52,12 +69,17 @@ class EmployeeDetails extends Component {
                 return new Date(item.date).getMonth() === this.state.currentMonth
             })
         })
-        return
+    }
+
+    handleCurrentUserChange(newCurrentUser) {
+        this.setState({ selectedUser: newCurrentUser }, () => {
+            this.getLunchesFromUser()
+        })
     }
 
 
     render() {
-        const { filteredLunches, currentMonth, } = this.state;
+        const { filteredLunches, currentMonth, users, selectedUser } = this.state;
 
 
         const filterByCurrent = () => {
@@ -97,17 +119,28 @@ class EmployeeDetails extends Component {
                                 <Row >
                                     <Col><h1>Medewerker details</h1></Col>
                                 </Row>
+                                <Row><Col>
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="success" id="dropdown-basic" block>Selecteer een gebruiker</Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            {users.map((user) => (
+                                                <Dropdown.Item key={user.id} onClick={() => this.handleCurrentUserChange(user)}>{user.name + " " + user.lastName}</Dropdown.Item>
+                                            ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </Col></Row>
                                 <Row>
-                                    <Col><Alert variant="primary">Naam + achternaam</Alert></Col>
+                                    <Col><Alert variant="primary">{selectedUser.name + " " + selectedUser.lastName}</Alert></Col>
                                     <Col></Col>
-                                    <Col><Alert variant="primary">rol</Alert></Col>
+                                    <Col><Alert variant="primary">Rol: {selectedUser.role}</Alert></Col>
                                 </Row>
                                 <Row><Col><Alert variant="info">Totaal aantal keer meegegeten:</Alert></Col></Row>
                                 <Row>
-                                    <Col><Button onClick={() => { filterByPrevious() }} variant="outline-primary" block>Vorige</Button></Col>
-                                    <Col><Button onClick={() => { filterByCurrent() }} variant="outline-primary" block>Huidige</Button></Col>
-                                    <Col><Button onClick={() => { filterByNext() }} variant="outline-primary" block>Volgende</Button></Col>
+                                    <Col><Button onClick={() => { filterByPrevious() }} variant="outline-primary" block>←</Button></Col>
+                                    <Col><Button onClick={() => { filterByCurrent() }} variant="outline-primary" block>•</Button></Col>
+                                    <Col><Button onClick={() => { filterByNext() }} variant="outline-primary" block>→</Button></Col>
                                 </Row>
+
                                 <Table striped bordered hover>
                                     <thead>
                                         <tr>
@@ -121,6 +154,8 @@ class EmployeeDetails extends Component {
                                         ))}
                                     </tbody>
                                 </Table>
+                                {filteredLunches[0] == null &&
+                                    <Row><Col><Alert variant="warning">Er zijn geen lunches deze maand</Alert></Col></Row>}
                             </Container>
                         </div>
                         <Row >

@@ -6,7 +6,7 @@ import dateHelper from '../service/dateHelper'
 import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
-import { Row, Container, Col, Button } from 'react-bootstrap';
+import { Row, Container, Col, Button, Alert } from 'react-bootstrap';
 
 import '../css/LunchOverview.css'
 import moment from 'moment';
@@ -26,7 +26,6 @@ class LunchOverview extends Component {
             currentWeek: 0,
             currentWeekNr: dateHelper.getWeek(Date())
         }
-
     }
 
 
@@ -74,7 +73,7 @@ class LunchOverview extends Component {
 
 
     render() {
-        const { filteredLunches, currentMonth, currentWeek, currentWeekNr } = this.state;
+        const { filteredLunches, currentMonth, currentWeek, currentWeekNr, filterValue } = this.state;
 
         const setFilterValue = (newFilterValue) => {
             this.setState({
@@ -151,7 +150,6 @@ class LunchOverview extends Component {
                                         <h4>Huidig week: {this.state.currentWeekNr}</h4>}
                                 </Col></Row>
 
-
                                 {this.state.filterValue === 'week' ?
                                     <Row>
                                         <Col><Button onClick={() => { setFilterValue('week') }} variant="success" size="sm" block>Week</Button></Col>
@@ -164,7 +162,6 @@ class LunchOverview extends Component {
                                     </Row>
                                 }
 
-
                                 <Table striped bordered hover>
                                     <thead>
                                         <tr>
@@ -175,11 +172,15 @@ class LunchOverview extends Component {
                                     </thead>
                                     <tbody>
                                         {filteredLunches.map((item) => (
-
                                             <LunchItem key={item.id} lunch={item} />
                                         ))}
                                     </tbody>
                                 </Table>
+                                {filteredLunches[0] == null && filterValue == "month" &&
+                                <Row><Col><Alert variant="warning">Er zijn geen lunches deze maand</Alert></Col></Row>}
+                                {filteredLunches[0] == null && filterValue == "week" &&
+                                <Row><Col><Alert variant="warning">Er zijn geen lunches deze week</Alert></Col></Row>
+                                }
                             </Container>
                         </div>
                         <Row >
