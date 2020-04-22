@@ -5,8 +5,8 @@ import { Col, Button } from 'react-bootstrap'
 import { Trash } from 'react-bootstrap-icons'
 
 
-function EmployeeLunchItem(...props) {
-    const lunchItem = props[0].lunch;
+function EmployeeLunchItem(props) {
+    const lunchItem = props.lunch;
 
     function deleteLunch(event) {
         const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/' + lunchItem.id
@@ -17,8 +17,10 @@ function EmployeeLunchItem(...props) {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
             }
-        }).then(
+        }).then(res => {
             window.alert("De lunch is succesvol verwijderd!")
+            props.callback(lunchItem.id)
+        }
         )
     }
 
