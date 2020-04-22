@@ -127,6 +127,12 @@ class LunchOverview extends Component {
             })
         }
 
+        const deleteLunch = (lunchId) => {
+            const newLunches = this.state.lunches.filter(lunch => lunch.id !== lunchId)
+            this.setState({lunches: newLunches, filteredLunches: newLunches})
+            filterByCurrent()
+        }
+
 
         return (
             <div className="flexboxes">
@@ -174,7 +180,7 @@ class LunchOverview extends Component {
                                     </thead>
                                     <tbody>
                                         {filteredLunches.map((item) => (
-                                            <LunchItem key={item.id} lunch={item} />
+                                            <LunchItem callback={() => deleteLunch(item.id)} key={item.id} lunch={item} />
                                         ))}
                                     </tbody>
                                 </Table>

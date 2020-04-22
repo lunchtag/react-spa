@@ -19,7 +19,7 @@ function EmployeeLunchItem(props) {
             }
         }).then(res => {
             window.alert("De lunch is succesvol verwijderd!")
-            props.callback(lunchItem.id)
+            props.callback()
         }
         )
     }
