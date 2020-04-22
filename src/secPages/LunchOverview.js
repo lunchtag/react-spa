@@ -9,6 +9,8 @@ import LunchItem from '../components/LunchItem'
 import { Row, Container, Col, Button, Alert, ButtonGroup } from 'react-bootstrap';
 import { Calendar, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
 
+import { getAllLunchesForUser } from '../service/lunchService'
+
 import '../css/LunchOverview.css'
 import moment from 'moment';
 
@@ -29,21 +31,12 @@ class LunchOverview extends Component {
         }
     }
 
-
     componentDidMount() {
-        const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/all'
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
-            }
+        getAllLunchesForUser().then((data) => {
+            console.log(data.data)
+            this.setState({ lunches: data.data, filteredLunches: data.data })
+            this.filterLunches()
         })
-            .then(res => res.json()).catch()
-            .then((data) => {
-                this.setState({ lunches: data, filteredLunches: data })
-            })
     }
 
     filterLunches() {
@@ -130,7 +123,7 @@ class LunchOverview extends Component {
         const deleteLunch = (lunchId) => {
             const newLunches = this.state.lunches.filter(lunch => lunch.id !== lunchId)
             this.setState({lunches: newLunches, filteredLunches: newLunches})
-            filterByCurrent()
+            this.filterLunches()
         }
 
 

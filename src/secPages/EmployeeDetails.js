@@ -35,7 +35,6 @@ class EmployeeDetails extends Component {
         getAllUsers().then((res) => {
             this.setState({ users: res.data, selectedUser: res.data[0] })
             this.getLunchesFromUser()
-
         })
     }
 

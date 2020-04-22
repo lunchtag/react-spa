@@ -34,7 +34,6 @@ export async function getAllLunchesFromUser(selectedUser) {
     })
         .then(res => res.json())
         .then((data) => {
-            debugger
             return data
         }).catch((error) => {
             return "empty"
