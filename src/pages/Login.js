@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import auth from "../service/auth";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import PinLogin from "../components/PinLogin"
+import { getAllUsers } from "../service/userService";
+import PinLogin from "../components/PinLogin";
 
 class Login extends Component {
 	constructor(props) {
@@ -10,8 +11,19 @@ class Login extends Component {
 		this.state = {
 			email: "",
 			password: "",
-			pinLogin: true
+			pinLogin: true,
+			users:[]
 		};
+	}
+
+	componentDidMount(){
+		getAllUsers().then(res =>{
+            console.log(res);
+            
+            if(res.status ===200){
+                this.setState({users: res.data})
+            }
+        })
 	}
 
 	handleEmailChange = (event) => {
@@ -61,7 +73,7 @@ class Login extends Component {
 		if(this.state.pinLogin){
 			loginPage=(
 				<div className="pinLoginHolder">
-					<PinLogin/>
+					<PinLogin users={this.state.users} history={this.props.history}/>
 					<button onClick={setPasswordLogin}>Password login</button>
 				</div>
 			)

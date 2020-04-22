@@ -1,42 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../css/PinLogin.css"
 import Popup from "reactjs-popup";
 import NumericKeyPad from "./NumericKeyPad";
-import { pinLogin } from "../service/authService";
+import { pinLoginCall } from "../service/userService";
+import auth from "../service/auth";
 
-function PinLogin() {
+function PinLogin(props) {
 
-    const [users, setUsers] = useState([
-        {
-            email: "test@test.nl",
-            name: "Olaf de lange",
-            id: "1"
-        },
-        {
-            email: "test@test.nl",
-            name: "Olivier Janssen",
-            id: "2"
-        },
-        {
-            email: "test@test.nl",
-            name: "Olivia Pietersen",
-            id: "3"
-        },
-        {
-            email: "test@test.nl",
-            name: "Odin van der Linden",
-            id: ""
-        }]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [pin, setPin] = useState("");
     const [currentUser, setCurrentUser] = useState({});
+    const [showPopup, setShowPopup] = useState(false);
     let firstRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
     let secondRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l",];
     let thirdRow = ["z", "x", "c", "v", "b", "n", "m"];
 
     function filterUsers(letter) {
-        console.log(letter)
-        let filterUsersArray = users.filter(checkFirstLetter.bind(this, letter))
+        let filterUsersArray = props.users.filter(checkFirstLetter.bind(this, letter))
         setFilteredUsers(filterUsersArray)
     }
 
@@ -48,18 +28,37 @@ function PinLogin() {
         <div className="users noUsersFiltered"><p>Select a letter to search your name!</p></div>
     )
 
-    const appendToPin = (value) =>{
-        if(pin.length + 1 === 5){
+    const appendToPin = (value) => {
+        if (pin.length + 1 === 5) {
             let confirmedPin = pin.concat(value)
             setPin(pin.concat(value))
-            pinLogin(confirmedPin,)
-        }else if(pin.length <= 3){
+            pinLoginCall(confirmedPin, currentUser.email).then(res => {
+                debugger
+                if (res.status === 200) {
+                    if (res.data.token != null) {
+                        auth.login(res.data);
+                        debugger
+                        props.history.push("/dashboard");
+                    }
+                }
+            })
+        } else if (pin.length <= 4) {
             setPin(pin.concat(value))
         }
     }
 
-    const removeFromPin = () =>{
+    const removeFromPin = () => {
         setPin(pin.substring(0, pin.length - 1))
+    }
+
+    const popup = (value) => {
+        setCurrentUser(value)
+        setShowPopup(true)
+    }
+
+    const closePopup = () =>{
+        setShowPopup(false)
+        setPin("")
     }
 
     if (filteredUsers.length > 0) {
@@ -67,14 +66,8 @@ function PinLogin() {
             <div className="users">
                 {filteredUsers.map(value => {
                     return (
-                        <div className="selectUserBtn">
-                            <Popup trigger={<button onClick={setCurrentUser(value)}>{value.name}</button>} key={value.id} modal>
-                                <h2>{value.name}</h2>
-                                <p className="pin">{pin}</p>
-                                <div className="numericKeyPadHolder">
-                                    <NumericKeyPad addToPin={appendToPin} removePin={removeFromPin}/>
-                                </div>
-                            </Popup>
+                        <div className="selectUserBtn" key={value.id}>
+                            <button onClick={() => popup(value)}>{`${value.name} ${value.lastName}`}</button>
                         </div>)
                 })}
             </div>
@@ -106,6 +99,15 @@ function PinLogin() {
                     })}
                 </div>
             </div>
+            <Popup modal open={showPopup} onClose={closePopup}>
+                <div className="popup">
+                    <h2>{currentUser.name + currentUser.lastName}</h2>
+                    <p className="pin">{pin}</p>
+                    <div className="numericKeyPadHolder">
+                        <NumericKeyPad addToPin={appendToPin} removePin={removeFromPin} />
+                    </div>
+                </div>
+            </Popup>
         </div>
     )
 }

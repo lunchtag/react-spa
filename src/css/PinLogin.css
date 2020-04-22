@@ -3,9 +3,12 @@
     border: 1px solid;
     margin: 1px;
     background-color: white;
+    height: 100%;
+    font-size: 2em;
 }
 .selectUserBtn{
     width: 100%;
+    height: 15%;
 }
 
 .users{
@@ -23,10 +26,11 @@
 
 .alphabet{
     height: 40vh;
+    
 }
 
 .firstRow, .secondRow, .thirdRow{
-    width: 95vw;
+    width: 100vw;
     height: 33%;
 }
 
@@ -49,12 +53,19 @@
 
 .numericKeyPadHolder{
     max-width: 200px;
+    height: 45vh;
     margin:auto;
 }
 
 @media screen and (max-width: 1000px){
     .numericKeyPadHolder{
         max-width:150px ;
+    }
+    .alphabet{
+        height: 35vh;
+    }
+    .letterBtn{
+        font-size: 2em;
     }
 }
 

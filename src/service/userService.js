@@ -40,3 +40,30 @@ export async function createUser(email, firstname, lastname) {
 			return error.response;
 		});
 }
+
+export async function pinLoginCall(pin, email){
+    return Axios.post(
+        `${server}/auth/pincode`,
+        {
+            email: email,
+            pincode: pin
+        }
+    ).then(res => {
+        return res;
+    })
+    .catch(error =>{
+        console.log(error);
+        return error.response;
+    }
+    )
+}
+
+export async function getAllUsers(){
+	return Axios.get(
+		`${server}/account/all`
+	).then(res =>{
+		return res
+	}).catch(error=>{
+		return error.response;
+	});
+}
