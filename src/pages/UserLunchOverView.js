@@ -18,55 +18,55 @@ export default class UserLunchOverView extends React.Component {
 		};
 	}
 
+	componentDidMount() {
+		getAllLunchesForUser().then((value) => {
+			if (value.status === 200) {
+				const dates = [];
+				console.log(value.data);
+				value.data.forEach((element) => {
+					const res = element.date.split("T", 1);
+					dates.push({ id: element.id, date: new Date(res) });
+				});
+				console.log(dates);
+				this.setState({
+					lunchedDays: dates,
+				});
+			}
+		});
+	}
 
-  componentDidMount() {
-    getAllLunchesForUser().then((value) => {
-      if (value.status === 200) {
-        const dates = [];
-        value.data.forEach((element) => {
-          const res = element.date.split("T", 1);
-          dates.push({ id: element.id, date: new Date(res) });
-        });
-        console.log(dates);
-        this.setState({
-          lunchedDays: dates,
-        });
-      }
-    });
-  }
-
-  render() {
-    const onChange = (date) => {
-      for (var i = 0; i < this.state.lunchedDays.length; i++) {
-        const loopDate = this.state.lunchedDays[i];
-        if (
-          date.getFullYear() === loopDate.date.getFullYear() &&
-          date.getMonth() === loopDate.date.getMonth() &&
-          date.getDate() === loopDate.date.getDate()
-        ) {
-          debugger
-          deleteLunch(loopDate.id).then((value) => {
-            if (value) {
-              console.log(value);
-              if (value.status === 200) {
-                let newLunchedDays = this.state.lunchedDays;
-                newLunchedDays.splice(i, 1);
-                this.setState({ date: date, LunchedDays: newLunchedDays });
-              }
-            }
-          });
-          return;
-        }
-      }
-      addLunch(date).then((value) => {
-        console.log(value);
-        if (value.status === 200) {
-          let newLunchedDays = this.state.lunchedDays;
-          newLunchedDays.push({ id: value.data.id, date: date });
-          this.setState({ date: date, lunchedDays: newLunchedDays });
-        }
-      });
-    };
+	render() {
+		const onChange = (date) => {
+			for (var i = 0; i < this.state.lunchedDays.length; i++) {
+				const loopDate = this.state.lunchedDays[i];
+				if (
+					date.getFullYear() === loopDate.date.getFullYear() &&
+					date.getMonth() === loopDate.date.getMonth() &&
+					date.getDate() === loopDate.date.getDate()
+				) {
+					debugger;
+					deleteLunch(loopDate.id).then((value) => {
+						if (value) {
+							console.log(value);
+							if (value.status === 200) {
+								let newLunchedDays = this.state.lunchedDays;
+								newLunchedDays.splice(i, 1);
+								this.setState({ date: date, LunchedDays: newLunchedDays });
+							}
+						}
+					});
+					return;
+				}
+			}
+			addLunch(date).then((value) => {
+				console.log(value);
+				if (value.status === 200) {
+					let newLunchedDays = this.state.lunchedDays;
+					newLunchedDays.push({ id: value.data.id, date: date });
+					this.setState({ date: date, lunchedDays: newLunchedDays });
+				}
+			});
+		};
 
 		const tileContent = ({ date, view }) => {
 			if (view === "month") {
