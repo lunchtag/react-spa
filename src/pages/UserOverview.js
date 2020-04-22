@@ -3,7 +3,8 @@ import Navbar from "../components/navbar/navbar";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { getAllUsers, fetchData, getUserById, disableById } from '../service/UserOverviewService';
+import Alert from 'react-bootstrap/Alert';
+import { getAllUsers, updateUser, disableById } from '../service/UserOverviewService';
 import { Trash } from 'react-bootstrap-icons';
 
 
@@ -20,17 +21,34 @@ function UserOverView(props) {
         })
     }, []);
 
-
     function handleDetails(id) {
         console.log("Handle details");
         // id meesturen naar andere pagina
         props.history.push('users/' + id);
     }
-    function handleDisable(id) {
-        disableById(id)
-        console.log("Handle disable");
+
+    function handleDisable(id, isNonLocked) {
+        if (!isNonLocked) {
+            alert("Gebruiker is inactief");
+        } else {
+            disableById(id).then(res => {
+                if (res.status === 200) {
+                    getAllUsers().then((res) => {
+                        setUsers(res.data);
+                    })
+                    alert("Account op inactief gezet")
+                }
+                console.log(res);
+            })
+        }
+
     }
 
+    function handleUpdate() {
+        updateUser().then(res => {
+            console.log(res);
+        })
+    }
     // User is de hele user, e is de waarde van het veld
     function handleOnchange(user, e) {
         const value = e.target.value;
@@ -45,9 +63,6 @@ function UserOverView(props) {
                     case "lastName":
                         item.lastName = value;
                         break;
-                    case "email":
-                        item.email = value;
-                        break;
                     case "role":
                         item.role = value;
                         break;
@@ -57,9 +72,7 @@ function UserOverView(props) {
         console.log(users);
     }
 
-    function handleUpdate() {
 
-    }
 
     return (
         <div className="flexboxes">
@@ -82,11 +95,11 @@ function UserOverView(props) {
                     <tbody>
                         {users.map((item) => (
                             <tr>
-                                <td><Form.Control name="name" type="name" defaultValue={item.name} onChange={e => handleOnchange(item, e)} /></td>
-                                <td><Form.Control name="lastName" type="lastName" defaultValue={item.lastName} onChange={e => handleOnchange(item, e)} /></td>
-                                <td><Form.Control name="email" type="email" defaultValue={item.email} /></td>
-                                <td><Form.Control name="role" type="role" defaultValue={item.role} /></td>
-                                <td><Button variant="primary" onClick={() => handleDetails(item.id)}>Details</Button><Trash color="red" style={{ cursor: 'pointer' }} size={24} onClick={handleDisable} />
+                                <td><Form.Control disabled={!item.isNonLocked} name="name" type="name" defaultValue={item.name} onChange={e => handleOnchange(item, e)} /></td>
+                                <td><Form.Control disabled={!item.isNonLocked} name="lastName" type="lastName" defaultValue={item.lastName} onChange={e => handleOnchange(item, e)} /></td>
+                                <td>{item.email}</td>
+                                <td><Form.Control disabled={!item.isNonLocked} name="role" type="role" defaultValue={item.role} /></td>
+                                <td><Button disabled={!item.isNonLocked} variant="primary" onClick={() => handleDetails(item.id)}>Details</Button><Trash color="red" style={{ cursor: 'pointer' }} size={24} onClick={() => handleDisable(item.id, item.isNonLocked)} />
                                 </td>
                             </tr>
                         ))}
