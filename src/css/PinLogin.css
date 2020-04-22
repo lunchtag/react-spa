@@ -13,7 +13,7 @@
     justify-content: center;
     flex-wrap: wrap;
     height:50vh;
-    overflow: scroll;
+    overflow-y: scroll;
     align-items: center;
 }
 
@@ -21,20 +21,30 @@
     height: fit-content;
 }
 
+.alphabet{
+    height: 40vh;
+}
+
 .firstRow, .secondRow, .thirdRow{
     width: 95vw;
+    height: 33%;
 }
 
 .letterBtn{
     position: relative;
     width: 9%;
+    max-width: 80px;
     margin: 1px;
     border: 1px solid;
     background-color: white;
+    height: 99%;
+    font-size: 3em;
 }
 
 .pin{
     border: 1px solid;
+    height: 5vh;
+    font-size: 3vh;
 }
 
 .numericKeyPadHolder{

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../css/PinLogin.css"
 import Popup from "reactjs-popup";
 import NumericKeyPad from "./NumericKeyPad";
+import { pinLogin } from "../service/authService";
 
 function PinLogin() {
 
@@ -28,6 +29,7 @@ function PinLogin() {
         }]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [pin, setPin] = useState("");
+    const [currentUser, setCurrentUser] = useState({});
     let firstRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
     let secondRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l",];
     let thirdRow = ["z", "x", "c", "v", "b", "n", "m"];
@@ -47,7 +49,13 @@ function PinLogin() {
     )
 
     const appendToPin = (value) =>{
-        setPin(pin.concat(value))
+        if(pin.length + 1 === 5){
+            let confirmedPin = pin.concat(value)
+            setPin(pin.concat(value))
+            pinLogin(confirmedPin,)
+        }else if(pin.length <= 3){
+            setPin(pin.concat(value))
+        }
     }
 
     const removeFromPin = () =>{
@@ -60,7 +68,7 @@ function PinLogin() {
                 {filteredUsers.map(value => {
                     return (
                         <div className="selectUserBtn">
-                            <Popup trigger={<button>{value.name}</button>} key={value.id} modal>
+                            <Popup trigger={<button onClick={setCurrentUser(value)}>{value.name}</button>} key={value.id} modal>
                                 <h2>{value.name}</h2>
                                 <p className="pin">{pin}</p>
                                 <div className="numericKeyPadHolder">
