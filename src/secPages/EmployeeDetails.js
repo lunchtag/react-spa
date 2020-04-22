@@ -9,6 +9,9 @@ import { Row, Container, Col, Button, Alert, Dropdown, Table, ButtonGroup } from
 import EmployeeLunchItem from '../components/EmployeeLunchItem';
 import { Calendar, Trash, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
 
+import { getAllUsers, updateUser, disableById } from '../service/userService';
+import { getAllLunchesFromUser } from '../service/lunchService';
+
 
 class EmployeeDetails extends Component {
 
@@ -29,39 +32,22 @@ class EmployeeDetails extends Component {
 
 
     componentDidMount() {
-        const url = 'https://lunchtag-resource-server.herokuapp.com/account/all'
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
-            }
+        getAllUsers().then((res) => {
+            this.setState({ users: res.data, selectedUser: res.data[0] })
+            this.getLunchesFromUser()
+
         })
-            .then(res => res.json()).catch()
-            .then((data) => {
-                this.setState({ users: data, selectedUser: data[0] })
-                this.getLunchesFromUser()
-            })
     }
 
     getLunchesFromUser() {
-        const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/account/' + this.state.selectedUser.id
-
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
+        getAllLunchesFromUser(this.state.selectedUser).then((data) => {
+            if(data === "empty"){
+                this.setState({ lunches: [], filteredLunches: [] })
+            }
+            else{
+                this.setState({ lunches: data}, () => this.filterLunches())
             }
         })
-            .then(res => res.json())
-            .then((data) => {
-                this.setState({ lunches: data, filteredLunches: data })
-            }).catch((error) => {
-                this.setState({ lunches: [], filteredLunches: [] })
-            })
     }
 
     filterLunches() {
@@ -108,8 +94,8 @@ class EmployeeDetails extends Component {
 
         const deleteLunch = (lunchId) => {
             const newLunches = this.state.lunches.filter(lunch => lunch.id !== lunchId)
-            this.setState({lunches: newLunches, filteredLunches: newLunches})
-            filterByCurrent()
+            this.setState({ lunches: newLunches, filteredLunches: newLunches })
+            this.filterLunches()
         }
 
 
