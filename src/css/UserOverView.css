@@ -1,0 +1,22 @@
+.table.table-striped {
+    width:80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+p{
+    text-align: center;
+}
+
+.btn{
+    margin-right: 15px;
+}
+
+.btn-submit{
+    text-align: center;
+}
+
+.btn-submit > Button{
+    width:35%;
+    border-radius: 15px;
+}
