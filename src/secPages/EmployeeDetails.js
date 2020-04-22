@@ -7,7 +7,7 @@ import '../css/EmployeeDetails.css'
 import { Row, Container, Col, Button, Alert, Dropdown, Table, ButtonGroup } from 'react-bootstrap';
 
 import EmployeeLunchItem from '../components/EmployeeLunchItem';
-import { Calendar, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
+import { Calendar, Trash, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
 
 
 class EmployeeDetails extends Component {
@@ -47,7 +47,7 @@ class EmployeeDetails extends Component {
 
     getLunchesFromUser() {
         const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/account/' + this.state.selectedUser.id
-        
+
         fetch(url, {
             method: 'GET',
             headers: {
@@ -80,7 +80,7 @@ class EmployeeDetails extends Component {
 
 
     render() {
-        const { filteredLunches, currentMonth, users, selectedUser } = this.state;
+        const { filteredLunches, lunches, currentMonth, users, selectedUser } = this.state;
 
         const filterByCurrent = () => {
             this.setState({
@@ -131,29 +131,28 @@ class EmployeeDetails extends Component {
                                 </Col></Row>
                                 <Row>
                                     <Col><Alert variant="primary">{selectedUser.name + " " + selectedUser.lastName}</Alert></Col>
-                                    <Col></Col>
+                                    <Col><Alert variant="primary">Totaal {lunches.length}x meegegeten</Alert></Col>
                                     <Col><Alert variant="primary">Rol: {selectedUser.role}</Alert></Col>
                                 </Row>
-                                <Row><Col><Alert variant="info">Totaal aantal keer meegegeten:</Alert></Col></Row>
                                 <Row>
-                                    <Col><Button onClick={() => { filterByPrevious() }} variant="outline-primary" block>←</Button></Col>
-                                    <Col><Button onClick={() => { filterByCurrent() }} variant="outline-primary" block>•</Button></Col>
-                                    <Col><Button onClick={() => { filterByNext() }} variant="outline-primary" block>→</Button></Col>
+                                    <Col><Button size="sm" onClick={() => { filterByPrevious() }} variant="outline-primary" block><ArrowLeft></ArrowLeft></Button></Col>
+                                    <Col><Button size="sm" onClick={() => { filterByCurrent() }} variant="outline-primary" block>Vandaag</Button></Col>
+                                    <Col><Button size="sm" onClick={() => { filterByNext() }} variant="outline-primary" block><ArrowRight></ArrowRight></Button></Col>
                                 </Row>
 
-                                <Table striped bordered hover>
+                                <Table variant="dark" striped bordered hover>
                                     <thead>
                                         <tr>
-                                            <th>Datum ({dateHelper.getMonthFromNumber(this.state.currentMonth)})</th>
-                                            <th>Verwijder</th>
+                                            <th><Calendar></Calendar> ({dateHelper.getMonthFromNumber(this.state.currentMonth)})</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+
                                         {filteredLunches.map((item) => (
                                             <EmployeeLunchItem key={item.id} lunch={item} />
                                         ))}
-                                        
+
                                     </tbody>
                                 </Table>
                                 {filteredLunches[0] == null &&
