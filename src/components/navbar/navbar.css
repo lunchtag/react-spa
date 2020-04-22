@@ -2,6 +2,10 @@ nav {
 	margin-top: 5vh;
 }
 
+.navigationpanel {
+	position: fixed;
+}
+
 nav a {
 	text-decoration: none;
 	display: block;
@@ -20,7 +24,7 @@ nav a:first-child {
 
 nav a:last-child {
 	border-top: 1px #2a2a2e solid;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 }
 

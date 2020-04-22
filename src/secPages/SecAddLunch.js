@@ -2,36 +2,49 @@ import React from "react";
 import Calander from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../css/Calendar.css";
-import {
-	getAllLunchesForUser,
-	addLunch,
-	deleteLunch,
-} from "../service/lunchService";
 import Navbar from "../components/navbar/navbar";
+import { getAllUserWithLunches } from "../service/userService";
+import { addLunch, deleteLunch } from "../service/secLunchService";
 
-export default class UserLunchOverView extends React.Component {
+export default class SecAddLunch extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			users: [],
+			selectedUser: [],
 			date: new Date(),
 			lunchedDays: [],
 		};
+		this.onChangeUser = this.onChangeUser.bind(this);
 	}
 
 	componentDidMount() {
-		getAllLunchesForUser().then((value) => {
+		getAllUserWithLunches().then((value) => {
 			if (value.status === 200) {
-				const dates = [];
-				console.log(value.data);
-				value.data.forEach((element) => {
-					const res = element.date.split("T", 1);
-					dates.push({ id: element.id, date: new Date(res) });
-				});
-				console.log(dates);
 				this.setState({
-					lunchedDays: dates,
+					users: value.data,
 				});
 			}
+		});
+	}
+
+	onChangeUser(event) {
+		const user = this.state.users.find(function (element) {
+			return element.account.id === event.target.value;
+		});
+		this.setState({
+			selectedUser: user,
+		});
+
+		const dates = [];
+
+		user.lunches.forEach((element) => {
+			const res = element.date.split("T", 1);
+			dates.push({ id: element.id, date: new Date(res) });
+		});
+
+		this.setState({
+			lunchedDays: dates,
 		});
 	}
 
@@ -45,20 +58,22 @@ export default class UserLunchOverView extends React.Component {
 					date.getDate() === loopDate.date.getDate()
 				) {
 					debugger;
-					deleteLunch(loopDate.id).then((value) => {
-						if (value) {
-							console.log(value);
-							if (value.status === 200) {
-								let newLunchedDays = this.state.lunchedDays;
-								newLunchedDays.splice(i, 1);
-								this.setState({ date: date, LunchedDays: newLunchedDays });
+					deleteLunch(this.state.selectedUser.account.id, loopDate.id).then(
+						(value) => {
+							if (value) {
+								console.log(value);
+								if (value.status === 200) {
+									let newLunchedDays = this.state.lunchedDays;
+									newLunchedDays.splice(i, 1);
+									this.setState({ date: date, LunchedDays: newLunchedDays });
+								}
 							}
 						}
-					});
+					);
 					return;
 				}
 			}
-			addLunch(date).then((value) => {
+			addLunch(this.state.selectedUser.account.id, date).then((value) => {
 				console.log(value);
 				if (value.status === 200) {
 					let newLunchedDays = this.state.lunchedDays;
@@ -67,7 +82,6 @@ export default class UserLunchOverView extends React.Component {
 				}
 			});
 		};
-
 		const tileContent = ({ date, view }) => {
 			if (view === "month") {
 				for (var i = 0; i < this.state.lunchedDays.length; i++) {
@@ -83,7 +97,6 @@ export default class UserLunchOverView extends React.Component {
 			}
 			return null;
 		};
-
 		const tileClassName = ({ date, view }) => {
 			if (view === "month") {
 				for (var i = 0; i < this.state.lunchedDays.length; i++) {
@@ -101,6 +114,7 @@ export default class UserLunchOverView extends React.Component {
 		};
 
 		const { date } = this.state;
+
 		return (
 			<div className="flexboxes">
 				<div className="leftpanel">
@@ -109,7 +123,20 @@ export default class UserLunchOverView extends React.Component {
 				<div className="rightpanel">
 					<div className="content">
 						<div className="headline">
-							<h1>Maand overzicht</h1>
+							<h1>Lunch toevoegen</h1>
+						</div>
+						<div>
+							<h2>Selecteer medewerker</h2>
+
+							<select onChange={this.onChangeUser}>
+								{this.state.users.map((user, i) => {
+									return (
+										<option key={i} value={user.account.id}>
+											{user.account.name + " " + user.account.lastName}
+										</option>
+									);
+								})}
+							</select>
 						</div>
 						<div className="monthlyLunchOverView">
 							<div className="calendar">
