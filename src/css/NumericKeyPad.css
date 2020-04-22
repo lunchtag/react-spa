@@ -1,0 +1,23 @@
+.numericKeyPad{
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto ;
+    height: 100%;
+}
+
+.keyPadBtn{
+    list-style: none;
+    flex: 1 0 30%;
+    background-color: white;
+    border: 1px solid;
+    margin: 1px;
+    height: 24%;
+}
+
+.backspace{
+    border: none;
+}
+
+.backspace:hover{
+    cursor: pointer;
+}
