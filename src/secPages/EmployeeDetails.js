@@ -7,6 +7,7 @@ import '../css/EmployeeDetails.css'
 import { Row, Container, Col, Button, Alert, Dropdown, Table, ButtonGroup } from 'react-bootstrap';
 
 import EmployeeLunchItem from '../components/EmployeeLunchItem';
+import { Calendar, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
 
 
 class EmployeeDetails extends Component {
@@ -46,7 +47,7 @@ class EmployeeDetails extends Component {
 
     getLunchesFromUser() {
         const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/account/' + this.state.selectedUser.id
-        console.log(this.state.selectedUser)
+        
         fetch(url, {
             method: 'GET',
             headers: {
@@ -55,11 +56,11 @@ class EmployeeDetails extends Component {
                 'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
             }
         })
-            .then(res => res.json()).catch()
+            .then(res => res.json())
             .then((data) => {
-                console.log("data")
-                console.log(data)
                 this.setState({ lunches: data, filteredLunches: data })
+            }).catch((error) => {
+                this.setState({ lunches: [], filteredLunches: [] })
             })
     }
 
@@ -80,7 +81,6 @@ class EmployeeDetails extends Component {
 
     render() {
         const { filteredLunches, currentMonth, users, selectedUser } = this.state;
-
 
         const filterByCurrent = () => {
             this.setState({
@@ -149,9 +149,11 @@ class EmployeeDetails extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {/* {filteredLunches.map((item) => (
+                                        
+                                        {filteredLunches.map((item) => (
                                             <EmployeeLunchItem key={item.id} lunch={item} />
-                                        ))} */}
+                                        ))}
+                                        
                                     </tbody>
                                 </Table>
                                 {filteredLunches[0] == null &&
