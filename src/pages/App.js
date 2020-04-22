@@ -10,6 +10,7 @@ import Navbar from "../components/navbar/navbar.js";
 import RegisterLunch from "../components/RegisterLunch";
 import SecAddLunch from "../secPages/SecAddLunch";
 import CreateUser from "../secPages/CreateUser";
+import UserOverview from './UserOverview';
 
 export default class App extends React.Component {
 	render() {
@@ -40,6 +41,8 @@ export default class App extends React.Component {
 						path="/seccreateuser"
 						component={CreateUser}
 					></PublicRoute>
+					<PublicRoute path="/employees/" component={UserOverview}></PublicRoute>
+
 				</Switch>
 			</BrowserRouter>
 		);
