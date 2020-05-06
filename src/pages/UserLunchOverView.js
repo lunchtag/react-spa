@@ -44,7 +44,6 @@ export default class UserLunchOverView extends React.Component {
 					date.getMonth() === loopDate.date.getMonth() &&
 					date.getDate() === loopDate.date.getDate()
 				) {
-					debugger;
 					deleteLunch(loopDate.id).then((value) => {
 						if (value) {
 							console.log(value);

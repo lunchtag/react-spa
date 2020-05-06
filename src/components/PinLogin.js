@@ -11,6 +11,7 @@ function PinLogin(props) {
     const [pin, setPin] = useState("");
     const [currentUser, setCurrentUser] = useState({});
     const [showPopup, setShowPopup] = useState(false);
+    const [wrongCredentials, setwrongCredentials] = useState(false)
     let firstRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
     let secondRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l",];
     let thirdRow = ["z", "x", "c", "v", "b", "n", "m"];
@@ -33,13 +34,14 @@ function PinLogin(props) {
             let confirmedPin = pin.concat(value)
             setPin(pin.concat(value))
             pinLoginCall(confirmedPin, currentUser.email).then(res => {
-                debugger
                 if (res.status === 200) {
                     if (res.data.token != null) {
                         auth.login(res.data);
                         debugger
                         props.history.push("/dashboard");
                     }
+                }else{
+                    setwrongCredentials(true)
                 }
             })
         } else if (pin.length <= 4) {
@@ -59,6 +61,7 @@ function PinLogin(props) {
     const closePopup = () =>{
         setShowPopup(false)
         setPin("")
+        setwrongCredentials(false)
     }
 
     if (filteredUsers.length > 0) {
@@ -103,6 +106,7 @@ function PinLogin(props) {
                 <div className="popup">
                     <h2>{currentUser.name + currentUser.lastName}</h2>
                     <p className="pin">{pin}</p>
+                    <div hidden={!wrongCredentials} className="error">Wrong pin!</div>
                     <div className="numericKeyPadHolder">
                         <NumericKeyPad addToPin={appendToPin} removePin={removeFromPin} />
                     </div>
