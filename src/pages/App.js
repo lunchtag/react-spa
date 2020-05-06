@@ -6,6 +6,7 @@ import Login from "./Login.js";
 import UserLunchOverView from "./UserLunchOverView";
 import Register from "./Register";
 import LunchOverview from "../secPages/LunchOverview";
+import EmployeeDetails from '../secPages/EmployeeDetails'
 import Navbar from "../components/navbar/navbar.js";
 import RegisterLunch from "../components/RegisterLunch";
 import SecAddLunch from "../secPages/SecAddLunch";
@@ -31,6 +32,7 @@ export default class App extends React.Component {
 						exact
 					></PublicRoute>
 					<PublicRoute path="/lunch" component={LunchOverview}></PublicRoute>
+					<PublicRoute path="/employees" component={EmployeeDetails}></PublicRoute>
 					<PublicRoute path="/register" component={Register}></PublicRoute>
 					<PublicRoute path="/add" component={RegisterLunch}></PublicRoute>
           <PublicRoute path="/employees" component={UserOverview}></PublicRoute>

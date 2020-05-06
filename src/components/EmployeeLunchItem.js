@@ -1,9 +1,11 @@
 import React from 'react'
 
-import Button from 'react-bootstrap/Button'
+
+import { Button } from 'react-bootstrap'
 import { Trash } from 'react-bootstrap-icons'
 
-function LunchItem(props) {
+
+function EmployeeLunchItem(props) {
     const lunchItem = props.lunch;
 
     function deleteLunch(event) {
@@ -17,19 +19,18 @@ function LunchItem(props) {
             }
         }).then(res => {
             props.callback()
-        })
+        }
+        )
     }
 
     return (
-
         <tr>
-            <td>{lunchItem.account.name + " " + lunchItem.account.lastName}</td>
-            <td>{new Date(lunchItem.date).toDateString()}</td>
-            <td>
+            <td align="middle">{new Date(lunchItem.date).toDateString()}</td>
+            <td align="middle">
                 <Button onClick={deleteLunch} variant="danger"><Trash></Trash></Button>
             </td>
         </tr>
     )
 }
 
-export default LunchItem
+export default EmployeeLunchItem

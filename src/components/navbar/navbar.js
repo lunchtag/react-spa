@@ -1,21 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button, Alert } from "react-bootstrap";
+import { PersonFill } from "react-bootstrap-icons"
 import "./navbar.css";
 
 class Navbar extends React.Component {
 	render() {
 		return (
 			<div class="navigationpanel">
-				<div className="welcome">Welkom</div>
-
+				<h1>Lunchtag</h1>
 				<nav>
-					<Link to="/dashboard">Lunch maandoverzicht </Link>
-					<Link to="/add"> Lunch weekoverzicht</Link>
-					<Link to="/lunch">Lunch overview</Link>
+					<Alert variant="info"><PersonFill></PersonFill> Secretaresse</Alert>
+					<Link to="/lunch"><Button variant="success" block>Overzicht lunch</Button></Link>
+					<Link to="/employees"><Button variant="success" block>Medewerker details</Button></Link>
+					<Link to="/secaddlunch"><Button variant="success" block>Nieuwe lunch</Button></Link>
+					<Link to="/seccreateuser"><Button variant="success" block>Nieuw account</Button></Link>
 
-					<Link to="/secaddlunch">Secretaresse add lunch</Link>
-					<Link to="/seccreateuser">Secretarrese create user</Link>
-					<Link to="/logout">Logout</Link>
+					<Alert variant="info"><PersonFill></PersonFill> Medewerker</Alert>	
+					<Link to="/add"><Button variant="success" block>Week</Button></Link>				
+					<Link to="/dashboard"><Button variant="success" block>Maand</Button></Link>
+						
+					<Link to="/logout"><Button variant="info" block>Uitloggen</Button></Link>
 				</nav>
 			</div>
 		);

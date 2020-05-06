@@ -6,7 +6,10 @@ import dateHelper from '../service/dateHelper'
 import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
-import { Row, Container, Col, Button } from 'react-bootstrap';
+import { Row, Container, Col, Button, Alert } from 'react-bootstrap';
+import { Calendar, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
+
+import { getAllLunchesForUser } from '../service/lunchService'
 
 import '../css/LunchOverview.css'
 import moment from 'moment';
@@ -26,24 +29,14 @@ class LunchOverview extends Component {
             currentWeek: 0,
             currentWeekNr: dateHelper.getWeek(Date())
         }
-
     }
 
-
     componentDidMount() {
-        const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/all'
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
-            }
+        getAllLunchesForUser().then((data) => {
+            console.log(data.data)
+            this.setState({ lunches: data.data, filteredLunches: data.data })
+            this.filterLunches()
         })
-            .then(res => res.json()).catch()
-            .then((data) => {
-                this.setState({ lunches: data, filteredLunches: data })
-            })
     }
 
     filterLunches() {
@@ -74,7 +67,7 @@ class LunchOverview extends Component {
 
 
     render() {
-        const { filteredLunches, currentMonth, currentWeek, currentWeekNr } = this.state;
+        const { filteredLunches, currentMonth, currentWeek, currentWeekNr, filterValue } = this.state;
 
         const setFilterValue = (newFilterValue) => {
             this.setState({
@@ -127,6 +120,12 @@ class LunchOverview extends Component {
             })
         }
 
+        const deleteLunch = (lunchId) => {
+            const newLunches = this.state.lunches.filter(lunch => lunch.id !== lunchId)
+            this.setState({lunches: newLunches, filteredLunches: newLunches})
+            this.filterLunches()
+        }
+
 
         return (
             <div className="flexboxes">
@@ -136,11 +135,6 @@ class LunchOverview extends Component {
                 <div className="rightpanel">
                     <React.Fragment>
                         <div>
-                            <Row>
-                                <Col><Button onClick={() => { filterByPrevious() }} variant="outline-primary" size="lg" block>Vorige</Button></Col>
-                                <Col><Button onClick={() => { filterByCurrent() }} variant="outline-primary" size="lg" block>Huidige</Button></Col>
-                                <Col><Button onClick={() => { filterByNext() }} variant="outline-primary" size="lg" block>Volgende</Button></Col>
-                            </Row>
                             <Container>
                                 <Row >
                                     <Col><h1>Overzicht lunch</h1></Col>
@@ -150,7 +144,6 @@ class LunchOverview extends Component {
                                         <h4>Huidige maand: {dateHelper.getMonthFromNumber(this.state.currentMonth)}</h4> :
                                         <h4>Huidig week: {this.state.currentWeekNr}</h4>}
                                 </Col></Row>
-
 
                                 {this.state.filterValue === 'week' ?
                                     <Row>
@@ -164,28 +157,37 @@ class LunchOverview extends Component {
                                     </Row>
                                 }
 
-
-                                <Table striped bordered hover>
+                                <Row>
+                                    <Col><Button onClick={() => { filterByPrevious() }} variant="outline-primary" size="sm" block><ArrowLeft></ArrowLeft></Button></Col>
+                                    <Col><Button onClick={() => { filterByCurrent() }} variant="outline-primary" size="sm" block>Vandaag</Button></Col>
+                                    <Col><Button onClick={() => { filterByNext() }} variant="outline-primary" size="sm" block><ArrowRight></ArrowRight></Button></Col>
+                                </Row>
+                                <Table size="sm" variant="dark" striped bordered>
                                     <thead>
                                         <tr>
-                                            <th>Naam</th>
-                                            <th>Datum</th>
-                                            <th></th>
+                                            <th><Person></Person></th>
+                                            <th><Calendar></Calendar></th>
+                                            <th>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {filteredLunches.map((item) => (
-
-                                            <LunchItem key={item.id} lunch={item} />
+                                            <LunchItem callback={() => deleteLunch(item.id)} key={item.id} lunch={item} />
                                         ))}
                                     </tbody>
                                 </Table>
-                            </Container>
-                        </div>
-                        <Row >
-                            <Col><Button variant="primary" size="lg" block>Lunch toevoegen</Button></Col>
+                                {filteredLunches[0] === null && filterValue === "month" &&
+                                    <Row><Col><Alert variant="warning">Er zijn geen lunches deze maand</Alert></Col></Row>}
+                                {filteredLunches[0] === null && filterValue === "week" &&
+                                    <Row><Col><Alert variant="warning">Er zijn geen lunches deze week</Alert></Col></Row>
+                                }
+                                <Row >
                             <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
                         </Row>
+                            </Container>
+                        </div>
+                        
                     </React.Fragment >
                 </div>
             </div>
