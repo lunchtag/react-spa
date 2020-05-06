@@ -38,16 +38,20 @@ function UserOverView(props) {
                     })
                     alert("Account op inactief gezet")
                 }
-                console.log(res);
+                // console.log(res);
             })
         }
 
     }
 
     function handleUpdate() {
-        updateUser().then(res => {
-            console.log(res);
-        })
+        users.map((item) => (
+            updateUser(item)
+        ))
+    }
+
+    function handleAddPerson() {
+        props.history.push('/seccreateuser');
     }
     // User is de hele user, e is de waarde van het veld
     function handleOnchange(user, e) {
@@ -71,8 +75,6 @@ function UserOverView(props) {
         })
         console.log(users);
     }
-
-
 
     return (
         <div className="flexboxes">
@@ -98,7 +100,7 @@ function UserOverView(props) {
                                 <td><Form.Control disabled={!item.isNonLocked} name="name" type="name" defaultValue={item.name} onChange={e => handleOnchange(item, e)} /></td>
                                 <td><Form.Control disabled={!item.isNonLocked} name="lastName" type="lastName" defaultValue={item.lastName} onChange={e => handleOnchange(item, e)} /></td>
                                 <td>{item.email}</td>
-                                <td><Form.Control disabled={!item.isNonLocked} name="role" type="role" defaultValue={item.role} /></td>
+                                <td>{item.role}</td>
                                 <td><Button disabled={!item.isNonLocked} variant="primary" onClick={() => handleDetails(item.id)}>Details</Button><Trash color="red" style={{ cursor: 'pointer' }} size={24} onClick={() => handleDisable(item.id, item.isNonLocked)} />
                                 </td>
                             </tr>
@@ -107,7 +109,7 @@ function UserOverView(props) {
                 </Table>
                 <div className="btn-submit">
                     <Button variant="success" onClick={handleUpdate}>Wijzigingen opslaan</Button>
-                    <Button variant="primary">Personeel toevoegen</Button>
+                    <Button variant="primary" onClick={handleAddPerson}>Personeel toevoegen</Button>
                 </div>
 
             </div>

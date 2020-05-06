@@ -20,6 +20,7 @@ class Navbar extends React.Component {
                             <Link to="/secaddlunch"><Button variant="success" block>Nieuwe lunch</Button></Link>
               <Link to="/employees"><Button variant="success" block>Medewerker details</Button></Link>
                             <Link to="/seccreateuser"><Button variant="success" block>Nieuw account</Button></Link>
+                        <Link to="/employees"><Button variant="success" block>Overzicht gebruikers</Button></Link>
                         </div>
                     )}
                     <Link to="/logout"><Button variant="info" block>Uitloggen</Button></Link>
@@ -27,6 +28,7 @@ class Navbar extends React.Component {
             </div>
         );
     }
+
 }
 
  
