@@ -35,7 +35,7 @@ export default class App extends React.Component {
 					<PrivateRoute path="/add" component={RegisterLunch} />
 					<AdminRoute path="/secaddlunch" component={SecAddLunch} />
 					<AdminRoute path="/seccreateuser" component={CreateUser} />
-					<AdminRoute path="/employees" component={UserOverview}></AdminRoute>
+					<AdminRoute path="/employees" component={UserOverview} />
 
 					<PublicRoute path="/logout" component={LogoutPage} />
 				</Switch>
