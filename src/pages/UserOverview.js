@@ -38,7 +38,7 @@ function UserOverView(props) {
                     })
                     alert("Account op inactief gezet")
                 }
-                console.log(res);
+                // console.log(res);
             })
         }
 
@@ -46,12 +46,8 @@ function UserOverView(props) {
 
     function handleUpdate() {
         users.map((item) => (
-            updateUser(item).then(res => {
-                console.log("gelukt");
-            })
-        ));
-
-
+            updateUser(item)
+        ))
     }
 
     function handleAddPerson() {

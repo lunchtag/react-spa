@@ -19,6 +19,7 @@ export async function getAllUsers() {
 
 
 export async function updateUser(item) {
+    debugger
     return Axios.put(`${server}/account/update/${item.id}`,
         {
             firstName: item.firstName,
