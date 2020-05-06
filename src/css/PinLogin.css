@@ -26,7 +26,6 @@
 
 .alphabet{
     height: 40vh;
-    
 }
 
 .firstRow, .secondRow, .thirdRow{
@@ -38,11 +37,15 @@
     position: relative;
     width: 9%;
     max-width: 80px;
-    margin: 1px;
+    margin: 2px;
     border: 1px solid;
     background-color: white;
     height: 99%;
     font-size: 3em;
+}
+
+.letterBtn:focus{
+    outline: none;
 }
 
 .pin{
@@ -55,6 +58,10 @@
     max-width: 200px;
     height: 45vh;
     margin:auto;
+}
+
+.numericKeyPadHolder:focus{
+    outline: none;
 }
 
 @media screen and (max-width: 1000px){
@@ -71,4 +78,9 @@
 
 .popup-content{
     width: 60%!important;
+}
+
+.error{
+    margin-bottom: 1rem;
+    color: darkred;
 }
