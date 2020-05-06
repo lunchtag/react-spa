@@ -24,7 +24,7 @@ function UserOverView(props) {
     function handleDetails(id) {
         console.log("Handle details");
         // id meesturen naar andere pagina
-        props.history.push('users/' + id);
+        props.history.push('/employee');
     }
 
     function handleDisable(id, isNonLocked) {
