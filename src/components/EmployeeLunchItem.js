@@ -18,7 +18,6 @@ function EmployeeLunchItem(props) {
                 'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
             }
         }).then(res => {
-            window.alert("De lunch is succesvol verwijderd!")
             props.callback()
         }
         )
