@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table'
 
 import 'react-moment'
-//import Auth from '../service/auth'
+import dateHelper from '../service/dateHelper'
 import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
-import { Row, Container, Col, Button } from 'react-bootstrap';
+import { Row, Container, Col, Button, Alert } from 'react-bootstrap';
+import { Calendar, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
+
+import { getAllLunchesForUser } from '../service/lunchService'
 
 import '../css/LunchOverview.css'
 import moment from 'moment';
@@ -23,79 +26,28 @@ class LunchOverview extends Component {
 
             filterValue: 'month',
             currentMonth: new Date().getMonth(),
-
-            currentWeek: 0
+            currentWeek: 0,
+            currentWeekNr: dateHelper.getWeek(Date())
         }
-        
-
-        this.getLunches()
     }
 
-
-
-    setFilterValue(newFilterValue) {
-        this.state.currentMonth = new Date().getMonth()
-        this.state.startWeek = moment().startOf('day').subtract(1, 'week')._d
-        this.state.endWeek = new Date()
-
-        this.state.filterValue = newFilterValue
-
-        this.filterByCurrent()
-        this.forceUpdate()
-    }
-
-    getLunches() {
-        const url = 'https://lunchtag-resource-server.herokuapp.com/lunch/all'
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
-            }
+    componentDidMount() {
+        getAllLunchesForUser().then((data) => {
+            console.log(data.data)
+            this.setState({ lunches: data.data, filteredLunches: data.data })
+            this.filterLunches()
         })
-            .then(res => res.json()).catch()
-            .then((data) => {
-                this.setState({ lunches: data })
-
-                this.state.filteredLunches = this.state.lunches
-                this.forceUpdate()
-            })
-    }
-
-    filterByCurrent() {
-        this.state.currentMonth = new Date().getMonth()
-        this.state.currentWeek = 0
-
-        this.filterLunches()
-    }
-
-    filterByNext() {
-        if (this.state.currentMonth < 12) {
-            this.state.currentMonth++
-        }
-        this.state.currentWeek--
-
-        this.filterLunches()
-    }
-
-    filterByPrevious() {
-        if (this.state.currentMonth > 0) {
-            this.state.currentMonth--
-        }
-        this.state.currentWeek++
-
-        this.filterLunches()
     }
 
     filterLunches() {
         if (this.state.filterValue === 'month') {
 
-            this.setState({filteredLunches: this.state.lunches.filter((item) => {
-                return new Date(item.date).getMonth() === this.state.currentMonth
-            })})
+            this.setState({
+                filteredLunches: this.state.lunches.filter((item) => {
+                    return new Date(item.date).getMonth() === this.state.currentMonth
+                })
+            })
 
-            this.forceUpdate()
             return
         }
 
@@ -103,80 +55,143 @@ class LunchOverview extends Component {
         var endWeek = moment().startOf('week').subtract(this.state.currentWeek - 1, 'week')._d;
 
         if (this.state.filterValue === 'week') {
-            this.setState({filteredLunches: this.state.lunches.filter((item) => {
-                return new Date(item.date) >= beginWeek &&
-                    new Date(item.date) <= endWeek
-            })})
-            this.forceUpdate()
+            this.setState({
+                filteredLunches: this.state.lunches.filter((item) => {
+                    return new Date(item.date) >= beginWeek &&
+                        new Date(item.date) <= endWeek
+                })
+            })
+
         }
     }
 
 
     render() {
-        const { filteredLunches } = this.state;
+        const { filteredLunches, currentMonth, currentWeek, currentWeekNr, filterValue } = this.state;
+
+        const setFilterValue = (newFilterValue) => {
+            this.setState({
+                currentMonth: new Date().getMonth(),
+                startWeek: moment().startOf('day').subtract(1, 'week')._d,
+                endWeek: new Date(),
+                filterValue: newFilterValue
+            })
+
+            filterByCurrent()
+        }
+
+        const filterByCurrent = () => {
+            this.setState({
+                currentMonth: new Date().getMonth(),
+                currentWeek: 0,
+                currentWeekNr: dateHelper.getWeek(Date())
+            }, () => {
+                this.filterLunches();
+            })
+        }
+
+        const filterByNext = () => {
+            if (this.state.currentMonth < 11) {
+                this.setState({ currentMonth: currentMonth + 1 })
+            }
+
+            if (this.state.currentWeekNr < 52) {
+                this.setState({ currentWeekNr: currentWeekNr + 1 })
+            }
+
+            this.setState({ currentWeek: currentWeek - 1 }, () => {
+                this.filterLunches();
+            })
+        }
+
+        const filterByPrevious = () => {
+            if (this.state.currentMonth > 0) {
+                this.setState({ currentMonth: currentMonth - 1 }, () => {
+                    this.filterLunches();
+                })
+            }
+
+            if (this.state.currentWeekNr > 1) {
+                this.setState({ currentWeekNr: currentWeekNr - 1 })
+            }
+
+            this.setState({ currentWeek: currentWeek + 1 }, () => {
+                this.filterLunches();
+            })
+        }
+
+        const deleteLunch = (lunchId) => {
+            const newLunches = this.state.lunches.filter(lunch => lunch.id !== lunchId)
+            this.setState({lunches: newLunches, filteredLunches: newLunches})
+            this.filterLunches()
+        }
+
+
         return (
             <div className="flexboxes">
                 <div className="leftpanel">
-                    <Navbar/>
+                    <Navbar />
                 </div>
                 <div className="rightpanel">
-                <React.Fragment>
-                <div>
-                    <Row>
-                        <Col><Button onClick={() => { this.filterByPrevious() }} variant="outline-primary" size="lg" block>Vorige</Button></Col>
-                        <Col><Button onClick={() => { this.filterByCurrent() }} variant="outline-primary" size="lg" block>Huidige</Button></Col>
-                        <Col><Button onClick={() => { this.filterByNext() }} variant="outline-primary" size="lg" block>Volgende</Button></Col>
-                    </Row>
-                    <Container>
-                        <Row >
-                            <Col><h1>Overzicht lunch</h1></Col>
+                    <React.Fragment>
+                        <div>
+                            <Container>
+                                <Row >
+                                    <Col><h1>Overzicht lunch</h1></Col>
+                                </Row>
+                                <Row><Col>
+                                    {this.state.filterValue === 'month' ?
+                                        <h4>Huidige maand: {dateHelper.getMonthFromNumber(this.state.currentMonth)}</h4> :
+                                        <h4>Huidig week: {this.state.currentWeekNr}</h4>}
+                                </Col></Row>
+
+                                {this.state.filterValue === 'week' ?
+                                    <Row>
+                                        <Col><Button onClick={() => { setFilterValue('week') }} variant="success" size="sm" block>Week</Button></Col>
+                                        <Col><Button onClick={() => { setFilterValue('month') }} variant="info" size="sm" block>Maand</Button></Col>
+                                    </Row>
+                                    :
+                                    <Row>
+                                        <Col><Button onClick={() => { setFilterValue('week') }} variant="info" size="sm" block>Week</Button></Col>
+                                        <Col><Button onClick={() => { setFilterValue('month') }} variant="success" size="sm" block>Maand</Button></Col>
+                                    </Row>
+                                }
+
+                                <Row>
+                                    <Col><Button onClick={() => { filterByPrevious() }} variant="outline-primary" size="sm" block><ArrowLeft></ArrowLeft></Button></Col>
+                                    <Col><Button onClick={() => { filterByCurrent() }} variant="outline-primary" size="sm" block>Vandaag</Button></Col>
+                                    <Col><Button onClick={() => { filterByNext() }} variant="outline-primary" size="sm" block><ArrowRight></ArrowRight></Button></Col>
+                                </Row>
+                                <Table size="sm" variant="dark" striped bordered>
+                                    <thead>
+                                        <tr>
+                                            <th><Person></Person></th>
+                                            <th><Calendar></Calendar></th>
+                                            <th>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {filteredLunches.map((item) => (
+                                            <LunchItem callback={() => deleteLunch(item.id)} key={item.id} lunch={item} />
+                                        ))}
+                                    </tbody>
+                                </Table>
+                                {filteredLunches[0] === null && filterValue === "month" &&
+                                    <Row><Col><Alert variant="warning">Er zijn geen lunches deze maand</Alert></Col></Row>}
+                                {filteredLunches[0] === null && filterValue === "week" &&
+                                    <Row><Col><Alert variant="warning">Er zijn geen lunches deze week</Alert></Col></Row>
+                                }
+                                <Row >
+                            <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
                         </Row>
-                        <Row><Col>
-                            {this.state.filterValue === 'month' ?
-                                <h4>Huidig maandnummer: {this.state.currentMonth}</h4> :
-                                <h4>Huidig week: {this.state.currentWeek}</h4>}
-                        </Col></Row>
-
-
-                        {this.state.filterValue === 'week' ?
-                            <Row>
-                                <Col><Button onClick={() => { this.setFilterValue('week') }} variant="success" size="sm" block>Week</Button></Col>
-                                <Col><Button onClick={() => { this.setFilterValue('month') }} variant="info" size="sm" block>Maand</Button></Col>
-                            </Row>
-                            :
-                            <Row>
-                                <Col><Button onClick={() => { this.setFilterValue('week') }} variant="info" size="sm" block>Week</Button></Col>
-                                <Col><Button onClick={() => { this.setFilterValue('month') }} variant="success" size="sm" block>Maand</Button></Col>
-                            </Row>
-                        }
-
-
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Naam</th>
-                                    <th>Datum</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredLunches.map((item) => (
-
-                                    <LunchItem key={item.id} lunch={item} />
-                                ))}
-                            </tbody>
-                        </Table>
-                    </Container>
-                </div>
-                    <Row >
-                        <Col><Button variant="primary" size="lg" block>Lunch toevoegen</Button></Col>
-                        <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
-                    </Row>
-            </React.Fragment >
+                            </Container>
+                        </div>
+                        
+                    </React.Fragment >
                 </div>
             </div>
         )
-
     }
 
 }

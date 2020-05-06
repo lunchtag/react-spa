@@ -8,10 +8,12 @@ import Login from "./Login.js";
 import UserLunchOverView from "./UserLunchOverView";
 import Register from "./Register";
 import LunchOverview from "../secPages/LunchOverview";
+import EmployeeDetails from '../secPages/EmployeeDetails'
 import Navbar from "../components/navbar/navbar.js";
 import RegisterLunch from "../components/RegisterLunch";
 import SecAddLunch from "../secPages/SecAddLunch";
 import CreateUser from "../secPages/CreateUser";
+import UserOverview from './UserOverview';
 
 import LogoutPage from "./Logout";
 
@@ -34,8 +36,8 @@ export default class App extends React.Component {
 					<AdminRoute path="/secaddlunch" component={SecAddLunch} />
 					<AdminRoute path="/seccreateuser" component={CreateUser} />
 					<PublicRoute path="/logout" component={LogoutPage} />
+
 				</Switch>
 			</BrowserRouter>
 		);
-	}
 }
