@@ -3,6 +3,7 @@ import auth from "../service/auth";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { getAllUsers } from "../service/userService";
 import PinLogin from "../components/PinLogin";
+import "../css/Login.css"
 
 class Login extends Component {
 	constructor(props) {
@@ -74,7 +75,7 @@ class Login extends Component {
 			loginPage=(
 				<div className="pinLoginHolder">
 					<PinLogin users={this.state.users} history={this.props.history}/>
-					<button onClick={setPasswordLogin}>Password login</button>
+					<button className="changeLoginBtn" onClick={setPasswordLogin}>Password login</button>
 				</div>
 			)
 		}else{
@@ -115,7 +116,7 @@ class Login extends Component {
 					</Button>
 				</Row>
 
-				<button onClick={setPinLogin}>Pincode Login</button>
+				<button className="changeLoginBtn" onClick={setPinLogin}>Pincode Login</button>
 			</Container>)
 		}
 		return (
