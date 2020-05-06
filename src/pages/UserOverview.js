@@ -35,8 +35,8 @@ function UserOverView(props) {
                 if (res.status === 200) {
                     getAllUsers().then((res) => {
                         setUsers(res.data);
+                        window.location.reload();
                     })
-                    alert("Account op inactief gezet")
                 }
                 // console.log(res);
             })
