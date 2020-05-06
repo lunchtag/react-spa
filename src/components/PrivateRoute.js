@@ -6,7 +6,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 		<Route
 			{...rest}
 			render={(props) =>
-				window.sessionStorage.getItem("role") === "USER" ? (
+				window.sessionStorage.getItem("role") === "USER" || "ADMIN" ? (
 					<Component {...props} />
 				) : (
 					<Redirect to="/" />
