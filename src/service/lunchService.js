@@ -1,6 +1,5 @@
 import Axios from "axios";
 import { server } from './constants.js'
-//import auth from "./auth.js"
 
 export async function getAllLunchesForUser() {
     return Axios.get(
@@ -78,3 +77,4 @@ export async function deleteLunch(lunchId) {
             return null;
         })
 }
+
