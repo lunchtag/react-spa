@@ -40,11 +40,11 @@ class EmployeeDetails extends Component {
 
     getLunchesFromUser() {
         getAllLunchesFromUser(this.state.selectedUser).then((data) => {
-            if(data === "empty"){
+            if (data === "empty") {
                 this.setState({ lunches: [], filteredLunches: [] })
             }
-            else{
-                this.setState({ lunches: data}, () => this.filterLunches())
+            else {
+                this.setState({ lunches: data }, () => this.filterLunches())
             }
         })
     }
@@ -146,12 +146,13 @@ class EmployeeDetails extends Component {
                                 </Table>
                                 {filteredLunches[0] == null &&
                                     <Row><Col><Alert variant="warning">Er zijn geen lunches deze maand</Alert></Col></Row>}
+                                    <Row >
+                                <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
+                            </Row>
                             </Container>
+                            
                         </div>
-                        <Row >
-                            <Col><Button variant="primary" size="lg" block>Lunch toevoegen</Button></Col>
-                            <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
-                        </Row>
+
                     </React.Fragment >
                 </div>
             </div>

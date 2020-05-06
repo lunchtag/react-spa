@@ -182,12 +182,12 @@ class LunchOverview extends Component {
                                 {filteredLunches[0] == null && filterValue == "week" &&
                                     <Row><Col><Alert variant="warning">Er zijn geen lunches deze week</Alert></Col></Row>
                                 }
-                            </Container>
-                        </div>
-                        <Row >
-                            <Col><Button variant="primary" size="lg" block>Lunch toevoegen</Button></Col>
+                                <Row >
                             <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
                         </Row>
+                            </Container>
+                        </div>
+                        
                     </React.Fragment >
                 </div>
             </div>
