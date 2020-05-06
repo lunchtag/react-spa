@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { server } from "./constants.js";
+import jwt_decode from "jwt-decode";
 
 export async function getAllUserWithLunches() {
 	return Axios.get(`${server}/account/alluserlunches`, {

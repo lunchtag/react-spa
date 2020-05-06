@@ -28,7 +28,7 @@ export default class SecAddLunch extends React.Component {
 		});
 	}
 
-	componentDidUpdate() {
+	retrieveDataFromServer() {
 		getAllUserWithLunches().then((value) => {
 			if (value.status === 200) {
 				this.setState({
@@ -56,6 +56,8 @@ export default class SecAddLunch extends React.Component {
 		this.setState({
 			lunchedDays: dates,
 		});
+
+		this.retrieveDataFromServer();
 	}
 
 	render() {

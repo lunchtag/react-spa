@@ -1,7 +1,9 @@
 import React from "react";
 import "../css/App.css";
-import { BrowserRouter, Switch } from "react-router-dom";
+import { BrowserRouter, Switch, Redirect } from "react-router-dom";
 import PublicRoute from "../components/PublicRoute";
+import PrivateRoute from "../components/PrivateRoute";
+import AdminRoute from "../components/AdminRoute";
 import Login from "./Login.js";
 import UserLunchOverView from "./UserLunchOverView";
 import Register from "./Register";
@@ -11,35 +13,27 @@ import RegisterLunch from "../components/RegisterLunch";
 import SecAddLunch from "../secPages/SecAddLunch";
 import CreateUser from "../secPages/CreateUser";
 
+import LogoutPage from "./Logout";
+
 export default class App extends React.Component {
 	render() {
 		return (
 			<BrowserRouter>
 				<Switch>
-					<PublicRoute
-						restricted={false}
-						component={Login}
-						path="/"
-						exact
-					></PublicRoute>
-					<PublicRoute path="/nav" component={Navbar}></PublicRoute>
-					<PublicRoute
+					<PublicRoute restricted={false} component={Login} path="/" exact />
+					<PrivateRoute path="/nav" component={Navbar} />
+					<PrivateRoute
 						restricted={false}
 						component={UserLunchOverView}
 						path="/dashboard"
 						exact
-					></PublicRoute>
-					<PublicRoute path="/lunch" component={LunchOverview}></PublicRoute>
-					<PublicRoute path="/register" component={Register}></PublicRoute>
-					<PublicRoute path="/add" component={RegisterLunch}></PublicRoute>
-					<PublicRoute
-						path="/secaddlunch"
-						component={SecAddLunch}
-					></PublicRoute>
-					<PublicRoute
-						path="/seccreateuser"
-						component={CreateUser}
-					></PublicRoute>
+					/>
+					<PrivateRoute path="/lunch" component={LunchOverview} />
+					<PrivateRoute path="/register" component={Register} />
+					<PrivateRoute path="/add" component={RegisterLunch} />
+					<AdminRoute path="/secaddlunch" component={SecAddLunch} />
+					<AdminRoute path="/seccreateuser" component={CreateUser} />
+					<PublicRoute path="/logout" component={LogoutPage} />
 				</Switch>
 			</BrowserRouter>
 		);
