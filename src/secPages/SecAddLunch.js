@@ -28,6 +28,16 @@ export default class SecAddLunch extends React.Component {
 		});
 	}
 
+	componentDidUpdate() {
+		getAllUserWithLunches().then((value) => {
+			if (value.status === 200) {
+				this.setState({
+					users: value.data,
+				});
+			}
+		});
+	}
+
 	onChangeUser(event) {
 		const user = this.state.users.find(function (element) {
 			return element.account.id === event.target.value;
@@ -57,7 +67,6 @@ export default class SecAddLunch extends React.Component {
 					date.getMonth() === loopDate.date.getMonth() &&
 					date.getDate() === loopDate.date.getDate()
 				) {
-					debugger;
 					deleteLunch(this.state.selectedUser.account.id, loopDate.id).then(
 						(value) => {
 							if (value) {
