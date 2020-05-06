@@ -35,7 +35,7 @@ function UserOverView(props) {
                 if (res.status === 200) {
                     getAllUsers().then((res) => {
                         setUsers(res.data);
-                        // window.location.reload();
+                        window.location.reload();
                     })
                 }
                 // console.log(res);
