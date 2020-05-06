@@ -6,7 +6,7 @@ import dateHelper from '../service/dateHelper'
 import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
-import { Row, Container, Col, Button, Alert, ButtonGroup } from 'react-bootstrap';
+import { Row, Container, Col, Button, Alert } from 'react-bootstrap';
 import { Calendar, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
 
 import { getAllLunchesForUser } from '../service/lunchService'
@@ -177,9 +177,9 @@ class LunchOverview extends Component {
                                         ))}
                                     </tbody>
                                 </Table>
-                                {filteredLunches[0] == null && filterValue == "month" &&
+                                {filteredLunches[0] === null && filterValue === "month" &&
                                     <Row><Col><Alert variant="warning">Er zijn geen lunches deze maand</Alert></Col></Row>}
-                                {filteredLunches[0] == null && filterValue == "week" &&
+                                {filteredLunches[0] === null && filterValue === "week" &&
                                     <Row><Col><Alert variant="warning">Er zijn geen lunches deze week</Alert></Col></Row>
                                 }
                                 <Row >

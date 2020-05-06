@@ -4,12 +4,12 @@ import dateHelper from '../service/dateHelper'
 import Navbar from '../components/navbar/navbar'
 import '../css/EmployeeDetails.css'
 
-import { Row, Container, Col, Button, Alert, Dropdown, Table, ButtonGroup } from 'react-bootstrap';
+import { Row, Container, Col, Button, Alert, Dropdown, Table } from 'react-bootstrap';
 
 import EmployeeLunchItem from '../components/EmployeeLunchItem';
-import { Calendar, Trash, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
+import { Calendar, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
 
-import { getAllUsers, updateUser, disableById } from '../service/userService';
+import { getAllUsers } from '../service/userService';
 import { getAllLunchesFromUser } from '../service/lunchService';
 
 

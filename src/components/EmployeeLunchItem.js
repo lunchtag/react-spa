@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-import { Col, Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { Trash } from 'react-bootstrap-icons'
 
 
