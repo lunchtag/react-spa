@@ -22,7 +22,7 @@ nav a:first-child {
 	border-top: 1px #2a2a2e solid;
 }
 
-nav a:last-child {
+.logoutButton {
 	border-top: 1px #2a2a2e solid;
 	position: fixed;
 	bottom: 0;
@@ -31,6 +31,7 @@ nav a:last-child {
 nav a:hover {
 	background-color: #2a2a2e;
 	color: #ffffff;
+	text-decoration: none;
 }
 
 .welcome {

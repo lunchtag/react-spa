@@ -33,10 +33,15 @@ class LunchOverview extends Component {
 
     componentDidMount() {
         getAllLunchesForUser().then((data) => {
-            console.log(data.data)
-            this.setState({ lunches: data.data, filteredLunches: data.data })
-            this.filterLunches()
-        })
+            console.log(data.data);
+            if (data.data !== "No Lunches were found") {
+                this.setState({
+                    lunches: data.data,
+                    filteredLunches: data.data,
+                });
+                this.filterLunches();
+            }
+        });
     }
 
     filterLunches() {
@@ -172,9 +177,12 @@ class LunchOverview extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
+
                                         {filteredLunches.map((item) => (
                                             <LunchItem callback={() => deleteLunch(item.id)} key={item.id} lunch={item} />
-                                        ))}
+                                        ))
+                                        }
+                                        
                                     </tbody>
                                 </Table>
                                 {filteredLunches[0] === null && filterValue === "month" &&

@@ -55,11 +55,6 @@ function RegisterLunch() {
                 'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
             }
         }).then(response => {
-            if (response.status === 200) {
-                window.alert("De lunch is succesvol verwijderd!");
-            } else {
-                window.alert("Er is iets fout gegaan.");
-            }
             getLunches();
         })
     }
@@ -98,12 +93,6 @@ function RegisterLunch() {
                     date: newLunch.date
                 })
             }).then(response => {
-                if (response.status === 200) {
-                    window.alert("De lunch is succesvol toegevoegd!");
-                } else {
-                    // console.log(data.message);
-                    window.alert("Er is iets fout gegaan.");
-                }
                 getLunches();
             })
 
