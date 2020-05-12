@@ -29,7 +29,6 @@ export default class App extends React.Component {
 						component={UserLunchOverView}
 						path="/dashboard"
 						exact
-
 					/>
 					<PrivateRoute path="/lunch" component={LunchOverview} />
 					<PrivateRoute path="/register" component={Register} />
@@ -37,8 +36,7 @@ export default class App extends React.Component {
 					<AdminRoute path="/secaddlunch" component={SecAddLunch} />
 					<AdminRoute path="/employee" component={EmployeeDetails} />
 					<AdminRoute path="/seccreateuser" component={CreateUser} />
-      	  <AdminRoute path="/employees" component={UserOverview}/>
-
+					<AdminRoute path="/employees" component={UserOverview} />
 					<PublicRoute path="/logout" component={LogoutPage} />
 				</Switch>
 			</BrowserRouter>
