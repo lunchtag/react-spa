@@ -6,9 +6,10 @@ import { pinLoginCall } from "../service/userService";
 import auth from "../service/auth";
 
 
-import { Container, Grid, Button, Typography, TextField, FormControl, InputAdornment, Paper } from '@material-ui/core';
+
+import { Grid, Typography, Paper, List, ListItem, ListItemIcon, ListItemText, Divider, Container, Modal, Backdrop, Fade, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AlternateEmail, Save } from '@material-ui/icons'
+import { Person } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,6 +22,23 @@ const useStyles = makeStyles((theme) => ({
         height: 100,
         width: 100,
         fontSize: 60
+    },
+    div: {
+        height: 300
+    },
+    list: {
+        textAlign: 'center',
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalContainer: {
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+        backgroundColor: '#ffffff',
+        padding: '2%',
     },
 
 }));
@@ -47,7 +65,9 @@ function PinLogin(props) {
     }
 
     let filteredUsersDiv = (
-        <Typography variant="h2" component="h1" gutterBottom>Selecteer de eerste letter van uw naam</Typography>
+        <Container className={classes.div}>
+            <Typography variant="h2" component="h1" gutterBottom>Selecteer de eerste letter van uw naam</Typography>
+        </Container>
     )
 
     const appendToPin = (value) => {
@@ -58,7 +78,6 @@ function PinLogin(props) {
                 if (res.status === 200) {
                     if (res.data.token != null) {
                         auth.login(res.data);
-                        debugger
                         props.history.push("/dashboard");
                     }
                 } else {
@@ -67,11 +86,13 @@ function PinLogin(props) {
             })
         } else if (pin.length <= 4) {
             setPin(pin.concat(value))
+
         }
     }
 
     const removeFromPin = () => {
         setPin(pin.substring(0, pin.length - 1))
+        setwrongCredentials(false)
     }
 
     const popup = (value) => {
@@ -87,58 +108,84 @@ function PinLogin(props) {
 
     if (filteredUsers.length > 0) {
         filteredUsersDiv = (
-            <div className="users">
-                {filteredUsers.map(value => {
-                    return (
-                        <div className="selectUserBtn" key={value.id}>
-                            <button onClick={() => popup(value)}>{`${value.name} ${value.lastName}`}</button>
-                        </div>)
-                })}
-            </div>
+
+            <Container className={classes.div}>
+                <List component="nav" aria-label="main mailbox folders">
+                    {filteredUsers.map(value => {
+                        return (
+                            <>
+                                <ListItem className={classes.list} button onClick={() => popup(value)}>
+                                    <ListItemIcon>
+                                        <Person />
+                                    </ListItemIcon>
+                                    <ListItemText primary={`${value.name} ${value.lastName}`}></ListItemText>
+                                </ListItem>
+                                <Divider />
+                            </>
+                        )
+                    })}
+                </List>
+            </Container>
         )
     }
     return (
         <div className="pinLogin">
             {filteredUsersDiv}
             <Grid className={classes.root} container spacing={3}>
-                    <Grid item xs={12} container justify="center" spacing={3}>
-                        {firstRow.map(value => {
-                            return (
-                                <Grid item>
-                                    <Paper key={value} className={classes.paper} onClick={() => filterUsers(value)}>{value}</Paper>
-                                </Grid>
-                            )
-                        })}
-                    </Grid>
-                    <Grid item xs={12} container justify="center" spacing={3}>
-                        {secondRow.map(value => {
-                            return (
-                                <Grid item>
-                                    <Paper key={value} className={classes.paper} onClick={() => filterUsers(value)}>{value}</Paper>
-                                </Grid>
-                            )
-                        })}
-                    </Grid>
-                    <Grid item xs={12} container justify="center" spacing={3}>
-                        {thirdRow.map(value => {
-                            return (
-                                <Grid item>
-                                    <Paper key={value} className={classes.paper} onClick={() => filterUsers(value)}>{value}</Paper>
-                                </Grid>
-                            )
-                        })}
-                    </Grid>
+                <Grid item xs={12} container justify="center" spacing={3}>
+                    {firstRow.map(value => {
+                        return (
+                            <Grid item>
+                                <Paper key={value} className={classes.paper} onClick={() => filterUsers(value)}>{value}</Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+                <Grid item xs={12} container justify="center" spacing={3}>
+                    {secondRow.map(value => {
+                        return (
+                            <Grid item>
+                                <Paper key={value} className={classes.paper} onClick={() => filterUsers(value)}>{value}</Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+                <Grid item xs={12} container justify="center" spacing={3}>
+                    {thirdRow.map(value => {
+                        return (
+                            <Grid item>
+                                <Paper key={value} className={classes.paper} onClick={() => filterUsers(value)}>{value}</Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
             </Grid>
-            <Popup modal open={showPopup} onClose={closePopup}>
-                <div className="popup">
-                    <h2>{currentUser.name + currentUser.lastName}</h2>
-                    <p className="pin">{pin}</p>
-                    <div hidden={!wrongCredentials} className="error">Wrong pin!</div>
-                    <div className="numericKeyPadHolder">
+
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={showPopup}
+                onClose={closePopup}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={showPopup}>
+                    <Container maxWidth="xs" className={classes.modalContainer}>
+                        <Typography variant="h5" component="h1" gutterBottom>{currentUser.name + " " + currentUser.lastName}</Typography>
+                        {!wrongCredentials ?
+                            <TextField fullWidth label="Pincode" value={pin} InputProps={{ readOnly: true, }} variant="outlined" /> :
+                            <TextField fullWidth error label="Pincode" helperText="Verkeerde pincode" value={pin} InputProps={{ readOnly: true, }} variant="outlined" />
+                        }
+
                         <NumericKeyPad addToPin={appendToPin} removePin={removeFromPin} />
-                    </div>
-                </div>
-            </Popup>
+
+                    </Container>
+                </Fade>
+            </Modal>
         </div>
     )
 }
