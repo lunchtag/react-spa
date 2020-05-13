@@ -9,9 +9,6 @@ import { AlternateEmail, Save } from '@material-ui/icons'
 // import classes from "*.module.css";
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-
-	},
 }));
 
 export default class CreateUserPage extends Component {

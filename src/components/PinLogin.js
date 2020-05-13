@@ -5,7 +5,28 @@ import NumericKeyPad from "./NumericKeyPad";
 import { pinLoginCall } from "../service/userService";
 import auth from "../service/auth";
 
+
+import { Container, Grid, Button, Typography, TextField, FormControl, InputAdornment, Paper } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { AlternateEmail, Save } from '@material-ui/icons'
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+        backgroundColor: '#f2f2f2',
+        height: 100,
+        width: 100,
+        fontSize: 60
+    },
+
+}));
+
 function PinLogin(props) {
+    const classes = useStyles();
 
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [pin, setPin] = useState("");
@@ -26,7 +47,7 @@ function PinLogin(props) {
     }
 
     let filteredUsersDiv = (
-        <div className="users noUsersFiltered"><p>Select a letter to search your name!</p></div>
+        <Typography variant="h2" component="h1" gutterBottom>Selecteer de eerste letter van uw naam</Typography>
     )
 
     const appendToPin = (value) => {
@@ -40,7 +61,7 @@ function PinLogin(props) {
                         debugger
                         props.history.push("/dashboard");
                     }
-                }else{
+                } else {
                     setwrongCredentials(true)
                 }
             })
@@ -58,7 +79,7 @@ function PinLogin(props) {
         setShowPopup(true)
     }
 
-    const closePopup = () =>{
+    const closePopup = () => {
         setShowPopup(false)
         setPin("")
         setwrongCredentials(false)
@@ -79,29 +100,35 @@ function PinLogin(props) {
     return (
         <div className="pinLogin">
             {filteredUsersDiv}
-            <div className="alphabet">
-                <div className="firstRow">
-                    {firstRow.map(value => {
-                        return (
-                            <button key={value} className="letterBtn" onClick={() => filterUsers(value)}>{value}</button>
-                        )
-                    })}
-                </div>
-                <div className="secondRow">
-                    {secondRow.map(value => {
-                        return (
-                            <button key={value} className="letterBtn" onClick={() => filterUsers(value)}>{value}</button>
-                        )
-                    })}
-                </div>
-                <div className="thirdRow">
-                    {thirdRow.map(value => {
-                        return (
-                            <button key={value} className="letterBtn" onClick={() => filterUsers(value)}>{value}</button>
-                        )
-                    })}
-                </div>
-            </div>
+            <Grid className={classes.root} container spacing={3}>
+                    <Grid item xs={12} container justify="center" spacing={3}>
+                        {firstRow.map(value => {
+                            return (
+                                <Grid item>
+                                    <Paper key={value} className={classes.paper} onClick={() => filterUsers(value)}>{value}</Paper>
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
+                    <Grid item xs={12} container justify="center" spacing={3}>
+                        {secondRow.map(value => {
+                            return (
+                                <Grid item>
+                                    <Paper key={value} className={classes.paper} onClick={() => filterUsers(value)}>{value}</Paper>
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
+                    <Grid item xs={12} container justify="center" spacing={3}>
+                        {thirdRow.map(value => {
+                            return (
+                                <Grid item>
+                                    <Paper key={value} className={classes.paper} onClick={() => filterUsers(value)}>{value}</Paper>
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
+            </Grid>
             <Popup modal open={showPopup} onClose={closePopup}>
                 <div className="popup">
                     <h2>{currentUser.name + currentUser.lastName}</h2>
