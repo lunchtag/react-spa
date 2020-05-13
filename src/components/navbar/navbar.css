@@ -60,6 +60,7 @@ nav a:hover {
 
 .leftpanel {
 	flex: 20;
+	background-color: #f2f2f2;
 }
 
 .rightpanel {
