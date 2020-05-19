@@ -1,43 +1,10 @@
-nav {
-	margin-top: 5vh;
-}
 
-.navigationpanel {
-	position: fixed;
-}
 
-nav a {
-	text-decoration: none;
-	display: block;
-	padding: 15px 25px;
-	text-align: center;
-	background-color: rgb(255, 255, 255);
-	color: #464141;
-	font-family: sans-serif;
-	border-bottom: 1px #2a2a2e solid;
-	width: 20vw;
-}
 
-nav a:first-child {
-	border-top: 1px #2a2a2e solid;
-}
 
-.logoutButton {
-	border-top: 1px #2a2a2e solid;
-	position: fixed;
-	bottom: 0;
-}
 
-nav a:hover {
-	background-color: #2a2a2e;
-	color: #ffffff;
-	text-decoration: none;
-}
 
-.welcome {
-	text-align: center;
-	margin-top: 5vh;
-}
+
 
 .flexboxes {
 	display: flex;
@@ -46,22 +13,9 @@ nav a:hover {
 	height: 100vh;
 }
 
-.flexboxes div .leftpanel,
-.rightpanel {
-	border: 0.5px #ccc solid;
-}
 
-.leftpanel,
-.rightpanel {
-	display: flex;
-	flex-direction: column;
-	flex-basis: 100%;
-}
 
-.leftpanel {
-	flex: 20;
-	background-color: #f2f2f2;
-}
+
 
 .rightpanel {
 	flex: 80;

@@ -134,9 +134,7 @@ class LunchOverview extends Component {
 
         return (
             <div className="flexboxes">
-                <div className="leftpanel">
                     <Navbar />
-                </div>
                 <div className="rightpanel">
                     <React.Fragment>
                         <div>

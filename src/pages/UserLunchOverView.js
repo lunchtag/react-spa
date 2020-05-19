@@ -102,9 +102,7 @@ export default class UserLunchOverView extends React.Component {
 		const { date } = this.state;
 		return (
 			<div className="flexboxes">
-				<div className="leftpanel">
-					<Navbar />
-				</div>
+				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
 						<div className="headline">

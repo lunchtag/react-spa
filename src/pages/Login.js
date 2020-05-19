@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import auth from "../service/auth";
-import { Container, Button, Typography, TextField, InputAdornment } from "@material-ui/core";
+import { Container, Button, Typography, TextField, InputAdornment, Grid } from "@material-ui/core";
 import { AlternateEmail, Lock } from '@material-ui/icons'
 import { getAllUsers } from "../service/userService";
 import PinLogin from "../components/PinLogin";
@@ -13,11 +13,12 @@ const useStyles = theme => ({
 			margin: theme.spacing(1),
 		},
 	},
+	content:{
+		textAlign: 'center',
+	},
 });
 
 class Login extends Component {
-
-
 	constructor(props) {
 		super(props);
 
@@ -28,8 +29,6 @@ class Login extends Component {
 			users: []
 		};
 	}
-
-
 
 	componentDidMount() {
 		getAllUsers().then(res => {
@@ -97,7 +96,6 @@ class Login extends Component {
 			)
 		} else {
 			loginPage = (
-
 				<Container maxWidth="md">
 					<Typography variant="h2" component="h1" gutterBottom>Inloggen</Typography>
 					<TextField required style={{ margin: 8 }} variant="outlined" InputProps={{
@@ -122,9 +120,9 @@ class Login extends Component {
 			)
 		}
 		return (
-			<div className="content">
+			<Grid className={classes.content}>
 				{loginPage}
-			</div>
+			</Grid>
 		);
 	}
 }

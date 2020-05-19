@@ -78,9 +78,7 @@ function UserOverView(props) {
 
     return (
         <div className="flexboxes">
-            <div className="leftpanel">
                 <Navbar />
-            </div>
             <div className="rightpanel">
                 <h1>Overzicht medewerkers</h1>
                 <p>Totaal aantal personen : {users.length} </p>

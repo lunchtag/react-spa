@@ -138,9 +138,7 @@ function RegisterLunch() {
 
     return (
         <div class="flexboxes">
-            <div class="leftpanel">
                 <Navbar />
-            </div>
             <div class="rightpanel">
                 <div className="container">
                     <h1>Wanneer heb jij meegegeten?</h1>

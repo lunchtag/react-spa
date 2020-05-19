@@ -60,9 +60,7 @@ export default class CreateUserPage extends Component {
 	render() {
 		return (
 			<div className="flexboxes">
-				<div className="leftpanel">
 					<Navbar />
-				</div>
 				<div className="rightpanel">
 					<Container maxWidth="md">
 						<Typography variant="h2" component="h1" gutterBottom>Maak een gebruiker aan</Typography>

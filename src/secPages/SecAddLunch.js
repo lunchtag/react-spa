@@ -128,9 +128,7 @@ export default class SecAddLunch extends React.Component {
 
 		return (
 			<div className="flexboxes">
-				<div className="leftpanel">
 					<Navbar />
-				</div>
 				<div className="rightpanel">
 					<div className="content">
 						<div className="headline">
