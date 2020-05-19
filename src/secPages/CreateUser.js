@@ -6,9 +6,19 @@ import { createUser } from "../service/userService";
 import { Container, Grid, Button, Typography, TextField, FormControl, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AlternateEmail, Save } from '@material-ui/icons'
-// import classes from "*.module.css";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+        backgroundColor: '#f2f2f2',
+        height: 75,
+        width: 100,
+        fontSize: 45
+    },
 }));
 
 export default class CreateUserPage extends Component {
@@ -21,6 +31,7 @@ export default class CreateUserPage extends Component {
 			firstName: "",
 			lastName: "",
 		};
+	
 	}
 
 	handleEmailChange = (event) => {
