@@ -8,8 +8,15 @@ import {
 	deleteLunch,
 } from "../service/lunchService";
 import Navbar from "../components/navbar/navbar";
+import { Container, Button, Typography, TextField, InputAdornment, Grid, Paper } from "@material-ui/core";
+import { AlternateEmail, Lock, CheckBox } from '@material-ui/icons'
+import { withStyles } from '@material-ui/core/styles';
 
-export default class UserLunchOverView extends React.Component {
+const useStyles = theme => ({
+	
+});
+
+class UserLunchOverView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -36,6 +43,8 @@ export default class UserLunchOverView extends React.Component {
 	}
 
 	render() {
+		const { classes } = this.props;
+
 		const onChange = (date) => {
 			for (var i = 0; i < this.state.lunchedDays.length; i++) {
 				const loopDate = this.state.lunchedDays[i];
@@ -76,7 +85,7 @@ export default class UserLunchOverView extends React.Component {
 						date.getMonth() === loopDate.getMonth() &&
 						date.getDate() === loopDate.getDate()
 					) {
-						return <p className="pcOnly">Lunched</p>;
+						return <><br/><CheckBox/></>
 					}
 				}
 			}
@@ -105,11 +114,9 @@ export default class UserLunchOverView extends React.Component {
 				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-						<div className="headline">
-							<h1>Maand overzicht</h1>
-						</div>
+					<Typography variant="h2" component="h1" gutterBottom>Maand overzicht</Typography>
 						<div className="monthlyLunchOverView">
-							<div className="calendar">
+							<Paper elevation={3} className="calendar">
 								<Calander
 									onChange={onChange}
 									value={date}
@@ -119,14 +126,14 @@ export default class UserLunchOverView extends React.Component {
 									tileContent={tileContent}
 									tileClassName={tileClassName}
 								/>
-							</div>
+							</Paper>
 						</div>
-						<div className="tip">
-							<p>Klik op een datum om aan te geven of je hebt meegeluncht</p>
-						</div>
+						<Typography variant="subtitle1" gutterBottom>Klik op een datum om aan te geven of je hebt meegeluncht</Typography>
 					</div>
 				</div>
 			</div>
 		);
 	}
 }
+
+export default withStyles(useStyles)(UserLunchOverView)
