@@ -5,6 +5,8 @@ import "../css/Calendar.css";
 import Navbar from "../components/navbar/navbar";
 import { getAllUserWithLunches } from "../service/userService";
 import { addLunch, deleteLunch } from "../service/secLunchService";
+import { Typography,FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@material-ui/core";
+import { CheckBox } from '@material-ui/icons'
 
 export default class SecAddLunch extends React.Component {
 	constructor(props) {
@@ -102,7 +104,7 @@ export default class SecAddLunch extends React.Component {
 						date.getMonth() === loopDate.getMonth() &&
 						date.getDate() === loopDate.getDate()
 					) {
-						return <p className="pcOnly">Lunched</p>;
+						return <><br /><CheckBox /></>;
 					}
 				}
 			}
@@ -128,27 +130,26 @@ export default class SecAddLunch extends React.Component {
 
 		return (
 			<div className="flexboxes">
-					<Navbar />
+				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-						<div className="headline">
-							<h1>Lunch toevoegen</h1>
-						</div>
-						<div>
-							<h2>Selecteer medewerker</h2>
-
-							<select onChange={this.onChangeUser}>
+						<Typography variant="h2" component="h1" gutterBottom>Lunch toevoegen</Typography>
+						<FormControl style={{ minWidth: "50%" }} variant="outlined" >
+							<InputLabel>Medewerker</InputLabel>
+							<Select
+								onChange={this.onChangeUser}
+							>
 								{this.state.users.map((user, i) => {
 									return (
-										<option key={i} value={user.account.id}>
-											{user.account.name + " " + user.account.lastName}
-										</option>
+										<MenuItem value={user.account.id} key={i}>{user.account.name + " " + user.account.lastName}</MenuItem>
 									);
 								})}
-							</select>
-						</div>
-						<div className="monthlyLunchOverView">
-							<div className="calendar">
+							</Select>
+						</FormControl>
+						<br/>
+
+						<Grid container justify="center">
+						<Paper elevation={3} className="calendar">
 								<Calander
 									onChange={onChange}
 									value={date}
@@ -158,11 +159,9 @@ export default class SecAddLunch extends React.Component {
 									tileContent={tileContent}
 									tileClassName={tileClassName}
 								/>
-							</div>
-						</div>
-						<div className="tip">
-							<p>Klik op een datum om aan te geven of je hebt meegeluncht</p>
-						</div>
+							</Paper>
+						</Grid>
+						<Typography variant="subtitle1" gutterBottom>Klik op een datum om aan te geven of je hebt meegeluncht</Typography>
 					</div>
 				</div>
 			</div>

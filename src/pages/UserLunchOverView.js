@@ -8,12 +8,12 @@ import {
 	deleteLunch,
 } from "../service/lunchService";
 import Navbar from "../components/navbar/navbar";
-import { Container, Button, Typography, TextField, InputAdornment, Grid, Paper } from "@material-ui/core";
-import { AlternateEmail, Lock, CheckBox } from '@material-ui/icons'
+import {Typography, Paper, Grid } from "@material-ui/core";
+import { CheckBox } from '@material-ui/icons'
 import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = theme => ({
-	
+
 });
 
 class UserLunchOverView extends React.Component {
@@ -43,8 +43,6 @@ class UserLunchOverView extends React.Component {
 	}
 
 	render() {
-		const { classes } = this.props;
-
 		const onChange = (date) => {
 			for (var i = 0; i < this.state.lunchedDays.length; i++) {
 				const loopDate = this.state.lunchedDays[i];
@@ -85,7 +83,7 @@ class UserLunchOverView extends React.Component {
 						date.getMonth() === loopDate.getMonth() &&
 						date.getDate() === loopDate.getDate()
 					) {
-						return <><br/><CheckBox/></>
+						return <><br /><CheckBox /></>
 					}
 				}
 			}
@@ -114,8 +112,8 @@ class UserLunchOverView extends React.Component {
 				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-					<Typography variant="h2" component="h1" gutterBottom>Maand overzicht</Typography>
-						<div className="monthlyLunchOverView">
+						<Typography variant="h2" component="h1" gutterBottom>Maand overzicht</Typography>
+						<Grid container justify="center">
 							<Paper elevation={3} className="calendar">
 								<Calander
 									onChange={onChange}
@@ -127,7 +125,7 @@ class UserLunchOverView extends React.Component {
 									tileClassName={tileClassName}
 								/>
 							</Paper>
-						</div>
+						</Grid>
 						<Typography variant="subtitle1" gutterBottom>Klik op een datum om aan te geven of je hebt meegeluncht</Typography>
 					</div>
 				</div>

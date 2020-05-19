@@ -10,9 +10,7 @@ import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "../css/RegisterLunch.css";
 import Navbar from "../components/navbar/navbar";
-import { startOfDay } from "@fullcalendar/core";
-import { Container, Button, Typography, TextField, InputAdornment, Grid } from "@material-ui/core";
-import { AlternateEmail, Lock } from '@material-ui/icons'
+import { Container, Button, Typography} from "@material-ui/core";
 
 function RegisterLunch() {
     let deleted;
