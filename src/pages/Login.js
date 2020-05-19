@@ -13,7 +13,7 @@ const useStyles = theme => ({
 			margin: theme.spacing(1),
 		},
 	},
-	content:{
+	content: {
 		textAlign: 'center',
 	},
 });
@@ -113,8 +113,8 @@ class Login extends Component {
 						),
 					}} fullWidth type="password" xs={12} id="standard-basic" label="Wachtwoord" onChange={this.handlePasswordChange} />
 					<div className={classes.root}>
-						<Button color="primary" variant="contained" size="large" onClick={this.handleSubmit}>Bevestig</Button>
 						<Button variant="contained" size="large" onClick={setPinLogin}>Pincode Login</Button>
+						<Button color="primary" variant="contained" size="large" onClick={this.handleSubmit}>Bevestig</Button>
 					</div>
 				</Container>
 			)
