@@ -78,3 +78,18 @@ export async function deleteLunch(lunchId) {
         })
 }
 
+export async function exportPdf(year, month) {
+    return Axios.get(`${server}/lunch/export/${year}/${month}`,
+        {
+            responseType: 'arraybuffer',
+
+            headers: {
+                'Authorization': `Bearer ${window.sessionStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/pdf',
+            }
+        })
+        .then(res => {
+            return res;
+        })
+}
