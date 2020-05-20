@@ -33,7 +33,7 @@ export async function createUser(email, firstname, lastname) {
 	})
 		.then((res) => {
 			console.log(res);
-			window.alert("Gebruiker succesvol toegevoegd!")
+			window.alert("Gebruiker succesvol toegevoegd!");
 			return res;
 		})
 		.catch((error) => {
@@ -59,10 +59,28 @@ export async function pinLoginCall(pin, email) {
 export async function getAllUsers() {
 	return Axios.get(`${server}/account/all`)
 		.then((res) => {
-			console.log(res)
+			console.log(res);
 			return res;
 		})
 		.catch((error) => {
+			return error.response;
+		});
+}
+
+export async function resetPincode() {
+	return Axios({
+		method: "PUT",
+		url: `${server}/auth/updatePin`,
+		headers: {
+			Authorization: `Bearer ${window.sessionStorage.getItem("token")}`,
+		},
+	})
+		.then((res) => {
+			console.log(res);
+			return res;
+		})
+		.catch((error) => {
+			console.log(error);
 			return error.response;
 		});
 }
