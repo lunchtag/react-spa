@@ -46,6 +46,7 @@ export async function updateOwnAccount(item) {
 		{
 			firstName: item.firstName,
 			lastName: item.lastName,
+			password: item.password,
 		},
 		{
 			headers: {

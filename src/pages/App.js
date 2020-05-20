@@ -25,6 +25,7 @@ export default class App extends React.Component {
 				<Switch>
 					<PublicRoute restricted={false} component={Login} path="/" exact />
 					<PrivateRoute path="/nav" component={Navbar} />
+					<PrivateRoute path="/profile" component={Profile} />
 					<PrivateRoute
 						restricted={false}
 						component={UserLunchOverView}
