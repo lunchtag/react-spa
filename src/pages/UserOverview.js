@@ -3,9 +3,9 @@ import Navbar from "../components/navbar/navbar";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Alert from 'react-bootstrap/Alert';
 import { getAllUsers, updateUser, disableById } from '../service/UserOverviewService';
 import { Trash } from 'react-bootstrap-icons';
+
 
 
 import '../css/UserOverView.css';
@@ -78,9 +78,7 @@ function UserOverView(props) {
 
     return (
         <div className="flexboxes">
-            <div className="leftpanel">
                 <Navbar />
-            </div>
             <div className="rightpanel">
                 <h1>Overzicht medewerkers</h1>
                 <p>Totaal aantal personen : {users.length} </p>

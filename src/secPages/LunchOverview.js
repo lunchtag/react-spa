@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Table from 'react-bootstrap/Table'
 
 import 'react-moment'
 import dateHelper from '../service/dateHelper'
 import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
-import { Row, Container, Col, Button, Alert } from 'react-bootstrap';
-import { Calendar, Person, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
+
+import { Container, Button, Typography, Paper, Table, TableHead, TableRow, TableCell, TableBody, Chip, Fab, Tab, Tabs, ButtonGroup,  TableContainer } from "@material-ui/core";
+import { Person, Today, ArrowBack, ArrowForward, OpenInBrowser } from '@material-ui/icons'
 
 import { getAllLunchesForUser } from '../service/lunchService'
 
@@ -127,30 +127,37 @@ class LunchOverview extends Component {
 
         const deleteLunch = (lunchId) => {
             const newLunches = this.state.lunches.filter(lunch => lunch.id !== lunchId)
-            this.setState({lunches: newLunches, filteredLunches: newLunches})
+            this.setState({ lunches: newLunches, filteredLunches: newLunches })
             this.filterLunches()
         }
 
 
         return (
             <div className="flexboxes">
-                <div className="leftpanel">
-                    <Navbar />
-                </div>
+                <Navbar />
                 <div className="rightpanel">
                     <React.Fragment>
                         <div>
-                            <Container>
-                                <Row >
-                                    <Col><h1>Overzicht lunch</h1></Col>
-                                </Row>
-                                <Row><Col>
-                                    {this.state.filterValue === 'month' ?
-                                        <h4>Huidige maand: {dateHelper.getMonthFromNumber(this.state.currentMonth)}</h4> :
-                                        <h4>Huidig week: {this.state.currentWeekNr}</h4>}
-                                </Col></Row>
+                            <Container maxWidth="lg">
+                                <Typography variant="h2" component="h1" gutterBottom>Overzicht lunch</Typography>
+                                {this.state.filterValue === 'month' ?
+                                    <Typography variant="h4" component="h1" gutterBottom>Huidige maand: {dateHelper.getMonthFromNumber(this.state.currentMonth)}</Typography>:                                       
+                                    <Typography variant="h4" component="h1" gutterBottom>Huidig week: {this.state.currentWeekNr}</Typography>}
 
-                                {this.state.filterValue === 'week' ?
+
+                                <Paper >
+                                    <Tabs
+                                        indicatorColor="primary"
+                                        textColor="primary"
+                                        // onChange={handleChange}
+                                        variant="fullWidth"
+                                        aria-label="disabled tabs example"
+                                    >
+                                        <Tab onClick={() => { setFilterValue('week') }} label="Week" />
+                                        <Tab onClick={() => { setFilterValue('month') }} label="Maand" />
+                                    </Tabs>
+                                </Paper>
+                                {/* {this.state.filterValue === 'week' ?
                                     <Row>
                                         <Col><Button onClick={() => { setFilterValue('week') }} variant="success" size="sm" block>Week</Button></Col>
                                         <Col><Button onClick={() => { setFilterValue('month') }} variant="info" size="sm" block>Maand</Button></Col>
@@ -160,14 +167,41 @@ class LunchOverview extends Component {
                                         <Col><Button onClick={() => { setFilterValue('week') }} variant="info" size="sm" block>Week</Button></Col>
                                         <Col><Button onClick={() => { setFilterValue('month') }} variant="success" size="sm" block>Maand</Button></Col>
                                     </Row>
-                                }
+                                } */}
 
-                                <Row>
+                                <ButtonGroup fullWidth color="primary" aria-label="outlined primary button group">
+                                    <Button onClick={() => { filterByPrevious() }}><ArrowBack/></Button>
+                                    <Button onClick={() => { filterByCurrent() }}>Vandaag</Button>
+                                    <Button onClick={() => { filterByNext() }}><ArrowForward/></Button>
+                                </ButtonGroup>
+
+                                {/* <Row>
                                     <Col><Button onClick={() => { filterByPrevious() }} variant="outline-primary" size="sm" block><ArrowLeft></ArrowLeft></Button></Col>
                                     <Col><Button onClick={() => { filterByCurrent() }} variant="outline-primary" size="sm" block>Vandaag</Button></Col>
                                     <Col><Button onClick={() => { filterByNext() }} variant="outline-primary" size="sm" block><ArrowRight></ArrowRight></Button></Col>
-                                </Row>
-                                <Table size="sm" variant="dark" striped bordered>
+                                </Row> */}
+
+                                <TableContainer component={Paper}>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell><Person/></TableCell>
+                                                <TableCell><Today/></TableCell>
+                                                <TableCell></TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {filteredLunches.map((item) => (
+                                                <LunchItem callback={() => deleteLunch(item.id)} key={item.id} lunch={item} />
+                                            ))
+                                            }
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+
+
+
+                                {/* <Table size="sm" variant="dark" striped bordered>
                                     <thead>
                                         <tr>
                                             <th><Person></Person></th>
@@ -182,20 +216,19 @@ class LunchOverview extends Component {
                                             <LunchItem callback={() => deleteLunch(item.id)} key={item.id} lunch={item} />
                                         ))
                                         }
-                                        
+
                                     </tbody>
-                                </Table>
+                                </Table> */}
                                 {filteredLunches[0] === null && filterValue === "month" &&
-                                    <Row><Col><Alert variant="warning">Er zijn geen lunches deze maand</Alert></Col></Row>}
+                                    <Chip color="secondary" label="Er zijn geen lunches deze maand" />}
+
                                 {filteredLunches[0] === null && filterValue === "week" &&
-                                    <Row><Col><Alert variant="warning">Er zijn geen lunches deze week</Alert></Col></Row>
+                                    <Chip color="secondary" label="Er zijn geen lunches deze week" />
                                 }
-                                <Row >
-                            <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
-                        </Row>
+                                <Fab color="primary"><OpenInBrowser/></Fab>
                             </Container>
                         </div>
-                        
+
                     </React.Fragment >
                 </div>
             </div>

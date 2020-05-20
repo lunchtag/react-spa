@@ -1,7 +1,9 @@
 import React from 'react'
 
-import Button from 'react-bootstrap/Button'
-import { Trash } from 'react-bootstrap-icons'
+
+
+import {TableRow, TableCell, IconButton} from '@material-ui/core'
+import {Delete} from '@material-ui/icons'
 
 function LunchItem(props) {
     const lunchItem = props.lunch;
@@ -22,13 +24,15 @@ function LunchItem(props) {
 
     return (
 
-        <tr>
-            <td>{lunchItem.account.name + " " + lunchItem.account.lastName}</td>
-            <td>{new Date(lunchItem.date).toDateString()}</td>
-            <td>
-                <Button onClick={deleteLunch} variant="danger"><Trash></Trash></Button>
-            </td>
-        </tr>
+        <TableRow>
+            <TableCell>{lunchItem.account.name + " " + lunchItem.account.lastName}</TableCell>
+            <TableCell>{new Date(lunchItem.date).toDateString()}</TableCell>
+            <TableCell>
+                <IconButton onClick={deleteLunch}><Delete color="error" ></Delete></IconButton>
+                
+                {/* <Button  variant="danger"><Trash></Trash></Button> */}
+            </TableCell>
+        </TableRow>
     )
 }
 

@@ -123,10 +123,8 @@ class EmployeeDetails extends Component {
 
 
         return (
-            <div className="flexboxes" >
-                <div className="leftpanel">
+            <div className="flexboxes">
                     <Navbar />
-                </div>
                 <div className="rightpanel">
                     <React.Fragment>
                         <div>
