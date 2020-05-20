@@ -59,6 +59,7 @@ export async function pinLoginCall(pin, email) {
 export async function getAllUsers() {
 	return Axios.get(`${server}/account/all`)
 		.then((res) => {
+			console.log(res)
 			return res;
 		})
 		.catch((error) => {

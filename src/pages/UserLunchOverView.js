@@ -8,8 +8,15 @@ import {
 	deleteLunch,
 } from "../service/lunchService";
 import Navbar from "../components/navbar/navbar";
+import {Typography, Paper, Grid } from "@material-ui/core";
+import { CheckBox } from '@material-ui/icons'
+import { withStyles } from '@material-ui/core/styles';
 
-export default class UserLunchOverView extends React.Component {
+const useStyles = theme => ({
+
+});
+
+class UserLunchOverView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -76,7 +83,7 @@ export default class UserLunchOverView extends React.Component {
 						date.getMonth() === loopDate.getMonth() &&
 						date.getDate() === loopDate.getDate()
 					) {
-						return <p className="pcOnly">Lunched</p>;
+						return <><br /><CheckBox /></>
 					}
 				}
 			}
@@ -102,16 +109,12 @@ export default class UserLunchOverView extends React.Component {
 		const { date } = this.state;
 		return (
 			<div className="flexboxes">
-				<div className="leftpanel">
-					<Navbar />
-				</div>
+				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-						<div className="headline">
-							<h1>Maand overzicht</h1>
-						</div>
-						<div className="monthlyLunchOverView">
-							<div className="calendar">
+						<Typography variant="h2" component="h1" gutterBottom>Maand overzicht</Typography>
+						<Grid container justify="center">
+							<Paper elevation={3} className="calendar">
 								<Calander
 									onChange={onChange}
 									value={date}
@@ -121,14 +124,14 @@ export default class UserLunchOverView extends React.Component {
 									tileContent={tileContent}
 									tileClassName={tileClassName}
 								/>
-							</div>
-						</div>
-						<div className="tip">
-							<p>Klik op een datum om aan te geven of je hebt meegeluncht</p>
-						</div>
+							</Paper>
+						</Grid>
+						<Typography variant="subtitle1" gutterBottom>Klik op een datum om aan te geven of je hebt meegeluncht</Typography>
 					</div>
 				</div>
 			</div>
 		);
 	}
 }
+
+export default withStyles(useStyles)(UserLunchOverView)
