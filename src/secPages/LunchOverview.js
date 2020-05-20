@@ -6,13 +6,40 @@ import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
 
-import { Container, Button, Typography, Paper, Table, TableHead, TableRow, TableCell, TableBody, Chip, Fab, Tab, Tabs, ButtonGroup,  TableContainer } from "@material-ui/core";
+import { Container, Button, Typography, Paper, Table, TableHead, TableRow, TableCell, TableBody, Chip, Fab, Tab, Tabs, ButtonGroup, TableContainer } from "@material-ui/core";
+import { Alert } from '@material-ui/lab'
 import { Person, Today, ArrowBack, ArrowForward, OpenInBrowser } from '@material-ui/icons'
 
 import { getAllLunchesForUser } from '../service/lunchService'
 
 import '../css/LunchOverview.css'
 import moment from 'moment';
+import { withStyles } from '@material-ui/core/styles';
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white,
+    },
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
+
+const useStyles = theme => ({
+    export: {
+        position: 'absolute',
+        bottom: theme.spacing(3),
+        right: theme.spacing(3),
+    },
+    buttonGroup: {
+        paddingBottom: '1%'
+    },
+    table:{
+
+    }
+});
+
 
 
 class LunchOverview extends Component {
@@ -46,6 +73,8 @@ class LunchOverview extends Component {
 
     filterLunches() {
         if (this.state.filterValue === 'month') {
+            console.log(this.state.filterValue)
+            console.log(this.state.filteredLunches)
 
             this.setState({
                 filteredLunches: this.state.lunches.filter((item) => {
@@ -70,8 +99,9 @@ class LunchOverview extends Component {
         }
     }
 
-
     render() {
+        const { classes } = this.props;
+
         const { filteredLunches, currentMonth, currentWeek, currentWeekNr, filterValue } = this.state;
 
         const setFilterValue = (newFilterValue) => {
@@ -132,6 +162,8 @@ class LunchOverview extends Component {
         }
 
 
+
+
         return (
             <div className="flexboxes">
                 <Navbar />
@@ -141,53 +173,32 @@ class LunchOverview extends Component {
                             <Container maxWidth="lg">
                                 <Typography variant="h2" component="h1" gutterBottom>Overzicht lunch</Typography>
                                 {this.state.filterValue === 'month' ?
-                                    <Typography variant="h4" component="h1" gutterBottom>Huidige maand: {dateHelper.getMonthFromNumber(this.state.currentMonth)}</Typography>:                                       
+                                    <Typography variant="h4" component="h1" gutterBottom>Huidige maand: {dateHelper.getMonthFromNumber(this.state.currentMonth)}</Typography> :
                                     <Typography variant="h4" component="h1" gutterBottom>Huidig week: {this.state.currentWeekNr}</Typography>}
 
+                                <ButtonGroup className={classes.buttonGroup} fullWidth>
+                                    {this.state.filterValue === 'week' ?
+                                        <><Button fullWidth variant="contained" color="secondary" value="week" onClick={() => { setFilterValue('week') }}>Week</Button>
+                                            <Button fullWidth variant="contained" value="month" onClick={() => { setFilterValue('month') }}>Maand</Button></> :
+                                        <><Button fullWidth variant="contained" value="week" onClick={() => { setFilterValue('week') }}>Week</Button>
+                                            <Button fullWidth variant="contained" color="secondary" value="month" onClick={() => { setFilterValue('month') }}>Maand</Button></>
+                                    }
 
-                                <Paper >
-                                    <Tabs
-                                        indicatorColor="primary"
-                                        textColor="primary"
-                                        // onChange={handleChange}
-                                        variant="fullWidth"
-                                        aria-label="disabled tabs example"
-                                    >
-                                        <Tab onClick={() => { setFilterValue('week') }} label="Week" />
-                                        <Tab onClick={() => { setFilterValue('month') }} label="Maand" />
-                                    </Tabs>
-                                </Paper>
-                                {/* {this.state.filterValue === 'week' ?
-                                    <Row>
-                                        <Col><Button onClick={() => { setFilterValue('week') }} variant="success" size="sm" block>Week</Button></Col>
-                                        <Col><Button onClick={() => { setFilterValue('month') }} variant="info" size="sm" block>Maand</Button></Col>
-                                    </Row>
-                                    :
-                                    <Row>
-                                        <Col><Button onClick={() => { setFilterValue('week') }} variant="info" size="sm" block>Week</Button></Col>
-                                        <Col><Button onClick={() => { setFilterValue('month') }} variant="success" size="sm" block>Maand</Button></Col>
-                                    </Row>
-                                } */}
-
-                                <ButtonGroup fullWidth color="primary" aria-label="outlined primary button group">
-                                    <Button onClick={() => { filterByPrevious() }}><ArrowBack/></Button>
-                                    <Button onClick={() => { filterByCurrent() }}>Vandaag</Button>
-                                    <Button onClick={() => { filterByNext() }}><ArrowForward/></Button>
                                 </ButtonGroup>
 
-                                {/* <Row>
-                                    <Col><Button onClick={() => { filterByPrevious() }} variant="outline-primary" size="sm" block><ArrowLeft></ArrowLeft></Button></Col>
-                                    <Col><Button onClick={() => { filterByCurrent() }} variant="outline-primary" size="sm" block>Vandaag</Button></Col>
-                                    <Col><Button onClick={() => { filterByNext() }} variant="outline-primary" size="sm" block><ArrowRight></ArrowRight></Button></Col>
-                                </Row> */}
+                                <ButtonGroup className={classes.buttonGroup} fullWidth color="primary" aria-label="outlined primary button group">
+                                    <Button onClick={() => { filterByPrevious() }}><ArrowBack /></Button>
+                                    <Button onClick={() => { filterByCurrent() }}>Vandaag</Button>
+                                    <Button onClick={() => { filterByNext() }}><ArrowForward /></Button>
+                                </ButtonGroup>
 
-                                <TableContainer component={Paper}>
-                                    <Table>
+                                <Paper elevation={3}>
+                                    <Table className={classes.table}>
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell><Person/></TableCell>
-                                                <TableCell><Today/></TableCell>
-                                                <TableCell></TableCell>
+                                                <StyledTableCell align="left"><Person /></StyledTableCell>
+                                                <StyledTableCell align="center"><Today /></StyledTableCell>
+                                                <StyledTableCell align="right"></StyledTableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -197,8 +208,7 @@ class LunchOverview extends Component {
                                             }
                                         </TableBody>
                                     </Table>
-                                </TableContainer>
-
+                                </Paper>
 
 
                                 {/* <Table size="sm" variant="dark" striped bordered>
@@ -219,16 +229,15 @@ class LunchOverview extends Component {
 
                                     </tbody>
                                 </Table> */}
-                                {filteredLunches[0] === null && filterValue === "month" &&
-                                    <Chip color="secondary" label="Er zijn geen lunches deze maand" />}
-
-                                {filteredLunches[0] === null && filterValue === "week" &&
-                                    <Chip color="secondary" label="Er zijn geen lunches deze week" />
+                                {(filteredLunches.length === 0 && filterValue === "month") &&
+                                <Alert variant="outlined" severity="info">Er zijn geen lunches deze maand</Alert>
+                                    }
+                                {filteredLunches.length === 0 && filterValue === "week" &&
+                                <Alert variant="outlined" severity="info">Er zijn geen lunches deze week</Alert>
                                 }
-                                <Fab color="primary"><OpenInBrowser/></Fab>
+                                <Fab color="primary" size="large" className={classes.export}><OpenInBrowser /></Fab>
                             </Container>
                         </div>
-
                     </React.Fragment >
                 </div>
             </div>
@@ -237,4 +246,4 @@ class LunchOverview extends Component {
 
 }
 
-export default LunchOverview
+export default withStyles(useStyles)(LunchOverview)
