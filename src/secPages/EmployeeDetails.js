@@ -10,7 +10,7 @@ import EmployeeLunchItem from '../components/EmployeeLunchItem';
 import { Calendar, ArrowLeft, ArrowRight } from 'react-bootstrap-icons'
 
 import { getAllUsers } from '../service/userService';
-import { getAllLunchesFromUser } from '../service/lunchService';
+import { getAllLunchesFromUser, exportPdf } from '../service/lunchService';
 
 
 class EmployeeDetails extends Component {
@@ -26,7 +26,8 @@ class EmployeeDetails extends Component {
             filteredLunches: [],
 
             filterValue: 'month',
-            currentMonth: new Date().getMonth()
+            currentMonth: new Date().getMonth(),
+            currentYear: new Date().getFullYear()
         }
     }
 
@@ -52,7 +53,7 @@ class EmployeeDetails extends Component {
     filterLunches() {
         this.setState({
             filteredLunches: this.state.lunches.filter((item) => {
-                return new Date(item.date).getMonth() === this.state.currentMonth
+                return new Date(item.date).getMonth() === this.state.currentMonth && new Date(item.date).getFullYear() === this.state.currentYear
             })
         })
     }
@@ -64,28 +65,51 @@ class EmployeeDetails extends Component {
     }
 
 
+
     render() {
-        const { filteredLunches, lunches, currentMonth, users, selectedUser } = this.state;
+        const { filteredLunches, lunches, currentMonth, currentYear, users, selectedUser } = this.state;
 
         const filterByCurrent = () => {
             this.setState({
-                currentMonth: new Date().getMonth()
+                currentMonth: new Date().getMonth(),
+                currentYear: new Date().getFullYear()
             }, () => {
                 this.filterLunches();
             })
         }
-
+        const handleExport = () => {
+            exportPdf(currentYear, currentMonth).then(res => {
+                if (res.status == 200) {
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', `Maandoverzicht-${currentYear}-${currentMonth}.pdf`); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                }
+            })
+            console.log(currentMonth);
+        }
         const filterByNext = () => {
             if (this.state.currentMonth < 11) {
                 this.setState({ currentMonth: currentMonth + 1 }, () => {
                     this.filterLunches();
                 })
+            } else {
+                this.setState({ currentMonth: currentMonth - 11, currentYear: currentYear + 1 }, () => {
+                    this.filterLunches();
+                })
             }
         }
+
 
         const filterByPrevious = () => {
             if (this.state.currentMonth > 0) {
                 this.setState({ currentMonth: currentMonth - 1 }, () => {
+                    this.filterLunches();
+                })
+            } else {
+                this.setState({ currentMonth: currentMonth + 11, currentYear: currentYear - 1 }, () => {
                     this.filterLunches();
                 })
             }
@@ -99,7 +123,7 @@ class EmployeeDetails extends Component {
 
 
         return (
-            <div className="flexboxes">
+            <div className="flexboxes" >
                 <div className="leftpanel">
                     <Navbar />
                 </div>
@@ -134,7 +158,7 @@ class EmployeeDetails extends Component {
                                 <Table variant="dark" striped bordered hover>
                                     <thead>
                                         <tr>
-                                            <th><Calendar></Calendar> ({dateHelper.getMonthFromNumber(this.state.currentMonth)})</th>
+                                            <th><Calendar></Calendar> ({dateHelper.getMonthFromNumber(this.state.currentMonth)} {this.state.currentYear}) </th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -146,11 +170,11 @@ class EmployeeDetails extends Component {
                                 </Table>
                                 {filteredLunches[0] == null &&
                                     <Row><Col><Alert variant="warning">Er zijn geen lunches deze maand</Alert></Col></Row>}
-                                    <Row >
-                                <Col><Button variant="primary" size="lg" block>Exporteren</Button></Col>
-                            </Row>
+                                <Row >
+                                    <Col><Button variant="primary" size="lg" onClick={() => handleExport()} block>Exporteren</Button></Col>
+                                </Row>
                             </Container>
-                            
+
                         </div>
 
                     </React.Fragment >
