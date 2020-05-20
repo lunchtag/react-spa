@@ -14,6 +14,7 @@ import RegisterLunch from "../components/RegisterLunch";
 import SecAddLunch from "../secPages/SecAddLunch";
 import CreateUser from "../secPages/CreateUser";
 import UserOverview from "./UserOverview";
+import Profile from "../pages/Profile";
 
 import LogoutPage from "./Logout";
 
@@ -33,6 +34,7 @@ export default class App extends React.Component {
 					<PrivateRoute path="/lunch" component={LunchOverview} />
 					<PrivateRoute path="/register" component={Register} />
 					<PrivateRoute path="/add" component={RegisterLunch} />
+					<PrivateRoute path="/profile" component={Profile} />
 					<AdminRoute path="/secaddlunch" component={SecAddLunch} />
 					<AdminRoute path="/employee" component={EmployeeDetails} />
 					<AdminRoute path="/seccreateuser" component={CreateUser} />
@@ -44,4 +46,3 @@ export default class App extends React.Component {
 		);
 	}
 }
-

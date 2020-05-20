@@ -2,9 +2,13 @@ class Auth {
 	login(data) {
 		this.logout();
 		console.log(this.parseJwt(data.token));
+		console.log(data.user);
 
 		window.sessionStorage.setItem("token", data.token);
 		window.sessionStorage.setItem("role", data.user.role);
+		window.sessionStorage.setItem("firstName", data.user.name);
+		window.sessionStorage.setItem("lastName", data.user.lastName);
+		window.sessionStorage.setItem("email", data.user.email);
 		console.log(data.user);
 		window.sessionStorage.setItem(
 			"name",
@@ -13,8 +17,7 @@ class Auth {
 	}
 
 	logout() {
-		window.sessionStorage.removeItem("token");
-		window.sessionStorage.removeItem("role");
+		window.sessionStorage.clear();
 	}
 
 	parseJwt(token) {
