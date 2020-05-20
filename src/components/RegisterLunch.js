@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 //import auth from "../service/auth";
 import dateFormat from "dateformat";
 
-import { Button } from "react-bootstrap";
-
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -12,7 +10,7 @@ import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "../css/RegisterLunch.css";
 import Navbar from "../components/navbar/navbar";
-import { startOfDay } from "@fullcalendar/core";
+import { Container, Button, Typography} from "@material-ui/core";
 
 function RegisterLunch() {
     let deleted;
@@ -138,13 +136,10 @@ function RegisterLunch() {
 
     return (
         <div class="flexboxes">
-            <div class="leftpanel">
-                <Navbar />
-            </div>
+            <Navbar />
             <div class="rightpanel">
-                <div className="container">
-                    <h1>Wanneer heb jij meegegeten?</h1>
-                    <p>Weekoverzicht</p>
+                <Container maxWidth="lg">
+                    <Typography variant="h2" component="h1" gutterBottom>Weekoverzicht</Typography>
                     <FullCalendar
                         defaultView="dayGridWeek"
                         plugins={[dayGridPlugin, interactionPlugin]}
@@ -153,18 +148,11 @@ function RegisterLunch() {
                         contentHeight="auto"
                         dateClick={handleDateClick}
                     />
-                    <Button
-                        block
-                        size="lg"
-                        variant="success"
-                        type="submit"
-                        onClick={addToday}
-                    >
-                        Ik heb vandaag meegeluncht
-					</Button>
-                </div>
+                    <Button variant="contained" color="primary" size="large" onClick={addToday}>Ik heb vandaag meegeluncht</Button>
+                </Container>
             </div>
         </div>
+
     );
 }
 
