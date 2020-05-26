@@ -88,6 +88,8 @@ export default class Profile extends Component {
 					messageType: "success",
 					message: "Account succesfully updated.",
 				});
+				window.sessionStorage.setItem("firstName", this.state.firstName);
+				window.sessionStorage.setItem("lastName", this.state.lastName);
 			} else {
 				this.setState({
 					showMessage: true,
