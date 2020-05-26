@@ -1,9 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Typography, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, ListItemAvatar, Avatar } from "@material-ui/core";
-import { Inbox, DateRange, EventNote, ViewList, Add, Person, PersonAdd, Group, ExitToApp, LocalOfferOutlined } from '@material-ui/icons'
+import {
+	Typography,
+	Drawer,
+	Divider,
+	List,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
+  ListItemAvatar, 
+  Avatar
+} from "@material-ui/core";
+import {
+	Inbox,
+	DateRange,
+	EventNote,
+	ViewList,
+	Add,
+	Person,
+	PersonAdd,
+	Group,
+	ExitToApp,
+	AccountCircle, 
+  LocalOfferOutlined
+} from "@material-ui/icons";
 import "./navbar.css";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 300;
 
@@ -134,7 +156,5 @@ class Navbar extends React.Component {
         );
     }
 }
-
-
 
 export default withStyles(useStyles)(Navbar);

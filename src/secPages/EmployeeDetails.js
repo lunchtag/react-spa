@@ -9,8 +9,9 @@ import EmployeeLunchItem from '../components/EmployeeLunchItem';
 import { Container, Button, Typography, Paper, Table, TableHead, TableRow, TableCell, TableBody, Fab, ButtonGroup, TableContainer, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import { Alert } from '@material-ui/lab'
 import { Person, Today, ArrowBack, ArrowForward, OpenInBrowser } from '@material-ui/icons'
-
+import { getAllLunchesFromUser, exportPdf } from '../service/lunchService';
 import { getAllUsers } from '../service/userService';
+
 import { getAllLunchesFromUser } from '../service/lunchService';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -56,7 +57,8 @@ class EmployeeDetails extends Component {
             filteredLunches: [],
 
             filterValue: 'month',
-            currentMonth: new Date().getMonth()
+            currentMonth: new Date().getMonth(),
+            currentYear: new Date().getFullYear()
         }
     }
 
@@ -82,7 +84,7 @@ class EmployeeDetails extends Component {
     filterLunches() {
         this.setState({
             filteredLunches: this.state.lunches.filter((item) => {
-                return new Date(item.date).getMonth() === this.state.currentMonth
+                return new Date(item.date).getMonth() === this.state.currentMonth && new Date(item.date).getFullYear() === this.state.currentYear
             })
         })
     }
@@ -94,30 +96,53 @@ class EmployeeDetails extends Component {
     }
 
 
+
     render() {
         const { classes } = this.props;
+        const { filteredLunches, lunches, currentMonth, currentYear, users, selectedUser } = this.state;
 
-        const { filteredLunches, lunches, currentMonth, users, selectedUser } = this.state;
 
         const filterByCurrent = () => {
             this.setState({
-                currentMonth: new Date().getMonth()
+                currentMonth: new Date().getMonth(),
+                currentYear: new Date().getFullYear()
             }, () => {
                 this.filterLunches();
             })
         }
-
+        const handleExport = () => {
+            exportPdf(currentYear, currentMonth).then(res => {
+                if (res.status == 200) {
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', `Maandoverzicht-${currentYear}-${currentMonth}.pdf`); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                }
+            })
+            console.log(currentMonth);
+        }
         const filterByNext = () => {
             if (this.state.currentMonth < 11) {
                 this.setState({ currentMonth: currentMonth + 1 }, () => {
                     this.filterLunches();
                 })
+            } else {
+                this.setState({ currentMonth: currentMonth - 11, currentYear: currentYear + 1 }, () => {
+                    this.filterLunches();
+                })
             }
         }
+
 
         const filterByPrevious = () => {
             if (this.state.currentMonth > 0) {
                 this.setState({ currentMonth: currentMonth - 1 }, () => {
+                    this.filterLunches();
+                })
+            } else {
+                this.setState({ currentMonth: currentMonth + 11, currentYear: currentYear - 1 }, () => {
                     this.filterLunches();
                 })
             }
@@ -175,36 +200,19 @@ class EmployeeDetails extends Component {
                                             ))}
                                         </TableBody>
                                     </Table>
-                                </Paper>
-
-                                {/* <Table variant="dark" striped bordered hover>
-                                    <thead>
-                                        <tr>
-                                            <th><Calendar></Calendar> ({dateHelper.getMonthFromNumber(this.state.currentMonth)})</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredLunches.map((item) => (
-                                            <EmployeeLunchItem callback={() => deleteLunch(item.id)} key={item.id} lunch={item} />
-                                        ))}
-                                    </tbody>
-                                </Table> */}
+                                </Paper>                          
 
                                 {filteredLunches.length === 0 &&
                                     <Alert variant="outlined" severity="info">Er zijn geen lunches deze maand</Alert>
                                 }
-                                <Fab color="primary" size="large" className={classes.export}><OpenInBrowser /></Fab>
+                                <Fab color="primary" size="large" onClick={() => handleExport()} className={classes.export}><OpenInBrowser /></Fab>
                             </Container>
-
                         </div>
-
                     </React.Fragment >
                 </div>
             </div>
         )
     }
-
 }
 
 
