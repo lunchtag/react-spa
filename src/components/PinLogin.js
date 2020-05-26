@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../css/PinLogin.css"
-import Popup from "reactjs-popup";
 import NumericKeyPad from "./NumericKeyPad";
 import { pinLoginCall } from "../service/userService";
 import auth from "../service/auth";
@@ -39,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.primary,
         backgroundColor: '#ffffff',
         padding: '2%',
+    },
+    input: {
+        paddingBottom: '5%'
     },
 
 }));
@@ -177,8 +179,8 @@ function PinLogin(props) {
                     <Container maxWidth="xs" className={classes.modalContainer}>
                         <Typography variant="h5" component="h1" gutterBottom>{currentUser.name + " " + currentUser.lastName}</Typography>
                         {!wrongCredentials ?
-                            <TextField fullWidth label="Pincode" value={pin} InputProps={{ readOnly: true, }} variant="outlined" /> :
-                            <TextField fullWidth error label="Pincode" helperText="Verkeerde pincode" value={pin} InputProps={{ readOnly: true, }} variant="outlined" />
+                            <TextField className={classes.input} fullWidth label="Pincode" value={pin} InputProps={{ readOnly: true, }} variant="outlined" /> :
+                            <TextField className={classes.input} fullWidth error label="Pincode" helperText="Verkeerde pincode" value={pin} InputProps={{ readOnly: true, }} variant="outlined" />
                         }
 
                         <NumericKeyPad addToPin={appendToPin} removePin={removeFromPin} />

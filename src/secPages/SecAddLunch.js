@@ -7,8 +7,16 @@ import { getAllUserWithLunches } from "../service/userService";
 import { addLunch, deleteLunch } from "../service/secLunchService";
 import { Typography,FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@material-ui/core";
 import { CheckBox } from '@material-ui/icons'
+import { withStyles } from '@material-ui/core/styles';
 
-export default class SecAddLunch extends React.Component {
+const useStyles = theme => ({
+	input:{
+		minWidth: '50%',
+		paddingBottom: '1%'
+	},
+});
+
+class SecAddLunch extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -63,6 +71,8 @@ export default class SecAddLunch extends React.Component {
 	}
 
 	render() {
+		const { classes } = this.props;
+
 		const onChange = (date) => {
 			for (var i = 0; i < this.state.lunchedDays.length; i++) {
 				const loopDate = this.state.lunchedDays[i];
@@ -134,7 +144,7 @@ export default class SecAddLunch extends React.Component {
 				<div className="rightpanel">
 					<div className="content">
 						<Typography variant="h2" component="h1" gutterBottom>Lunch toevoegen</Typography>
-						<FormControl style={{ minWidth: "50%" }} variant="outlined" >
+						<FormControl className={classes.input} variant="outlined" >
 							<InputLabel>Medewerker</InputLabel>
 							<Select
 								onChange={this.onChangeUser}
@@ -168,3 +178,5 @@ export default class SecAddLunch extends React.Component {
 		);
 	}
 }
+
+export default withStyles(useStyles)(SecAddLunch)
