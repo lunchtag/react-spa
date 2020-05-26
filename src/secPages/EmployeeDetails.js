@@ -152,37 +152,14 @@ class EmployeeDetails extends Component {
                                     </Select>
                                 </FormControl>
 
-                                {/* <Row><Col>
-                                    <Dropdown>
-                                        <Dropdown.Toggle variant="success" id="dropdown-basic" block>Selecteer een gebruiker</Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            {users.map((user) => (
-                                                <Dropdown.Item key={user.id} onClick={() => this.handleCurrentUserChange(user)}>{user.name + " " + user.lastName}</Dropdown.Item>
-                                            ))}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </Col></Row> */}
-
-                                <Paper className={classes.info} elevation={3}><Typography  variant="h5">Totaal {lunches.length}x meegegeten</Typography></Paper>
+                                <Paper className={classes.info} elevation={3}><Typography  variant="h5">Deze maand {filteredLunches.length}x meegegeten</Typography></Paper>
                                 <Paper className={classes.info} elevation={3}><Typography variant="h5">Rol: {selectedUser.role}</Typography></Paper>
-
-                                {/* <Row>
-                                    <Col><Alert variant="primary">{selectedUser.name + " " + selectedUser.lastName}</Alert></Col>
-                                    <Col><Alert variant="primary">Totaal {lunches.length}x meegegeten</Alert></Col>
-                                    <Col><Alert variant="primary">Rol: {selectedUser.role}</Alert></Col>
-                                </Row> */}
 
                                 <ButtonGroup className={classes.buttonGroup} fullWidth color="primary" aria-label="outlined primary button group">
                                     <Button onClick={() => { filterByPrevious() }}><ArrowBack /></Button>
                                     <Button onClick={() => { filterByCurrent() }}>Vandaag</Button>
                                     <Button onClick={() => { filterByNext() }}><ArrowForward /></Button>
                                 </ButtonGroup>
-
-                                {/* <Row>
-                                    <Col><Button size="sm" onClick={() => { filterByPrevious() }} variant="outline-primary" block><ArrowLeft></ArrowLeft></Button></Col>
-                                    <Col><Button size="sm" onClick={() => { filterByCurrent() }} variant="outline-primary" block>Vandaag</Button></Col>
-                                    <Col><Button size="sm" onClick={() => { filterByNext() }} variant="outline-primary" block><ArrowRight></ArrowRight></Button></Col>
-                                </Row> */}
 
                                 <Paper elevation={3}>
                                     <Table className={classes.table}>

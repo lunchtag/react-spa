@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Typography, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText, ListItemAvatar, Avatar } from "@material-ui/core";
-import { Inbox, DateRange, EventNote, ViewList, Add, Person, PersonAdd, Group, ExitToApp } from '@material-ui/icons'
+import { Inbox, DateRange, EventNote, ViewList, Add, Person, PersonAdd, Group, ExitToApp, LocalOfferOutlined } from '@material-ui/icons'
 import "./navbar.css";
 import { withStyles } from '@material-ui/core/styles';
 
@@ -52,7 +52,7 @@ class Navbar extends React.Component {
                 }}
                 anchor="left"
             >
-                <div className={classes.toolbar}><Typography variant="h3" component="h1">Lunch#</Typography></div>
+                <div className={classes.toolbar}><Typography variant="h3" component="h1">Lunch<LocalOfferOutlined color="secondary" fontSize="large" /></Typography></div>
                 <Divider />
                 <List>
                     <ListItem button component={Link} to="/dashboard">

@@ -27,11 +27,6 @@ const StyledTableCell = withStyles((theme) => ({
   }))(TableCell);
 
 const useStyles = theme => ({
-    export: {
-        position: 'absolute',
-        bottom: theme.spacing(3),
-        right: theme.spacing(3),
-    },
     buttonGroup: {
         paddingBottom: '1%'
     },
@@ -209,33 +204,12 @@ class LunchOverview extends Component {
                                         </TableBody>
                                     </Table>
                                 </Paper>
-
-
-                                {/* <Table size="sm" variant="dark" striped bordered>
-                                    <thead>
-                                        <tr>
-                                            <th><Person></Person></th>
-                                            <th><Calendar></Calendar></th>
-                                            <th>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        {filteredLunches.map((item) => (
-                                            <LunchItem callback={() => deleteLunch(item.id)} key={item.id} lunch={item} />
-                                        ))
-                                        }
-
-                                    </tbody>
-                                </Table> */}
                                 {(filteredLunches.length === 0 && filterValue === "month") &&
                                 <Alert variant="outlined" severity="info">Er zijn geen lunches deze maand</Alert>
                                     }
                                 {filteredLunches.length === 0 && filterValue === "week" &&
                                 <Alert variant="outlined" severity="info">Er zijn geen lunches deze week</Alert>
                                 }
-                                <Fab color="primary" size="large" className={classes.export}><OpenInBrowser /></Fab>
                             </Container>
                         </div>
                     </React.Fragment >
