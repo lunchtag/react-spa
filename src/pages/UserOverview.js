@@ -6,14 +6,10 @@ import Form from 'react-bootstrap/Form';
 import { getAllUsers, updateUser, disableById } from '../service/UserOverviewService';
 import { Trash } from 'react-bootstrap-icons';
 
-
-
 import '../css/UserOverView.css';
-import { getAllLunchesForUser } from '../service/lunchService';
 
 function UserOverView(props) {
     const [users, setUsers] = useState([]);
-    const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         getAllUsers().then((res) => {
@@ -58,7 +54,7 @@ function UserOverView(props) {
         const value = e.target.value;
         const field = e.target.name;
         users.forEach(item => {
-            if (item.id == user.id) {
+            if (item.id === user.id) {
                 // item is het oude, user is de nieuwe
                 switch (field) {
                     case "name":
@@ -70,6 +66,9 @@ function UserOverView(props) {
                     case "role":
                         item.role = value;
                         break;
+                    default:
+                        console.log("error")
+                        break;
                 }
             }
         })
@@ -78,7 +77,7 @@ function UserOverView(props) {
 
     return (
         <div className="flexboxes">
-                <Navbar />
+            <Navbar />
             <div className="rightpanel">
                 <h1>Overzicht medewerkers</h1>
                 <p>Totaal aantal personen : {users.length} </p>

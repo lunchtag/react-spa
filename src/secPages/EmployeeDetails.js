@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 
-import dateHelper from '../service/dateHelper'
 import Navbar from '../components/navbar/navbar'
 import '../css/EmployeeDetails.css'
 
 import EmployeeLunchItem from '../components/EmployeeLunchItem';
 
-import { Container, Button, Typography, Paper, Table, TableHead, TableRow, TableCell, TableBody, Fab, ButtonGroup, TableContainer, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import { Container, Button, Typography, Paper, Table, TableHead, TableRow, TableCell, TableBody, Fab, ButtonGroup, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import { Alert } from '@material-ui/lab'
-import { Person, Today, ArrowBack, ArrowForward, OpenInBrowser } from '@material-ui/icons'
+import { Today, ArrowBack, ArrowForward, OpenInBrowser } from '@material-ui/icons'
 import { getAllLunchesFromUser, exportPdf } from '../service/lunchService';
 import { getAllUsers } from '../service/userService';
 
@@ -98,7 +97,7 @@ class EmployeeDetails extends Component {
 
     render() {
         const { classes } = this.props;
-        const { filteredLunches, lunches, currentMonth, currentYear, users, selectedUser } = this.state;
+        const { filteredLunches, currentMonth, currentYear, users, selectedUser } = this.state;
 
 
         const filterByCurrent = () => {
@@ -111,7 +110,7 @@ class EmployeeDetails extends Component {
         }
         const handleExport = () => {
             exportPdf(currentYear, currentMonth).then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     const url = window.URL.createObjectURL(new Blob([res.data]));
                     const link = document.createElement('a');
                     link.href = url;

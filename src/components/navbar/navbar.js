@@ -1,28 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-	Typography,
-	Drawer,
-	Divider,
-	List,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
-  ListItemAvatar, 
-  Avatar
+    Typography,
+    Drawer,
+    Divider,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemAvatar,
+    Avatar
 } from "@material-ui/core";
 import {
-	Inbox,
-	DateRange,
-	EventNote,
-	ViewList,
-	Add,
-	Person,
-	PersonAdd,
-	Group,
-	ExitToApp,
-	AccountCircle, 
-  LocalOfferOutlined
+    DateRange,
+    EventNote,
+    ViewList,
+    Add,
+    Person,
+    PersonAdd,
+    Group,
+    ExitToApp,
+    LocalOfferOutlined
 } from "@material-ui/icons";
 import "./navbar.css";
 import { withStyles } from "@material-ui/core/styles";
@@ -40,7 +37,7 @@ const useStyles = theme => ({
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
-        
+
     },
     drawerPaper: {
         width: drawerWidth,
@@ -56,7 +53,7 @@ const useStyles = theme => ({
     decore: {
         textDecoration: 'none',
     },
-    avatar:{
+    avatar: {
         backgroundColor: theme.palette.primary.main,
     }
 });
@@ -78,27 +75,27 @@ class Navbar extends React.Component {
                 <Divider />
                 <List>
                     <ListItem button component={Link} to="/dashboard">
-                    <ListItemAvatar>
-                    <Avatar className={classes.avatar}>
-                                    <DateRange />
-                                    </Avatar>
-                                </ListItemAvatar>
+                        <ListItemAvatar>
+                            <Avatar className={classes.avatar}>
+                                <DateRange />
+                            </Avatar>
+                        </ListItemAvatar>
                         <ListItemText primary="Maand" />
                     </ListItem>
                     <ListItem button component={Link} to="/add">
-                    <ListItemAvatar>
-                                    <Avatar className={classes.avatar}>
-                                    <EventNote />
-                                    </Avatar>
-                                </ListItemAvatar>
+                        <ListItemAvatar>
+                            <Avatar className={classes.avatar}>
+                                <EventNote />
+                            </Avatar>
+                        </ListItemAvatar>
                         <ListItemText primary="Week" />
                     </ListItem>
                     <ListItem button component={Link} to="/lunch">
-                    <ListItemAvatar>
-                    <Avatar className={classes.avatar}>
-                                    <ViewList />
-                                    </Avatar>
-                                </ListItemAvatar>
+                        <ListItemAvatar>
+                            <Avatar className={classes.avatar}>
+                                <ViewList />
+                            </Avatar>
+                        </ListItemAvatar>
                         <ListItemText primary="Overzicht" />
                     </ListItem>
                 </List>
@@ -108,35 +105,35 @@ class Navbar extends React.Component {
                         <List>
                             <ListItem button component={Link} to="/secaddlunch">
                                 <ListItemAvatar>
-                                <Avatar className={classes.avatar}>
+                                    <Avatar className={classes.avatar}>
                                         <Add />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText primary="Nieuwe lunch" />
                             </ListItem>
                             <ListItem button component={Link} to="/employee">
-                            <ListItemAvatar>
-                            <Avatar className={classes.avatar}>
-                                    <Person />
+                                <ListItemAvatar>
+                                    <Avatar className={classes.avatar}>
+                                        <Person />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText primary="Medewerker details" />
                             </ListItem>
                             <ListItem button component={Link} to="/seccreateuser">
-                            <ListItemAvatar>
-                            <Avatar className={classes.avatar}>
-                                    <PersonAdd />
+                                <ListItemAvatar>
+                                    <Avatar className={classes.avatar}>
+                                        <PersonAdd />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText primary="Nieuw account" />
                             </ListItem>
                             <ListItem button component={Link} to="/employees">
-                            <ListItemAvatar>
-                            <Avatar className={classes.avatar}>
-                                    <Group />
+                                <ListItemAvatar>
+                                    <Avatar className={classes.avatar}>
+                                        <Group />
                                     </Avatar>
                                 </ListItemAvatar>
-                               <ListItemText primary="Overzicht gebruikers" />
+                                <ListItemText primary="Overzicht gebruikers" />
                             </ListItem>
                         </List>
                         <Divider />
@@ -144,11 +141,11 @@ class Navbar extends React.Component {
                 )}
                 <List>
                     <ListItem button component={Link} to="/logout">
-                    <ListItemAvatar>
-                    <Avatar className={classes.avatar}>
-                                    <ExitToApp />
-                                    </Avatar>
-                                </ListItemAvatar>
+                        <ListItemAvatar>
+                            <Avatar className={classes.avatar}>
+                                <ExitToApp />
+                            </Avatar>
+                        </ListItemAvatar>
                         <ListItemText primary="Uitloggen" />
                     </ListItem>
                 </List>

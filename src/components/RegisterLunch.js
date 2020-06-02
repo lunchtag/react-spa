@@ -25,6 +25,8 @@ function RegisterLunch() {
         }
     ])
 
+    
+
     function getLunches() {
         const url = 'https://lunchtag-resource-server.herokuapp.com/lunch'
         fetch(url, {
@@ -129,6 +131,8 @@ function RegisterLunch() {
             addlunchApi(newLunch)
         }
     }
+
+    
 
     useEffect(() => {
         getLunches();

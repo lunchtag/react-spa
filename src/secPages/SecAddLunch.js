@@ -74,7 +74,7 @@ class SecAddLunch extends React.Component {
 		const { classes } = this.props;
 
 		const onChange = (date) => {
-			for (var i = 0; i < this.state.lunchedDays.length; i++) {
+			for (let i = 0; i < this.state.lunchedDays.length; i++) {
 				const loopDate = this.state.lunchedDays[i];
 				if (
 					date.getFullYear() === loopDate.date.getFullYear() &&
