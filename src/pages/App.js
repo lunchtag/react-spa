@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/App.css";
-import { BrowserRouter, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import PublicRoute from "../components/PublicRoute";
 import PrivateRoute from "../components/PrivateRoute";
 import AdminRoute from "../components/AdminRoute";

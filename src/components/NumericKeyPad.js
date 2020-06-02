@@ -1,8 +1,7 @@
 import React from 'react'
 import "../css/NumericKeyPad.css"
-import backspace from "../../src/backspace.svg"
 
-import { Grid, Typography, Paper, Container } from '@material-ui/core';
+import { Grid, Paper, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Backspace } from '@material-ui/icons'
 

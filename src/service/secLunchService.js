@@ -1,6 +1,5 @@
 import Axios from "axios";
 import { server } from "./constants.js";
-//import auth from "./auth.js"
 
 export async function getAllLunchesForUser() {
 	return Axios.get(`${server}/lunch/`, {
@@ -20,7 +19,6 @@ export async function getAllLunchesForUser() {
 
 export async function addLunch(accountId, lunchDate) {
 	lunchDate.setHours(3);
-	const url = `${server}/admin/lunch/${accountId}`;
 
 	return Axios({
 		method: "POST",

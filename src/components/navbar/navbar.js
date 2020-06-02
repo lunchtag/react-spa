@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
+
 	Typography,
 	Drawer,
 	Divider,
@@ -23,11 +24,13 @@ import {
 	ExitToApp,
 	AccountCircle,
 	LocalOfferOutlined,
+
 } from "@material-ui/icons";
 import "./navbar.css";
 import { withStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 300;
+
 
 const useStyles = (theme) => ({
 	root: {

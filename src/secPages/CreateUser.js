@@ -1,25 +1,9 @@
 import React, { Component } from "react";
-//import { Container, Row, Button } from "react-bootstrap";
 import Navbar from "../components/navbar/navbar";
 import { createUser } from "../service/userService";
 
-import { Container, Grid, Button, Typography, TextField, FormControl, InputAdornment } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Container, Button, Typography, TextField, InputAdornment } from '@material-ui/core';
 import { AlternateEmail, Save } from '@material-ui/icons'
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    paper: {
-        textAlign: 'center',
-        color: theme.palette.text.primary,
-        backgroundColor: '#f2f2f2',
-        height: 75,
-        width: 100,
-        fontSize: 45
-    },
-}));
 
 export default class CreateUserPage extends Component {
 	constructor(props) {
@@ -31,7 +15,6 @@ export default class CreateUserPage extends Component {
 			firstName: "",
 			lastName: "",
 		};
-	
 	}
 
 	handleEmailChange = (event) => {
@@ -71,9 +54,9 @@ export default class CreateUserPage extends Component {
 									<AlternateEmail />
 								</InputAdornment>
 							),
-						}} fullWidth xs={12} id="standard-basic" label="Email" onChange={this.handleEmailChange} />
-						<TextField required style={{ margin: 8 }} variant="outlined" fullWidth id="standard-basic" label="Voornaam" onChange={this.handleFirstNameChange} />
-						<TextField required style={{ margin: 8 }} variant="outlined" fullWidth id="standard-basic" label="Achternaam" onChange={this.handleLastNameChange} />
+						}} fullWidth xs={12} label="Email" onChange={this.handleEmailChange} />
+						<TextField required style={{ margin: 8 }} variant="outlined" fullWidth label="Voornaam" onChange={this.handleFirstNameChange} />
+						<TextField required style={{ margin: 8 }} variant="outlined" fullWidth label="Achternaam" onChange={this.handleLastNameChange} />
 
 						<Button startIcon={<Save />} fullWidth style={{ margin: 8 }} variant="contained" color="primary" onClick={this.handleSubmit}>Bevestig</Button>
 					</Container>

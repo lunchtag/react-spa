@@ -5,6 +5,7 @@ import Navbar from "../components/navbar/navbar";
 
 import { getAllUsers, updateUser, disableById } from '../service/UserOverviewService';
 
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -18,7 +19,6 @@ import Button from '@material-ui/core/Button';
 import BlockIcon from '@material-ui/icons/Block';
 
 import '../css/UserOverView.css';
-import { getAllLunchesForUser } from '../service/lunchService';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -46,6 +46,7 @@ function UserOverView(props) {
     const classes = useStyles();
 
     const [users, setUsers] = useState([]);
+
     const [orders, setOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     let result = [];
@@ -111,7 +112,7 @@ function UserOverView(props) {
         const field = e.target.name;
 
         users.forEach(item => {
-            if (item.id == user.id) {
+            if (item.id === user.id) {
                 // item is het oude, user is de nieuwe
                 switch (field) {
                     case "name":
@@ -122,6 +123,9 @@ function UserOverView(props) {
                         break;
                     case "role":
                         item.role = value;
+                        break;
+                    default:
+                        console.log("error")
                         break;
                 }
             }

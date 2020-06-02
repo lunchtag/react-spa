@@ -29,12 +29,10 @@ class UserLunchOverView extends React.Component {
 		getAllLunchesForUser().then((value) => {
 			if (value.status === 200) {
 				const dates = [];
-				console.log(value.data);
 				value.data.forEach((element) => {
 					const res = element.date.split("T", 1);
 					dates.push({ id: element.id, date: new Date(res) });
 				});
-				console.log(dates);
 				this.setState({
 					lunchedDays: dates,
 				});
@@ -44,7 +42,7 @@ class UserLunchOverView extends React.Component {
 
 	render() {
 		const onChange = (date) => {
-			for (var i = 0; i < this.state.lunchedDays.length; i++) {
+			for (let i = 0; i < this.state.lunchedDays.length; i++) {
 				const loopDate = this.state.lunchedDays[i];
 				if (
 					date.getFullYear() === loopDate.date.getFullYear() &&
