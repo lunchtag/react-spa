@@ -8,6 +8,8 @@ import {
 	ListItem,
 	ListItemIcon,
 	ListItemText,
+	ListItemAvatar,
+	Avatar,
 } from "@material-ui/core";
 import {
 	Inbox,
@@ -20,6 +22,7 @@ import {
 	Group,
 	ExitToApp,
 	AccountCircle,
+	LocalOfferOutlined,
 } from "@material-ui/icons";
 import "./navbar.css";
 import { withStyles } from "@material-ui/core/styles";
@@ -40,6 +43,7 @@ const useStyles = (theme) => ({
 	},
 	drawerPaper: {
 		width: drawerWidth,
+		backgroundColor: "#ebebf2",
 	},
 	// necessary for content to be below app bar
 	toolbar: theme.mixins.toolbar,
@@ -50,6 +54,9 @@ const useStyles = (theme) => ({
 	},
 	decore: {
 		textDecoration: "none",
+	},
+	avatar: {
+		backgroundColor: theme.palette.primary.main,
 	},
 });
 
@@ -68,27 +75,34 @@ class Navbar extends React.Component {
 			>
 				<div className={classes.toolbar}>
 					<Typography variant="h3" component="h1">
-						Lunchtag
+						Lunch
+						<LocalOfferOutlined color="secondary" fontSize="large" />
 					</Typography>
 				</div>
 				<Divider />
 				<List>
 					<ListItem button component={Link} to="/dashboard">
-						<ListItemIcon className={classes.decore}>
-							<DateRange />
-						</ListItemIcon>
+						<ListItemAvatar>
+							<Avatar className={classes.avatar}>
+								<DateRange />
+							</Avatar>
+						</ListItemAvatar>
 						<ListItemText primary="Maand" />
 					</ListItem>
 					<ListItem button component={Link} to="/add">
-						<ListItemIcon className={classes.decore}>
-							<EventNote />
-						</ListItemIcon>
+						<ListItemAvatar>
+							<Avatar className={classes.avatar}>
+								<EventNote />
+							</Avatar>
+						</ListItemAvatar>
 						<ListItemText primary="Week" />
 					</ListItem>
 					<ListItem button component={Link} to="/lunch">
-						<ListItemIcon className={classes.decore}>
-							<ViewList />
-						</ListItemIcon>
+						<ListItemAvatar>
+							<Avatar className={classes.avatar}>
+								<ViewList />
+							</Avatar>
+						</ListItemAvatar>
 						<ListItemText primary="Overzicht" />
 					</ListItem>
 				</List>
@@ -97,28 +111,44 @@ class Navbar extends React.Component {
 					<>
 						<List>
 							<ListItem button component={Link} to="/secaddlunch">
-								<ListItemIcon className={classes.decore}>
-									<Add />
-								</ListItemIcon>
+								<ListItemAvatar>
+									<Avatar className={classes.avatar}>
+										<Add />
+									</Avatar>
+								</ListItemAvatar>
 								<ListItemText primary="Nieuwe lunch" />
 							</ListItem>
 							<ListItem button component={Link} to="/employee">
-								<ListItemIcon className={classes.decore}>
-									<Person />
-								</ListItemIcon>
+								<ListItemAvatar>
+									<Avatar className={classes.avatar}>
+										<Person />
+									</Avatar>
+								</ListItemAvatar>
 								<ListItemText primary="Medewerker details" />
 							</ListItem>
 							<ListItem button component={Link} to="/seccreateuser">
-								<ListItemIcon className={classes.decore}>
-									<PersonAdd />
-								</ListItemIcon>
+								<ListItemAvatar>
+									<Avatar className={classes.avatar}>
+										<PersonAdd />
+									</Avatar>
+								</ListItemAvatar>
 								<ListItemText primary="Nieuw account" />
 							</ListItem>
 							<ListItem button component={Link} to="/employees">
-								<ListItemIcon className={classes.decore}>
-									<Group />
-								</ListItemIcon>
+								<ListItemAvatar>
+									<Avatar className={classes.avatar}>
+										<Group />
+									</Avatar>
+								</ListItemAvatar>
 								<ListItemText primary="Overzicht gebruikers" />
+							</ListItem>
+							<ListItem button component={Link} to="/log">
+								<ListItemAvatar>
+									<Avatar className={classes.avatar}>
+										<Group />
+									</Avatar>
+								</ListItemAvatar>
+								<ListItemText primary="Log" />
 							</ListItem>
 						</List>
 						<Divider />
@@ -126,15 +156,19 @@ class Navbar extends React.Component {
 				)}
 				<List>
 					<ListItem button component={Link} to="/profile">
-						<ListItemIcon className={classes.decore}>
-							<AccountCircle />
-						</ListItemIcon>
-						<ListItemText primary="Account" />
+						<ListItemAvatar>
+							<Avatar className={classes.avatar}>
+								<Person />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText primary="Profiel" />
 					</ListItem>
 					<ListItem button component={Link} to="/logout">
-						<ListItemIcon className={classes.decore}>
-							<ExitToApp />
-						</ListItemIcon>
+						<ListItemAvatar>
+							<Avatar className={classes.avatar}>
+								<ExitToApp />
+							</Avatar>
+						</ListItemAvatar>
 						<ListItemText primary="Uitloggen" />
 					</ListItem>
 				</List>

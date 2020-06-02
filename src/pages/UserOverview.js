@@ -68,28 +68,32 @@ function UserOverView(props) {
 
     }, []);
 
-    function handleDetails(id) {
-        console.log("Handle details");
-        // id meesturen naar andere pagina
-        props.history.push('/employee');
-    }
 
-    function handleDisable(id, isNonLocked) {
-        if (!isNonLocked) {
-            alert("Gebruiker is inactief");
-        } else {
-            disableById(id).then(res => {
-                if (res.status === 200) {
-                    getAllUsers().then((res) => {
-                        setUsers(res.data);
-                        window.location.reload();
-                    })
-                }
-                // console.log(res);
-            })
-        }
+	function handleDetails(id) {
+		console.log("Handle details");
+		// id meesturen naar andere pagina
+		props.history.push("/employee");
+	}
 
-    }
+	function handleDisable(id, isNonLocked) {
+		if (!isNonLocked) {
+			alert("Gebruiker is inactief");
+		} else {
+			disableById(id).then((res) => {
+				if (res.status === 200) {
+					getAllUsers().then((res) => {
+						setUsers(res.data);
+						window.location.reload();
+					});
+				}
+				// console.log(res);
+			});
+		}
+	}
+
+	function handleUpdate() {
+		users.map((item) => updateUser(item));
+	}
 
     function handleUpdate() {
         users.map((item) => (
@@ -177,6 +181,5 @@ function UserOverView(props) {
         </div >
     )
 }
-
 
 export default UserOverView;
