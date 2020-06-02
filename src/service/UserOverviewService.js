@@ -17,10 +17,11 @@ export async function getAllUsers() {
 }
 
 export async function updateUser(item) {
+	console.log(item);
 	return Axios.put(
 		`${server}/account/update/${item.id}`,
 		{
-			firstName: item.firstName,
+			firstName: item.name,
 			lastName: item.lastName,
 		},
 		{

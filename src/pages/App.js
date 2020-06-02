@@ -15,7 +15,7 @@ import SecAddLunch from "../secPages/SecAddLunch";
 import CreateUser from "../secPages/CreateUser";
 import UserOverview from "./UserOverview";
 import Profile from "../pages/Profile";
-
+import Log from "../secPages/Log";
 import LogoutPage from "./Logout";
 
 export default class App extends React.Component {
@@ -40,6 +40,7 @@ export default class App extends React.Component {
 					<AdminRoute path="/employee" component={EmployeeDetails} />
 					<AdminRoute path="/seccreateuser" component={CreateUser} />
 					<AdminRoute path="/employees" component={UserOverview} />
+					<AdminRoute path="/log" component={Log} />
 					<PublicRoute path="/logout" component={LogoutPage} />
 				</Switch>
 			</BrowserRouter>

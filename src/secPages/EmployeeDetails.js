@@ -13,34 +13,34 @@ import { getAllUsers } from '../service/userService';
 
 import { withStyles } from '@material-ui/core/styles';
 
+
 const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
+	head: {
+		backgroundColor: theme.palette.primary.main,
+		color: theme.palette.common.white,
+	},
+	body: {
+		fontSize: 14,
+	},
 }))(TableCell);
 
-const useStyles = theme => ({
-    export: {
-        position: 'absolute',
-        bottom: theme.spacing(3),
-        right: theme.spacing(3),
-    },
-    buttonGroup: {
-        paddingBottom: '1%'
-    },
-    input:{
-		minWidth: '50%',
-		paddingBottom: '1%'
-    },
-    info:{
-        marginBottom: '1%'
-    }
+const useStyles = (theme) => ({
+	export: {
+		position: "absolute",
+		bottom: theme.spacing(3),
+		right: theme.spacing(3),
+	},
+	buttonGroup: {
+		paddingBottom: "1%",
+	},
+	input: {
+		minWidth: "50%",
+		paddingBottom: "1%",
+	},
+	info: {
+		marginBottom: "1%",
+	},
 });
-
 
 class EmployeeDetails extends Component {
 
@@ -213,5 +213,4 @@ class EmployeeDetails extends Component {
     }
 }
 
-
-export default withStyles(useStyles)(EmployeeDetails)
+export default withStyles(useStyles)(EmployeeDetails);
