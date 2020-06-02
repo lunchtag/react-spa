@@ -12,7 +12,6 @@ import { Person, Today, ArrowBack, ArrowForward, OpenInBrowser } from '@material
 import { getAllLunchesFromUser, exportPdf } from '../service/lunchService';
 import { getAllUsers } from '../service/userService';
 
-import { getAllLunchesFromUser } from '../service/lunchService';
 import { withStyles } from '@material-ui/core/styles';
 
 const StyledTableCell = withStyles((theme) => ({
