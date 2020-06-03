@@ -11,6 +11,8 @@ import "@fullcalendar/daygrid/main.css";
 import "../css/RegisterLunch.css";
 import Navbar from "../components/navbar/navbar";
 import { Container, Button, Typography} from "@material-ui/core";
+import {Today} from "@material-ui/icons"
+import {Alert} from "@material-ui/lab"
 
 function RegisterLunch() {
     let deleted;
@@ -152,7 +154,8 @@ function RegisterLunch() {
                         contentHeight="auto"
                         dateClick={handleDateClick}
                     />
-                    <Button variant="contained" color="primary" size="large" onClick={addToday}>Ik heb vandaag meegeluncht</Button>
+                    <Button variant="contained" color="primary" size="large" onClick={addToday}><Today/> Ik heb vandaag meegeluncht</Button>
+                    <Alert style={{marginTop: 8}} severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
                 </Container>
             </div>
         </div>

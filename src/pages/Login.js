@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import auth from "../service/auth";
-import { Container, Button, Typography, TextField, InputAdornment, Grid } from "@material-ui/core";
-import { AlternateEmail, Lock } from '@material-ui/icons'
+import { Container, Button, Typography, TextField, InputAdornment, Grid, Fab } from "@material-ui/core";
+import { AlternateEmail, Lock, TextFields, Dialpad, Check } from '@material-ui/icons'
 import { getAllUsers } from "../service/userService";
 import PinLogin from "../components/PinLogin";
 import "../css/Login.css"
@@ -15,6 +15,11 @@ const useStyles = theme => ({
 	},
 	content: {
 		textAlign: 'center',
+	},
+	export: {
+		position: "absolute",
+		bottom: theme.spacing(5),
+		right: theme.spacing(5),
 	},
 });
 
@@ -90,33 +95,32 @@ class Login extends Component {
 			loginPage = (
 				<div>
 					<PinLogin users={this.state.users} history={this.props.history} />
-					<br />
-					<Button size="large" variant="contained" color="primary" onClick={setPasswordLogin}>Password login</Button>
+					<Fab color="primary" size="large" variant="extended" onClick={setPasswordLogin} className={classes.export}><TextFields /> Wachtwoord login</Fab>
 				</div>
 			)
 		} else {
 			loginPage = (
+				<>
+				<Typography variant="h2" component="h1" gutterBottom>Log hier in met uw email en wachtwoord</Typography>
 				<Container maxWidth="md">
-					<Typography variant="h2" component="h1" gutterBottom>Inloggen</Typography>
 					<TextField required style={{ margin: 8 }} variant="outlined" InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">
 								<AlternateEmail />
 							</InputAdornment>
 						),
-					}} fullWidth xs={12} id="standard-basic" label="Email" onChange={this.handleEmailChange} />
+					}} fullWidth  id="standard-basic" label="Email" onChange={this.handleEmailChange} />
 					<TextField required style={{ margin: 8 }} variant="outlined" InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">
 								<Lock />
 							</InputAdornment>
 						),
-					}} fullWidth type="password" xs={12} id="standard-basic" label="Wachtwoord" onChange={this.handlePasswordChange} />
-					<div className={classes.root}>
-						<Button variant="contained" size="large" onClick={setPinLogin}>Pincode Login</Button>
-						<Button color="primary" variant="contained" size="large" onClick={this.handleSubmit}>Bevestig</Button>
-					</div>
+					}} fullWidth type="password" id="standard-basic" label="Wachtwoord" onChange={this.handlePasswordChange} />
+					<Button color="primary" style={{ margin: 8 }} fullWidth variant="contained" size="large" onClick={this.handleSubmit}><Check/></Button>
+					<Fab color="primary" size="large" variant="extended" onClick={setPinLogin} className={classes.export}><Dialpad /> Pincode login</Fab>				
 				</Container>
+				</>
 			)
 		}
 		return (

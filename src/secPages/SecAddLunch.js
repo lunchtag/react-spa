@@ -5,8 +5,9 @@ import "../css/Calendar.css";
 import Navbar from "../components/navbar/navbar";
 import { getAllUserWithLunches } from "../service/userService";
 import { addLunch, deleteLunch } from "../service/secLunchService";
-import { Typography,FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@material-ui/core";
+import { Typography,FormControl, InputLabel, Select, MenuItem, Paper, Container } from "@material-ui/core";
 import { CheckBox } from '@material-ui/icons'
+import { Alert } from '@material-ui/lab'
 import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = theme => ({
@@ -21,7 +22,7 @@ class SecAddLunch extends React.Component {
 		super(props);
 		this.state = {
 			users: [],
-			selectedUser: [],
+			selectedUser: '',
 			date: new Date(),
 			lunchedDays: [],
 		};
@@ -145,7 +146,11 @@ class SecAddLunch extends React.Component {
 					<div className="content">
 						<Typography variant="h2" component="h1" gutterBottom>Lunch toevoegen</Typography>
 						<FormControl className={classes.input} variant="outlined" >
+							{this.state.selectedUser === '' ?
+							<InputLabel>Selecteer hier een medewerker</InputLabel>:
 							<InputLabel>Medewerker</InputLabel>
+							}
+							
 							<Select
 								onChange={this.onChangeUser}
 							>
@@ -158,7 +163,7 @@ class SecAddLunch extends React.Component {
 						</FormControl>
 						<br/>
 
-						<Grid container justify="center">
+						<Container maxWidth="lg" justify="center">
 						<Paper elevation={3} className="calendar">
 								<Calander
 									onChange={onChange}
@@ -170,8 +175,10 @@ class SecAddLunch extends React.Component {
 									tileClassName={tileClassName}
 								/>
 							</Paper>
-						</Grid>
-						<Typography variant="subtitle1" gutterBottom>Klik op een datum om aan te geven of je hebt meegeluncht</Typography>
+
+							<br/>
+							<Alert severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
+						</Container>
 					</div>
 				</div>
 			</div>
