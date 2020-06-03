@@ -6,9 +6,9 @@ import Navbar from '../components/navbar/navbar'
 
 import LunchItem from '../components/LunchItem'
 
-import { Container, Button, Typography, Paper, Table, TableHead, TableRow, TableCell, TableBody, Chip, Fab, Tab, Tabs, ButtonGroup, TableContainer } from "@material-ui/core";
+import { Container, Button, Typography, Paper, Table, TableHead, TableRow, TableCell, TableBody, ButtonGroup } from "@material-ui/core";
 import { Alert } from '@material-ui/lab'
-import { Person, Today, ArrowBack, ArrowForward, OpenInBrowser } from '@material-ui/icons'
+import { Person, Today, ArrowBack, ArrowForward} from '@material-ui/icons'
 
 import { getAllLunchesForUser } from '../service/lunchService'
 

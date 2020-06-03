@@ -1,9 +1,6 @@
 class Auth {
 	login(data) {
 		this.logout();
-		console.log(this.parseJwt(data.token));
-		console.log(data.user);
-
 		window.sessionStorage.setItem("token", data.token);
 		window.sessionStorage.setItem("role", data.user.role);
 		window.sessionStorage.setItem("firstName", data.user.name);
