@@ -32,8 +32,6 @@ export async function createUser(email, firstname, lastname) {
 		},
 	})
 		.then((res) => {
-			console.log(res);
-			window.alert("Gebruiker succesvol toegevoegd!");
 			return res;
 		})
 		.catch((error) => {
