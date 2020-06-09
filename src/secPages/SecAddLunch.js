@@ -121,7 +121,7 @@ class SecAddLunch extends React.Component {
 										message: "Er is iets misgegaan.",
 									});
 								}
-							}
+							}}
 						);
 						return;
 					}
