@@ -30,7 +30,7 @@ class SecAddLunch extends React.Component {
 		super(props);
 		this.state = {
 			users: [],
-			selectedUser: [],
+			selectedUser: {},
 			date: new Date(),
 			lunchedDays: [],
 
@@ -92,6 +92,7 @@ class SecAddLunch extends React.Component {
 		const { classes } = this.props;
 
 		const onChange = (date) => {
+      if(Object.keys(this.state.selectedUser).length !== 0){
 			for (let i = 0; i < this.state.lunchedDays.length; i++) {
 				const loopDate = this.state.lunchedDays[i];
 				if (
@@ -121,11 +122,10 @@ class SecAddLunch extends React.Component {
 									});
 								}
 							}
-						}
-					);
-					return;
+						);
+						return;
+					}
 				}
-			}
 			addLunch(this.state.selectedUser.account.id, date).then((value) => {
 				console.log(value);
 				if (value.status === 200) {
@@ -146,7 +146,7 @@ class SecAddLunch extends React.Component {
 					});
 				}
 			});
-		};
+		}};
 		const tileContent = ({ date, view }) => {
 			if (view === "month") {
 				for (var i = 0; i < this.state.lunchedDays.length; i++) {
