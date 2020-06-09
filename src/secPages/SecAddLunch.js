@@ -21,7 +21,7 @@ class SecAddLunch extends React.Component {
 		super(props);
 		this.state = {
 			users: [],
-			selectedUser: [],
+			selectedUser: {},
 			date: new Date(),
 			lunchedDays: [],
 		};
@@ -74,36 +74,39 @@ class SecAddLunch extends React.Component {
 		const { classes } = this.props;
 
 		const onChange = (date) => {
-			for (let i = 0; i < this.state.lunchedDays.length; i++) {
-				const loopDate = this.state.lunchedDays[i];
-				if (
-					date.getFullYear() === loopDate.date.getFullYear() &&
-					date.getMonth() === loopDate.date.getMonth() &&
-					date.getDate() === loopDate.date.getDate()
-				) {
-					deleteLunch(this.state.selectedUser.account.id, loopDate.id).then(
-						(value) => {
-							if (value) {
-								console.log(value);
-								if (value.status === 200) {
-									let newLunchedDays = this.state.lunchedDays;
-									newLunchedDays.splice(i, 1);
-									this.setState({ date: date, LunchedDays: newLunchedDays });
+			debugger
+			if(Object.keys(this.state.selectedUser).length !== 0){
+				for (let i = 0; i < this.state.lunchedDays.length; i++) {
+					const loopDate = this.state.lunchedDays[i];
+					if (
+						date.getFullYear() === loopDate.date.getFullYear() &&
+						date.getMonth() === loopDate.date.getMonth() &&
+						date.getDate() === loopDate.date.getDate()
+					) {
+						deleteLunch(this.state.selectedUser.account.id, loopDate.id).then(
+							(value) => {
+								if (value) {
+									console.log(value);
+									if (value.status === 200) {
+										let newLunchedDays = this.state.lunchedDays;
+										newLunchedDays.splice(i, 1);
+										this.setState({ date: date, LunchedDays: newLunchedDays });
+									}
 								}
 							}
-						}
-					);
-					return;
+						);
+						return;
+					}
 				}
+				addLunch(this.state.selectedUser.account.id, date).then((value) => {
+					console.log(value);
+					if (value.status === 200) {
+						let newLunchedDays = this.state.lunchedDays;
+						newLunchedDays.push({ id: value.data.id, date: date });
+						this.setState({ date: date, lunchedDays: newLunchedDays });
+					}
+				});
 			}
-			addLunch(this.state.selectedUser.account.id, date).then((value) => {
-				console.log(value);
-				if (value.status === 200) {
-					let newLunchedDays = this.state.lunchedDays;
-					newLunchedDays.push({ id: value.data.id, date: date });
-					this.setState({ date: date, lunchedDays: newLunchedDays });
-				}
-			});
 		};
 		const tileContent = ({ date, view }) => {
 			if (view === "month") {
