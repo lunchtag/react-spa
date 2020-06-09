@@ -8,12 +8,10 @@ import {
 	InputAdornment,
 	Button,
 	Container,
-	Snackbar,
 	Box,
 } from "@material-ui/core";
-
-import { Alert } from "@material-ui/lab";
 import { AlternateEmail, FiberPin, Save } from "@material-ui/icons";
+import SnackbarMessage from "../components/SnackbarMessage";
 
 export default class Profile extends Component {
 	constructor(props) {
@@ -108,6 +106,12 @@ export default class Profile extends Component {
 	changePasswordToggle = (item) => {
 		this.setState({
 			[item.target.id]: item.target.checked,
+		});
+	};
+
+	closeMessage = (e) => {
+		this.setState({
+			showMessage: false,
 		});
 	};
 
@@ -218,19 +222,7 @@ export default class Profile extends Component {
 								</Button>
 							</Box>
 						</form>
-						<Snackbar
-							open={this.state.showMessage}
-							autoHideDuration={4000}
-							onClose={() => {
-								this.setState({ showMessage: false });
-							}}
-							anchorOrigin={{ vertical: "top", horizontal: "center" }}
-							key="top, center"
-						>
-							<Alert variant="filled" severity={this.state.messageType}>
-								{this.state.message}
-							</Alert>
-						</Snackbar>
+
 						<Box ml={5} my={2}>
 							<Button
 								variant="contained"
@@ -244,6 +236,14 @@ export default class Profile extends Component {
 						</Box>
 					</Container>
 				</div>
+
+				{this.state.showMessage ? (
+					<SnackbarMessage
+						message={this.state.message}
+						messageType={this.state.messageType}
+						showMessage={this.closeMessage}
+					/>
+				) : null}
 			</div>
 		);
 	}

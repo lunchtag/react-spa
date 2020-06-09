@@ -5,14 +5,23 @@ import "../css/Calendar.css";
 import Navbar from "../components/navbar/navbar";
 import { getAllUserWithLunches } from "../service/userService";
 import { addLunch, deleteLunch } from "../service/secLunchService";
-import { Typography,FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@material-ui/core";
-import { CheckBox } from '@material-ui/icons'
-import { withStyles } from '@material-ui/core/styles';
+import {
+	Typography,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
+	Paper,
+	Grid,
+} from "@material-ui/core";
+import { CheckBox } from "@material-ui/icons";
+import { withStyles } from "@material-ui/core/styles";
+import SnackbarMessage from "./../components/SnackbarMessage";
 
-const useStyles = theme => ({
-	input:{
-		minWidth: '50%',
-		paddingBottom: '1%'
+const useStyles = (theme) => ({
+	input: {
+		minWidth: "50%",
+		paddingBottom: "1%",
 	},
 });
 
@@ -24,9 +33,18 @@ class SecAddLunch extends React.Component {
 			selectedUser: {},
 			date: new Date(),
 			lunchedDays: [],
+
+			showMessage: false,
+			message: "",
 		};
 		this.onChangeUser = this.onChangeUser.bind(this);
 	}
+
+	closeMessage = (e) => {
+		this.setState({
+			showMessage: false,
+		});
+	};
 
 	componentDidMount() {
 		getAllUserWithLunches().then((value) => {
@@ -74,40 +92,61 @@ class SecAddLunch extends React.Component {
 		const { classes } = this.props;
 
 		const onChange = (date) => {
-			debugger
-			if(Object.keys(this.state.selectedUser).length !== 0){
-				for (let i = 0; i < this.state.lunchedDays.length; i++) {
-					const loopDate = this.state.lunchedDays[i];
-					if (
-						date.getFullYear() === loopDate.date.getFullYear() &&
-						date.getMonth() === loopDate.date.getMonth() &&
-						date.getDate() === loopDate.date.getDate()
-					) {
-						deleteLunch(this.state.selectedUser.account.id, loopDate.id).then(
-							(value) => {
-								if (value) {
-									console.log(value);
-									if (value.status === 200) {
-										let newLunchedDays = this.state.lunchedDays;
-										newLunchedDays.splice(i, 1);
-										this.setState({ date: date, LunchedDays: newLunchedDays });
-									}
+      if(Object.keys(this.state.selectedUser).length !== 0){
+			for (let i = 0; i < this.state.lunchedDays.length; i++) {
+				const loopDate = this.state.lunchedDays[i];
+				if (
+					date.getFullYear() === loopDate.date.getFullYear() &&
+					date.getMonth() === loopDate.date.getMonth() &&
+					date.getDate() === loopDate.date.getDate()
+				) {
+					deleteLunch(this.state.selectedUser.account.id, loopDate.id).then(
+						(value) => {
+							if (value) {
+								console.log(value);
+								if (value.status === 200) {
+									let newLunchedDays = this.state.lunchedDays;
+									newLunchedDays.splice(i, 1);
+									this.setState({
+										date: date,
+										LunchedDays: newLunchedDays,
+										showMessage: true,
+										messageType: "success",
+										message: "Lunch succesvol verwijderd",
+									});
+								} else {
+									this.setState({
+										showMessage: true,
+										messageType: "warning",
+										message: "Er is iets misgegaan.",
+									});
 								}
 							}
 						);
 						return;
 					}
 				}
-				addLunch(this.state.selectedUser.account.id, date).then((value) => {
-					console.log(value);
-					if (value.status === 200) {
-						let newLunchedDays = this.state.lunchedDays;
-						newLunchedDays.push({ id: value.data.id, date: date });
-						this.setState({ date: date, lunchedDays: newLunchedDays });
-					}
-				});
-			}
-		};
+			addLunch(this.state.selectedUser.account.id, date).then((value) => {
+				console.log(value);
+				if (value.status === 200) {
+					let newLunchedDays = this.state.lunchedDays;
+					newLunchedDays.push({ id: value.data.id, date: date });
+					this.setState({
+						date: date,
+						lunchedDays: newLunchedDays,
+						showMessage: true,
+						messageType: "success",
+						message: "Lunch succesvol toegevoegd.",
+					});
+				} else {
+					this.setState({
+						showMessage: true,
+						messageType: "warning",
+						message: "Er is iets misgegaan.",
+					});
+				}
+			});
+		}};
 		const tileContent = ({ date, view }) => {
 			if (view === "month") {
 				for (var i = 0; i < this.state.lunchedDays.length; i++) {
@@ -117,7 +156,12 @@ class SecAddLunch extends React.Component {
 						date.getMonth() === loopDate.getMonth() &&
 						date.getDate() === loopDate.getDate()
 					) {
-						return <><br /><CheckBox /></>;
+						return (
+							<>
+								<br />
+								<CheckBox />
+							</>
+						);
 					}
 				}
 			}
@@ -146,23 +190,25 @@ class SecAddLunch extends React.Component {
 				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-						<Typography variant="h2" component="h1" gutterBottom>Lunch toevoegen</Typography>
-						<FormControl className={classes.input} variant="outlined" >
+						<Typography variant="h2" component="h1" gutterBottom>
+							Lunch toevoegen
+						</Typography>
+						<FormControl className={classes.input} variant="outlined">
 							<InputLabel>Medewerker</InputLabel>
-							<Select
-								onChange={this.onChangeUser}
-							>
+							<Select onChange={this.onChangeUser}>
 								{this.state.users.map((user, i) => {
 									return (
-										<MenuItem value={user.account.id} key={i}>{user.account.name + " " + user.account.lastName}</MenuItem>
+										<MenuItem value={user.account.id} key={i}>
+											{user.account.name + " " + user.account.lastName}
+										</MenuItem>
 									);
 								})}
 							</Select>
 						</FormControl>
-						<br/>
+						<br />
 
 						<Grid container justify="center">
-						<Paper elevation={3} className="calendar">
+							<Paper elevation={3} className="calendar">
 								<Calander
 									onChange={onChange}
 									value={date}
@@ -174,12 +220,22 @@ class SecAddLunch extends React.Component {
 								/>
 							</Paper>
 						</Grid>
-						<Typography variant="subtitle1" gutterBottom>Klik op een datum om aan te geven of je hebt meegeluncht</Typography>
+						<Typography variant="subtitle1" gutterBottom>
+							Klik op een datum om aan te geven of je hebt meegeluncht
+						</Typography>
 					</div>
+
+					{this.state.showMessage ? (
+						<SnackbarMessage
+							message={this.state.message}
+							messageType={this.state.messageType}
+							showMessage={this.closeMessage}
+						/>
+					) : null}
 				</div>
 			</div>
 		);
 	}
 }
 
-export default withStyles(useStyles)(SecAddLunch)
+export default withStyles(useStyles)(SecAddLunch);
