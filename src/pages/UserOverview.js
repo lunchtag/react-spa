@@ -50,25 +50,14 @@ function UserOverView(props) {
 
 	const [users, setUsers] = useState([]);
 
-	const [orders, setOrders] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	let result = [];
 	// Snackbar
-	const [open, setOpen] = React.useState(false);
 
 	// Message
 	const [message, setMessage] = React.useState();
 	const [showMessage, setShowMessage] = React.useState(false);
 	const [messageType, setMessageType] = React.useState();
-	let i = 0;
-
-	const handleClose = (event, reason) => {
-		if (reason === "clickaway") {
-			return;
-		}
-
-		setOpen(false);
-	};
 
 	useEffect(() => {
 		getAllUsers().then((res) => {

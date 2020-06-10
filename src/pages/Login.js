@@ -40,7 +40,6 @@ class Login extends Component {
 
 	componentDidMount() {
 		getAllUsers().then(res => {
-			console.log(res);
 
 			if (res.status === 200) {
 				this.setState({ users: res.data })
