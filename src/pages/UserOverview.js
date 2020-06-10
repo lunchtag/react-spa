@@ -9,6 +9,8 @@ import {
 	disableById,
 } from "../service/UserOverviewService";
 
+import {Save} from "@material-ui/icons"
+
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -77,50 +79,35 @@ function UserOverView(props) {
 	}, []);
 
 	function handleDetails(id) {
-		console.log("Handle details");
-		// id meesturen naar andere pagina
-		props.history.push("/employee");
-	}
+        console.log("Handle details");
+        // id meesturen naar andere pagina
+        props.history.push("/employee");
+    }
 
-	function handleDisable(id, isNonLocked) {
-		if (!isNonLocked) {
-			alert("Gebruiker is inactief");
-		} else {
-			disableById(id).then((res) => {
-				if (res.status === 200) {
-					getAllUsers().then((res) => {
-						setUsers(res.data);
-						window.location.reload();
+    function handleDisable(id, isNonLocked) {
+        disableById(id).then((res) => {
+            if (res.status === 200) {
+                getAllUsers().then((res) => {
+					setUsers(res.data);
+					setMessage("Account succesvol ge(de)blokkeerd")
+					setShowMessage(true)
+					setMessageType("success")
+                    // window.location.reload();
+                });
+			}
+			else{
+				setMessage("Er is iets misgegaan")
+					setShowMessage(true)
+					setMessageType("warning")
+			}
+        });
 
-						setMessage("Gebruiker succesvol op non actief gezet");
-						setShowMessage(true);
-						setMessageType("success");
-					});
-				}
-				// console.log(res);
-			});
-		}
-	}
+    }
 
-	function handleUpdate() {
-		users.map((item) =>
-			updateUser(item).then((res) => {
-				if (res.status === 200) {
-					setMessage("Gebruikers succesvol geupdate");
-					setShowMessage(true);
-					setMessageType("success");
-				} else {
-					setMessage("Er is iets mis gegaan!");
-					setShowMessage(true);
-					setMessageType("warning");
-				}
-			})
-		);
-	}
+    function handleUpdate() {
+        users.map((item) => updateUser(item));
+    }
 
-	function handleAddPerson() {
-		props.history.push("/seccreateuser");
-	}
 	// User is de hele user, e is de waarde van het veld
 	function handleOnchange(user, e) {
 		const value = e.target.value;
@@ -221,23 +208,18 @@ function UserOverView(props) {
 						</TableBody>
 					</Table>
 				</TableContainer>
+
 				<div className="btn-submit">
-					<Button
-						className={classes.submit}
-						color="primary"
-						variant="outlined"
-						onClick={handleUpdate}
-					>
-						Wijzigingen opslaan
-					</Button>
-					<Button
-						className={classes.submit}
-						color="secondary"
-						variant="outlined"
-						onClick={handleAddPerson}
-					>
-						Personeel toevoegen
-					</Button>
+				<Button
+							startIcon={<Save />}
+							fullWidth
+							style={{ margin: 8 }}
+							variant="contained"
+							color="primary"
+							onClick={handleUpdate}
+						>
+							Wijzigingen opslaan
+						</Button>
 				</div>
 			</div>
 
