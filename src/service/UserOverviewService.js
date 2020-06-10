@@ -17,7 +17,6 @@ export async function getAllUsers() {
 }
 
 export async function updateUser(item) {
-	console.log(item);
 	return Axios.put(
 		`${server}/account/update/${item.id}`,
 		{
@@ -32,7 +31,6 @@ export async function updateUser(item) {
 		}
 	)
 		.then((res) => {
-			console.log(res);
 			return res;
 		})
 		.catch((error) => {
@@ -57,7 +55,6 @@ export async function updateOwnAccount(item) {
 		}
 	)
 		.then((res) => {
-			console.log(res);
 			return res;
 		})
 		.catch((error) => {

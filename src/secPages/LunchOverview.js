@@ -65,7 +65,6 @@ class LunchOverview extends Component {
 
 	componentDidMount() {
 		getAllLunchesForUser().then((data) => {
-			console.log(data.data);
 			if (data.data !== "No Lunches were found") {
 				this.setState({
 					lunches: data.data,
@@ -78,9 +77,6 @@ class LunchOverview extends Component {
 
 	filterLunches() {
 		if (this.state.filterValue === "month") {
-			console.log(this.state.filterValue);
-			console.log(this.state.filteredLunches);
-
 			this.setState({
 				filteredLunches: this.state.lunches.filter((item) => {
 					return new Date(item.date).getMonth() === this.state.currentMonth;

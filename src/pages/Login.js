@@ -1,21 +1,34 @@
 import React, { Component } from "react";
-import auth from "../service/auth";
-import { Container, Button, Typography, TextField, InputAdornment, Grid, Fab } from "@material-ui/core";
-import { AlternateEmail, Lock, TextFields, Dialpad, Check } from '@material-ui/icons'
-import { getAllUsers } from "../service/userService";
+import {
+	Container,
+	Button,
+	Typography,
+	TextField,
+	InputAdornment,
+	Grid,
+	Fab,
+} from "@material-ui/core";
+import {
+	AlternateEmail,
+	Lock,
+	TextFields,
+	Dialpad,
+	Check,
+} from "@material-ui/icons";
+import { getAllUsers, login } from "../service/userService";
 import PinLogin from "../components/PinLogin";
 import SnackbarMessage from "./../components/SnackbarMessage";
-import "../css/Login.css"
-import { withStyles } from '@material-ui/core/styles';
+import "../css/Login.css";
+import { withStyles } from "@material-ui/core/styles";
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
 	root: {
-		'& > *': {
+		"& > *": {
 			margin: theme.spacing(1),
 		},
 	},
 	content: {
-		textAlign: 'center',
+		textAlign: "center",
 	},
 	export: {
 		position: "absolute",
@@ -33,19 +46,21 @@ class Login extends Component {
 			password: "",
 			pinLogin: true,
 			users: [],
-			showMessage: false,
-			message: "",
 		};
 	}
 
 	componentDidMount() {
-		getAllUsers().then(res => {
-			console.log(res);
-
+		getAllUsers().then((res) => {
 			if (res.status === 200) {
-				this.setState({ users: res.data })
+				this.setState({ users: res.data });
+			} else {
+				this.setState({
+					messageType: "warning",
+					showMessage: true,
+					message: "Er is iets mis gegaan",
+				});
 			}
-		})
+		});
 	}
 
 	closeMessage = () => {
@@ -75,75 +90,118 @@ class Login extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		fetch("https://lunchtag-resource-server.herokuapp.com/auth/login", {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				email: this.state.email,
-				password: this.state.password,
-			}),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				if (data.token != null) {
-					auth.login(data);
-					this.props.history.push("/dashboard");
-				} else {
-					this.setState({
-						messageType: "error",
-						showMessage: true,
-						message: "Inloggegevens zijn incorrect"
-					})
-				}
-			});
+
+		const credentials = JSON.stringify({
+			email: this.state.email,
+			password: this.state.password,
+		});
+
+		login(credentials).then((res) => {
+			if (res.status === 200) {
+				this.props.history.push("/dashboard");
+			} else {
+				this.setState({
+					messageType: "warning",
+					showMessage: true,
+					message: "Er is iets mis gegaan",
+				});
+			}
+		});
 	};
 
-
+	closeMessage = () => {
+		this.setState({
+			showMessage: false,
+		});
+	};
 
 	render() {
 		const { classes } = this.props;
 
 		const setPinLogin = () => {
-			this.setState({ pinLogin: true })
-		}
+			this.setState({ pinLogin: true });
+		};
 		const setPasswordLogin = () => {
-			this.setState({ pinLogin: false })
-		}
+			this.setState({ pinLogin: false });
+		};
 		let loginPage;
 		if (this.state.pinLogin) {
 			loginPage = (
 				<div>
 					<PinLogin users={this.state.users} history={this.props.history} />
-					<Fab color="primary" size="large" variant="extended" onClick={setPasswordLogin} className={classes.export}><TextFields /> Wachtwoord login</Fab>
+					<Fab
+						color="primary"
+						size="large"
+						variant="extended"
+						onClick={setPasswordLogin}
+						className={classes.export}
+					>
+						<TextFields /> Wachtwoord login
+					</Fab>
 				</div>
-			)
+			);
 		} else {
 			loginPage = (
 				<>
-				<Typography variant="h2" component="h1" gutterBottom>Log hier in met uw email en wachtwoord</Typography>
-				<Container maxWidth="md">
-					<TextField required style={{ margin: 8 }} variant="outlined" InputProps={{
-						startAdornment: (
-							<InputAdornment position="start">
-								<AlternateEmail />
-							</InputAdornment>
-						),
-					}} fullWidth  id="standard-basic" label="Email" onChange={this.handleEmailChange} />
-					<TextField required style={{ margin: 8 }} variant="outlined" InputProps={{
-						startAdornment: (
-							<InputAdornment position="start">
-								<Lock />
-							</InputAdornment>
-						),
-					}} fullWidth type="password" id="standard-basic" label="Wachtwoord" onChange={this.handlePasswordChange} />
-					<Button color="primary" style={{ margin: 8 }} fullWidth variant="contained" size="large" onClick={this.handleSubmit}><Check/></Button>
-					<Fab color="primary" size="large" variant="extended" onClick={setPinLogin} className={classes.export}><Dialpad /> Pincode login</Fab>				
-				</Container>
+					<Typography variant="h2" component="h1" gutterBottom>
+						Log hier in met uw email en wachtwoord
+					</Typography>
+					<Container maxWidth="md">
+						<TextField
+							required
+							style={{ margin: 8 }}
+							variant="outlined"
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<AlternateEmail />
+									</InputAdornment>
+								),
+							}}
+							fullWidth
+							id="standard-basic"
+							label="Email"
+							onChange={this.handleEmailChange}
+						/>
+						<TextField
+							required
+							style={{ margin: 8 }}
+							variant="outlined"
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<Lock />
+									</InputAdornment>
+								),
+							}}
+							fullWidth
+							type="password"
+							id="standard-basic"
+							label="Wachtwoord"
+							onChange={this.handlePasswordChange}
+						/>
+						<Button
+							color="primary"
+							style={{ margin: 8 }}
+							fullWidth
+							variant="contained"
+							size="large"
+							onClick={this.handleSubmit}
+						>
+							<Check />
+						</Button>
+						<Fab
+							color="primary"
+							size="large"
+							variant="extended"
+							onClick={setPinLogin}
+							className={classes.export}
+						>
+							<Dialpad /> Pincode login
+						</Fab>
+					</Container>
 				</>
-			)
+			);
 		}
 		return (
 			<Grid className={classes.content}>

@@ -5,16 +5,24 @@ import "../css/Calendar.css";
 import Navbar from "../components/navbar/navbar";
 import { getAllUserWithLunches } from "../service/userService";
 import { addLunch, deleteLunch } from "../service/secLunchService";
-import { Typography, FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@material-ui/core";
-import { CheckBox } from '@material-ui/icons'
-import { Alert } from '@material-ui/lab'
-import { withStyles } from '@material-ui/core/styles';
+import {
+	Typography,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
+	Paper,
+	Grid,
+} from "@material-ui/core";
+import { CheckBox } from "@material-ui/icons";
+import { Alert } from "@material-ui/lab";
+import { withStyles } from "@material-ui/core/styles";
 import SnackbarMessage from "./../components/SnackbarMessage";
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
 	input: {
-		minWidth: '50%',
-		paddingBottom: '1%'
+		minWidth: "50%",
+		paddingBottom: "1%",
 	},
 });
 
@@ -23,7 +31,7 @@ class SecAddLunch extends React.Component {
 		super(props);
 		this.state = {
 			users: [],
-			selectedUser: '',
+			selectedUser: "",
 			date: new Date(),
 			lunchedDays: [],
 			showMessage: false,
@@ -84,61 +92,61 @@ class SecAddLunch extends React.Component {
 		const { classes } = this.props;
 
 		const onChange = (date) => {
-      if(Object.keys(this.state.selectedUser).length !== 0){
-			for (let i = 0; i < this.state.lunchedDays.length; i++) {
-				const loopDate = this.state.lunchedDays[i];
-				if (
-					date.getFullYear() === loopDate.date.getFullYear() &&
-					date.getMonth() === loopDate.date.getMonth() &&
-					date.getDate() === loopDate.date.getDate()
-				) {
-					deleteLunch(this.state.selectedUser.account.id, loopDate.id).then(
-						(value) => {
-							if (value) {
-								console.log(value);
-								if (value.status === 200) {
-									let newLunchedDays = this.state.lunchedDays;
-									newLunchedDays.splice(i, 1);
-									this.setState({
-										date: date,
-										LunchedDays: newLunchedDays,
-										showMessage: true,
-										messageType: "success",
-										message: "Lunch succesvol verwijderd",
-									});
-								} else {
-									this.setState({
-										showMessage: true,
-										messageType: "warning",
-										message: "Er is iets misgegaan.",
-									});
+			if (Object.keys(this.state.selectedUser).length !== 0) {
+				for (let i = 0; i < this.state.lunchedDays.length; i++) {
+					const loopDate = this.state.lunchedDays[i];
+					if (
+						date.getFullYear() === loopDate.date.getFullYear() &&
+						date.getMonth() === loopDate.date.getMonth() &&
+						date.getDate() === loopDate.date.getDate()
+					) {
+						deleteLunch(this.state.selectedUser.account.id, loopDate.id).then(
+							(value) => {
+								if (value) {
+									if (value.status === 200) {
+										let newLunchedDays = this.state.lunchedDays;
+										newLunchedDays.splice(i, 1);
+										this.setState({
+											date: date,
+											LunchedDays: newLunchedDays,
+											showMessage: true,
+											messageType: "success",
+											message: "Lunch succesvol verwijderd",
+										});
+									} else {
+										this.setState({
+											showMessage: true,
+											messageType: "warning",
+											message: "Er is iets misgegaan.",
+										});
+									}
 								}
-							}}
+							}
 						);
 						return;
 					}
 				}
-			addLunch(this.state.selectedUser.account.id, date).then((value) => {
-				console.log(value);
-				if (value.status === 200) {
-					let newLunchedDays = this.state.lunchedDays;
-					newLunchedDays.push({ id: value.data.id, date: date });
-					this.setState({
-						date: date,
-						lunchedDays: newLunchedDays,
-						showMessage: true,
-						messageType: "success",
-						message: "Lunch succesvol toegevoegd.",
-					});
-				} else {
-					this.setState({
-						showMessage: true,
-						messageType: "warning",
-						message: "Er is iets misgegaan.",
-					});
-				}
-			});
-		}};
+				addLunch(this.state.selectedUser.account.id, date).then((value) => {
+					if (value.status === 200) {
+						let newLunchedDays = this.state.lunchedDays;
+						newLunchedDays.push({ id: value.data.id, date: date });
+						this.setState({
+							date: date,
+							lunchedDays: newLunchedDays,
+							showMessage: true,
+							messageType: "success",
+							message: "Lunch succesvol toegevoegd.",
+						});
+					} else {
+						this.setState({
+							showMessage: true,
+							messageType: "warning",
+							message: "Er is iets misgegaan.",
+						});
+					}
+				});
+			}
+		};
 		const tileContent = ({ date, view }) => {
 			if (view === "month") {
 				for (var i = 0; i < this.state.lunchedDays.length; i++) {
@@ -182,12 +190,15 @@ class SecAddLunch extends React.Component {
 				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-						<Typography variant="h2" component="h1" gutterBottom>Lunch toevoegen</Typography>
-						<FormControl className={classes.input} variant="outlined" >
-							{this.state.selectedUser === '' ?
-								<InputLabel>Selecteer hier een medewerker</InputLabel> :
+						<Typography variant="h2" component="h1" gutterBottom>
+							Lunch toevoegen
+						</Typography>
+						<FormControl className={classes.input} variant="outlined">
+							{this.state.selectedUser === "" ? (
+								<InputLabel>Selecteer hier een medewerker</InputLabel>
+							) : (
 								<InputLabel>Medewerker</InputLabel>
-							}
+							)}
 
 							<Select onChange={this.onChangeUser}>
 								{this.state.users.map((user, i) => {
@@ -200,7 +211,7 @@ class SecAddLunch extends React.Component {
 							</Select>
 						</FormControl>
 
-						{this.state.selectedUser !== '' &&
+						{this.state.selectedUser !== "" && (
 							<>
 								<br />
 								<Grid container justify="center">
@@ -215,10 +226,17 @@ class SecAddLunch extends React.Component {
 											tileClassName={tileClassName}
 										/>
 									</Paper>
-									<Alert variant="outlined" style={{ marginTop: 8 }} severity="info">Klik op een datum om een lunch van een medewerker toe te voegen of te verwijderen</Alert>
+									<Alert
+										variant="outlined"
+										style={{ marginTop: 8 }}
+										severity="info"
+									>
+										Klik op een datum om een lunch van een medewerker toe te
+										voegen of te verwijderen
+									</Alert>
 								</Grid>
 							</>
-						}
+						)}
 					</div>
 
 					{this.state.showMessage ? (
