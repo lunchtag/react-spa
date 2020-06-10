@@ -159,7 +159,7 @@ class UserLunchOverView extends React.Component {
 				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-						<Typography variant="h2" component="h1" gutterBottom>Maandoverzicht</Typography>
+						<Typography variant="h2" component="h1" gutterBottom>Maand</Typography>
 						<Grid container maxWidth="lg" justify="center">
 							<Paper elevation={3} className="calendar">
 								<Calander

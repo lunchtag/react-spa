@@ -117,7 +117,7 @@ class Navbar extends React.Component {
 										<Add />
 									</Avatar>
 								</ListItemAvatar>
-								<ListItemText primary="Nieuwe lunch" />
+								<ListItemText primary="Lunch toevoegen" />
 							</ListItem>
 							<ListItem button component={Link} to="/employee">
 								<ListItemAvatar>

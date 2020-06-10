@@ -210,7 +210,7 @@ class LunchOverview extends Component {
 						<div>
 							<Container maxWidth="lg">
 								<Typography variant="h2" component="h1" gutterBottom>
-									Overzicht lunch
+									Overzicht
 								</Typography>
 								{this.state.filterValue === "month" ? (
 									<Typography variant="h4" component="h1" gutterBottom>
