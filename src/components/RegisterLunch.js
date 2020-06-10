@@ -39,26 +39,21 @@ function RegisterLunch() {
 	}
 
     function getLunches() {
-        const url = 'https://lunchtag-resource-server.herokuapp.com/lunch'
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
-            }
-        })
-            .then(data => {
-          if (data.status !== 200) {
-				setMessage("Er is iets misgegaan");
-				setShowMessage(true);
-				setMessageType("warning");
-			}
-          setLunch(data)
-                console.log(lunch);
-
-            })
-    }
+		const url = "https://lunchtag-resource-server.herokuapp.com/lunch";
+		fetch(url, {
+			method: "GET",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + window.sessionStorage.getItem("token"),
+			},
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				setLunch(data);
+				console.log(lunch);
+			});
+	}
 
     function deleteLunchApi(lunchId) {
 		console.log(lunchId);
@@ -162,7 +157,7 @@ function RegisterLunch() {
         if (arg.date < currentDate) {
             addlunchApi(newLunch)
         }
-    }
+    };
 
     
 
@@ -175,7 +170,7 @@ function RegisterLunch() {
             <Navbar />
             <div class="rightpanel">
                 <Container maxWidth="lg">
-                    <Typography variant="h2" component="h1" gutterBottom>Weekoverzicht</Typography>
+                    <Typography variant="h2" component="h1" gutterBottom>Week</Typography>
                     <FullCalendar
                         defaultView="dayGridWeek"
                         plugins={[dayGridPlugin, interactionPlugin]}

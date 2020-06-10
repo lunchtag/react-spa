@@ -6,28 +6,28 @@ import "../css/EmployeeDetails.css";
 import EmployeeLunchItem from "../components/EmployeeLunchItem";
 
 import {
-	Container,
-	Button,
-	Typography,
-	Paper,
-	Table,
-	TableHead,
-	TableRow,
-	TableCell,
-	TableBody,
-	Fab,
-	ButtonGroup,
-	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
+    Container,
+    Button,
+    Typography,
+    Paper,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    Fab,
+    ButtonGroup,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import {
-	Today,
-	ArrowBack,
-	ArrowForward,
-	OpenInBrowser,
+    Today,
+    ArrowBack,
+    ArrowForward,
+    OpenInBrowser,
 } from "@material-ui/icons";
 import { getAllLunchesFromUser, exportPdf } from "../service/lunchService";
 import { getAllUsers } from "../service/userService";
@@ -36,31 +36,31 @@ import { withStyles } from "@material-ui/core/styles";
 import SnackbarMessage from "./../components/SnackbarMessage";
 
 const StyledTableCell = withStyles((theme) => ({
-	head: {
-		backgroundColor: theme.palette.primary.main,
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
+    head: {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
 }))(TableCell);
 
 const useStyles = (theme) => ({
-	export: {
-		position: "absolute",
-		bottom: theme.spacing(3),
-		right: theme.spacing(3),
-	},
-	buttonGroup: {
-		paddingBottom: "1%",
-	},
-	input: {
-		minWidth: "50%",
-		paddingBottom: "1%",
-	},
-	info: {
-		marginBottom: "1%",
-	},
+    export: {
+        position: "absolute",
+        bottom: theme.spacing(3),
+        right: theme.spacing(3),
+    },
+    buttonGroup: {
+        paddingBottom: "1%",
+    },
+    input: {
+        minWidth: "50%",
+        paddingBottom: "1%",
+    },
+    info: {
+        marginBottom: "1%",
+    },
 });
 
 class EmployeeDetails extends Component {
@@ -113,11 +113,11 @@ class EmployeeDetails extends Component {
         })
     }
 
-	closeMessage = (e) => {
-		this.setState({
-			showMessage: false,
-		});
-	};
+    closeMessage = (e) => {
+        this.setState({
+            showMessage: false,
+        });
+    };
 
     render() {
         const { classes } = this.props;
@@ -171,26 +171,26 @@ class EmployeeDetails extends Component {
         }
 
         const deleteLunch = (lunchId, messageType) => {
-			if (messageType === "success") {
-				this.setState({
-					showMessage: true,
-					messageType: "success",
-					message: "Lunch succesvol verwijderd",
-				});
-			} else {
-				this.setState({
-					showMessage: true,
-					messageType: "warning",
-					message: "Er is iets misgegaan",
-				});
-			}
+            if (messageType === "success") {
+                this.setState({
+                    showMessage: true,
+                    messageType: "success",
+                    message: "Lunch succesvol verwijderd",
+                });
+            } else {
+                this.setState({
+                    showMessage: true,
+                    messageType: "warning",
+                    message: "Er is iets misgegaan",
+                });
+            }
 
-			const newLunches = this.state.lunches.filter(
-				(lunch) => lunch.id !== lunchId
-			);
-			this.setState({ lunches: newLunches, filteredLunches: newLunches });
-			this.filterLunches();
-		};
+            const newLunches = this.state.lunches.filter(
+                (lunch) => lunch.id !== lunchId
+            );
+            this.setState({ lunches: newLunches, filteredLunches: newLunches });
+            this.filterLunches();
+        };
 
 
         return (
@@ -200,68 +200,68 @@ class EmployeeDetails extends Component {
                     <React.Fragment>
                         <div className="content">
                             <Container maxWidth="md">
-                                <Typography variant="h2" component="h1" gutterBottom>Medewerker details</Typography>
+                                <Typography variant="h2" component="h1" gutterBottom>Lunches medewerker</Typography>
 
                                 <FormControl className={classes.input} variant="outlined" >
-                                    {this.state.selectedUser === ''?
-                                    <InputLabel>Selecteer hier een medewerker</InputLabel>:
-                                    <InputLabel>Medewerker</InputLabel>
+                                    {this.state.selectedUser === '' ?
+                                        <InputLabel>Selecteer hier een medewerker</InputLabel> :
+                                        <InputLabel>Medewerker</InputLabel>
                                     }
-                                    
-                                    <Select 
-                                    value={selectedUser.name}
-                                    onChange={this.handleCurrentUserChange}>
+
+                                    <Select
+                                        value={selectedUser.name}
+                                        onChange={this.handleCurrentUserChange}>
                                         {users.map((user) => {
                                             return (
-                                                <MenuItem value={user}  key={user.id}>{user.name + " " + user.lastName}</MenuItem>
+                                                <MenuItem value={user} key={user.id}>{user.name + " " + user.lastName}</MenuItem>
                                             );
                                         })}
                                     </Select>
                                 </FormControl>
                                 {this.state.selectedUser !== '' &&
-                                <>
-                                <Paper className={classes.info} elevation={3}><Typography  variant="h5">{filteredLunches.length} lunches deze maand</Typography></Paper>
-                                <br/>
-                                <ButtonGroup className={classes.buttonGroup} fullWidth color="primary" aria-label="outlined primary button group">
-                                    <Button onClick={() => { filterByPrevious() }}><ArrowBack /></Button>
-                                    <Button onClick={() => { filterByCurrent() }}>Vandaag</Button>
-                                    <Button onClick={() => { filterByNext() }}><ArrowForward /></Button>
-                                </ButtonGroup>
+                                    <>
+                                        <Paper className={classes.info} elevation={3}><Typography variant="h5">{filteredLunches.length} lunches deze maand</Typography></Paper>
+                                        <br />
+                                        <ButtonGroup className={classes.buttonGroup} fullWidth color="primary" aria-label="outlined primary button group">
+                                            <Button onClick={() => { filterByPrevious() }}><ArrowBack /></Button>
+                                            <Button onClick={() => { filterByCurrent() }}>Vandaag</Button>
+                                            <Button onClick={() => { filterByNext() }}><ArrowForward /></Button>
+                                        </ButtonGroup>
 
-                                <Paper elevation={3}>
-                                    <Table className={classes.table}>
-                                        <TableHead>
-                                            <TableRow>
-                                                <StyledTableCell align="left"><Today /></StyledTableCell>
-                                                <StyledTableCell align="right"></StyledTableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {filteredLunches.map((item) => (
-                                                <EmployeeLunchItem callback={() => deleteLunch(item.id)} key={item.id} lunch={item} />
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </Paper>                          
+                                        <Paper elevation={3}>
+                                            <Table className={classes.table}>
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <StyledTableCell align="left"><Today /></StyledTableCell>
+                                                        <StyledTableCell align="right"></StyledTableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {filteredLunches.map((item) => (
+                                                        <EmployeeLunchItem callback={(messageType) => deleteLunch(item.id, messageType)} key={item.id} lunch={item} />
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </Paper>
 
-                                {filteredLunches.length === 0 &&
-                                    <Alert variant="outlined" severity="info">Er zijn geen lunches deze maand</Alert>
+                                        {filteredLunches.length === 0 &&
+                                            <Alert variant="outlined" severity="info">Er zijn geen lunches deze maand</Alert>
+                                        }
+                                        <Fab color="primary" size="large" onClick={() => handleExport()} className={classes.export}><OpenInBrowser /></Fab>
+                                    </>
                                 }
-                                <Fab color="primary" size="large" onClick={() => handleExport()} className={classes.export}><OpenInBrowser /></Fab>
-                                </>
-                                }
 
-                                
+
                             </Container>
                         </div>
                     </React.Fragment >
-{this.state.showMessage ? (
-						<SnackbarMessage
-							message={this.state.message}
-							messageType={this.state.messageType}
-							showMessage={this.closeMessage}
-						/>
-					) : null}
+                    {this.state.showMessage ? (
+                        <SnackbarMessage
+                            message={this.state.message}
+                            messageType={this.state.messageType}
+                            showMessage={this.closeMessage}
+                        />
+                    ) : null}
                 </div>
             </div>
         )
