@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
-import Navbar from "../components/navbar/navbar";
-import "../css/EmployeeDetails.css";
+import Navbar from "../../components/navbar/navbar";
+import "../../css/EmployeeDetails.css";
 
-import EmployeeLunchItem from "../components/EmployeeLunchItem";
+import EmployeeLunchItem from "../../components/EmployeeLunchItem";
 
 import {
 	Container,
@@ -29,11 +29,11 @@ import {
 	ArrowForward,
 	OpenInBrowser,
 } from "@material-ui/icons";
-import { getAllLunchesFromUser, exportPdf } from "../service/lunchService";
-import { getAllUsers } from "../service/userService";
+import { getAllLunchesFromUser, exportPdf } from "../../service/lunchService";
+import { getAllUsers } from "../../service/userService";
 
 import { withStyles } from "@material-ui/core/styles";
-import SnackbarMessage from "./../components/SnackbarMessage";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -63,7 +63,7 @@ const useStyles = (theme) => ({
 	},
 });
 
-class EmployeeDetails extends Component {
+class LunchEmployee extends Component {
 	constructor(props) {
 		super(props);
 
@@ -330,4 +330,4 @@ class EmployeeDetails extends Component {
 	}
 }
 
-export default withStyles(useStyles)(EmployeeDetails);
+export default withStyles(useStyles)(LunchEmployee);
