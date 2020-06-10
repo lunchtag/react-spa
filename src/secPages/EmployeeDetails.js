@@ -63,8 +63,7 @@ class EmployeeDetails extends Component {
 
     componentDidMount() {
         getAllUsers().then((res) => {
-            this.setState({ users: res.data, selectedUser: res.data[0] })
-            this.getLunchesFromUser()
+            this.setState({ users: res.data })
         })
     }
 
@@ -163,7 +162,11 @@ class EmployeeDetails extends Component {
                                 <Typography variant="h2" component="h1" gutterBottom>Medewerker details</Typography>
 
                                 <FormControl className={classes.input} variant="outlined" >
+                                    {this.state.selectedUser === ''?
+                                    <InputLabel>Selecteer hier een medewerker</InputLabel>:
                                     <InputLabel>Medewerker</InputLabel>
+                                    }
+                                    
                                     <Select 
                                     value={selectedUser.name}
                                     onChange={this.handleCurrentUserChange}>
@@ -174,10 +177,10 @@ class EmployeeDetails extends Component {
                                         })}
                                     </Select>
                                 </FormControl>
-
-                                <Paper className={classes.info} elevation={3}><Typography  variant="h5">Deze maand {filteredLunches.length}x meegegeten</Typography></Paper>
-                                <Paper className={classes.info} elevation={3}><Typography variant="h5">Rol: {selectedUser.role}</Typography></Paper>
-
+                                {this.state.selectedUser !== '' &&
+                                <>
+                                <Paper className={classes.info} elevation={3}><Typography  variant="h5">{filteredLunches.length} lunches deze maand</Typography></Paper>
+                                <br/>
                                 <ButtonGroup className={classes.buttonGroup} fullWidth color="primary" aria-label="outlined primary button group">
                                     <Button onClick={() => { filterByPrevious() }}><ArrowBack /></Button>
                                     <Button onClick={() => { filterByCurrent() }}>Vandaag</Button>
@@ -204,6 +207,10 @@ class EmployeeDetails extends Component {
                                     <Alert variant="outlined" severity="info">Er zijn geen lunches deze maand</Alert>
                                 }
                                 <Fab color="primary" size="large" onClick={() => handleExport()} className={classes.export}><OpenInBrowser /></Fab>
+                                </>
+                                }
+
+                                
                             </Container>
                         </div>
                     </React.Fragment >

@@ -5,13 +5,13 @@ import "../css/Calendar.css";
 import Navbar from "../components/navbar/navbar";
 import { getAllUserWithLunches } from "../service/userService";
 import { addLunch, deleteLunch } from "../service/secLunchService";
-import { Typography,FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@material-ui/core";
+import { Typography, FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@material-ui/core";
 import { CheckBox } from '@material-ui/icons'
 import { Alert } from '@material-ui/lab'
 import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = theme => ({
-	input:{
+	input: {
 		minWidth: '50%',
 		paddingBottom: '1%'
 	},
@@ -147,10 +147,10 @@ class SecAddLunch extends React.Component {
 						<Typography variant="h2" component="h1" gutterBottom>Lunch toevoegen</Typography>
 						<FormControl className={classes.input} variant="outlined" >
 							{this.state.selectedUser === '' ?
-							<InputLabel>Selecteer hier een medewerker</InputLabel>:
-							<InputLabel>Medewerker</InputLabel>
+								<InputLabel>Selecteer hier een medewerker</InputLabel> :
+								<InputLabel>Medewerker</InputLabel>
 							}
-							
+
 							<Select
 								onChange={this.onChangeUser}
 							>
@@ -161,22 +161,25 @@ class SecAddLunch extends React.Component {
 								})}
 							</Select>
 						</FormControl>
-						<br/>
-
-						<Grid container justify="center">
-						<Paper elevation={3} className="calendar">
-								<Calander
-									onChange={onChange}
-									value={date}
-									showWeekNumbers
-									maxDate={new Date()}
-									onClickDay={this.onClickDay}
-									tileContent={tileContent}
-									tileClassName={tileClassName}
-								/>
-							</Paper>
-							<Alert variant="outlined" style={{marginTop: 8}} severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
-						</Grid>
+						{this.state.selectedUser !== '' &&
+							<>
+								<br />
+								<Grid container justify="center">
+									<Paper elevation={3} className="calendar">
+										<Calander
+											onChange={onChange}
+											value={date}
+											showWeekNumbers
+											maxDate={new Date()}
+											onClickDay={this.onClickDay}
+											tileContent={tileContent}
+											tileClassName={tileClassName}
+										/>
+									</Paper>
+									<Alert variant="outlined" style={{ marginTop: 8 }} severity="info">Klik op een datum om een lunch van een medewerker toe te voegen of te verwijderen</Alert>
+								</Grid>
+							</>
+						}
 					</div>
 				</div>
 			</div>
