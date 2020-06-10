@@ -108,6 +108,12 @@ class UserLunchOverView extends React.Component {
 						showMessage: true,
 						message: "Lunch succesvol toegevoegd",
 					});
+				} else {
+					this.setState({
+						messageType: "warning",
+						showMessage: true,
+						message: "Er is iets misgegaan",
+					});
 				}
 			});
 		};
