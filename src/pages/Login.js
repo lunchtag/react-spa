@@ -4,6 +4,7 @@ import { Container, Button, Typography, TextField, InputAdornment, Grid, Fab } f
 import { AlternateEmail, Lock, TextFields, Dialpad, Check } from '@material-ui/icons'
 import { getAllUsers } from "../service/userService";
 import PinLogin from "../components/PinLogin";
+import SnackbarMessage from "./../components/SnackbarMessage";
 import "../css/Login.css"
 import { withStyles } from '@material-ui/core/styles';
 
@@ -31,7 +32,9 @@ class Login extends Component {
 			email: "",
 			password: "",
 			pinLogin: true,
-			users: []
+			users: [],
+			showMessage: false,
+			message: "",
 		};
 	}
 
@@ -44,6 +47,12 @@ class Login extends Component {
 			}
 		})
 	}
+
+	closeMessage = () => {
+		this.setState({
+			showMessage: false,
+		});
+	};
 
 	handleEmailChange = (event) => {
 		this.setState({
@@ -75,6 +84,12 @@ class Login extends Component {
 				if (data.token != null) {
 					auth.login(data);
 					this.props.history.push("/dashboard");
+				} else {
+					this.setState({
+						messageType: "error",
+						showMessage: true,
+						message: "Inloggegevens zijn incorrect"
+					})
 				}
 			});
 	};
@@ -126,6 +141,13 @@ class Login extends Component {
 		return (
 			<Grid className={classes.content}>
 				{loginPage}
+				{this.state.showMessage ? (
+					<SnackbarMessage
+						message={this.state.message}
+						messageType={this.state.messageType}
+						showMessage={this.closeMessage}
+					/>
+				) : null}
 			</Grid>
 		);
 	}
