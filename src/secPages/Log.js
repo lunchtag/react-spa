@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/navbar/navbar";
 import Table from "react-bootstrap/Table";
-import Pagination from '@material-ui/lab/Pagination';
 
+import Pagination from '@material-ui/lab/Pagination';
 import { getAllLogs } from "../service/logService";
 import "../css/log.css";
+
+
 
 export default class Log extends React.Component {
 	constructor(props) {
@@ -69,7 +71,11 @@ export default class Log extends React.Component {
 								<tr>
 									<td>{item.user.name + " " + item.user.lastName}</td>
 
-									<td>{item.dateOfLog}</td>
+									<td>
+										{new Date(item.dateOfLog).toLocaleDateString() +
+											" " +
+											new Date(item.dateOfLog).toLocaleTimeString()}
+									</td>
 
 									<td>{item.logText}</td>
 								</tr>
