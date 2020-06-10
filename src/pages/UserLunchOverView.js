@@ -39,7 +39,16 @@ class UserLunchOverView extends React.Component {
 				this.setState({
 					lunchedDays: dates,
 				});
-			} else {
+			}
+			else if (value.data === "No Lunches were found") {
+				this.setState({
+					messageType: "info",
+					showMessage: true,
+					message: "Je hebt nog geen lunches",
+				});
+			}
+			else {
+				console.log(value.data);
 				this.setState({
 					messageType: "warning",
 					showMessage: true,
