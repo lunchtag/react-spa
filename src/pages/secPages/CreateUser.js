@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Navbar from "../components/navbar/navbar";
-import { createUser } from "../service/userService";
+import Navbar from "../../components/navbar/navbar";
+import { createUser } from "../../service/userService";
 
 import {
 	Container,
@@ -10,9 +10,9 @@ import {
 	InputAdornment,
 } from "@material-ui/core";
 import { AlternateEmail, Save } from "@material-ui/icons";
-import SnackbarMessage from "./../components/SnackbarMessage";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
-export default class CreateUserPage extends Component {
+export default class CreateUser extends Component {
 	constructor(props) {
 		super(props);
 

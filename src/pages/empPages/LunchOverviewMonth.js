@@ -1,23 +1,23 @@
 import React from "react";
 import Calander from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "../css/Calendar.css";
+import "../../css/Calendar.css";
 import {
 	getAllLunchesForUser,
 	addLunch,
 	deleteLunch,
-} from "../service/lunchService";
-import Navbar from "../components/navbar/navbar";
+} from "../../service/lunchService";
+import Navbar from "../../components/navbar/navbar";
 
 import { Typography, Paper, Grid } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { CheckBox } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
-import SnackbarMessage from "./../components/SnackbarMessage";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 const useStyles = (theme) => ({});
 
-class UserLunchOverView extends React.Component {
+class LunchOverviewMonth extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -199,4 +199,4 @@ class UserLunchOverView extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(UserLunchOverView);
+export default withStyles(useStyles)(LunchOverviewMonth);
