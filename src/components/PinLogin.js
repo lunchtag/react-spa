@@ -93,7 +93,13 @@ function PinLogin(props) {
     }
 
     const removeFromPin = () => {
-        setPin(pin.substring(0, pin.length - 1))
+        if(wrongCredentials){
+            setPin("")
+        }
+        else{
+            setPin(pin.substring(0, pin.length - 1))
+        }
+        
         setwrongCredentials(false)
     }
 
@@ -179,8 +185,8 @@ function PinLogin(props) {
                     <Container maxWidth="xs" className={classes.modalContainer}>
                         <Typography variant="h5" component="h1" gutterBottom>{currentUser.name + " " + currentUser.lastName}</Typography>
                         {!wrongCredentials ?
-                            <TextField className={classes.input} fullWidth label="Pincode" value={pin} InputProps={{ readOnly: true, }} variant="outlined" /> :
-                            <TextField className={classes.input} fullWidth error label="Pincode" helperText="Verkeerde pincode" value={pin} InputProps={{ readOnly: true, }} variant="outlined" />
+                            <TextField className={classes.input} fullWidth label="Pincode" type="password" value={pin} InputProps={{ readOnly: true, }} variant="outlined" /> :
+                            <TextField className={classes.input} fullWidth type="password" error label="Pincode" helperText="Verkeerde pincode" value={pin} InputProps={{ readOnly: true, }} variant="outlined" />
                         }
 
                         <NumericKeyPad addToPin={appendToPin} removePin={removeFromPin} />

@@ -1,19 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-
 	Typography,
 	Drawer,
 	Divider,
 	List,
 	ListItem,
-	ListItemIcon,
 	ListItemText,
 	ListItemAvatar,
 	Avatar,
 } from "@material-ui/core";
 import {
-	Inbox,
 	DateRange,
 	EventNote,
 	ViewList,
@@ -22,8 +19,9 @@ import {
 	PersonAdd,
 	Group,
 	ExitToApp,
-	AccountCircle,
 	LocalOfferOutlined,
+	Fastfood,
+	Dvr,
 
 } from "@material-ui/icons";
 import "./navbar.css";
@@ -119,15 +117,15 @@ class Navbar extends React.Component {
 										<Add />
 									</Avatar>
 								</ListItemAvatar>
-								<ListItemText primary="Nieuwe lunch" />
+								<ListItemText primary="Lunch toevoegen" />
 							</ListItem>
 							<ListItem button component={Link} to="/employee">
 								<ListItemAvatar>
 									<Avatar className={classes.avatar}>
-										<Person />
+										<Fastfood />
 									</Avatar>
 								</ListItemAvatar>
-								<ListItemText primary="Medewerker details" />
+								<ListItemText primary="Lunches medewerker" />
 							</ListItem>
 							<ListItem button component={Link} to="/seccreateuser">
 								<ListItemAvatar>
@@ -148,7 +146,7 @@ class Navbar extends React.Component {
 							<ListItem button component={Link} to="/log">
 								<ListItemAvatar>
 									<Avatar className={classes.avatar}>
-										<Group />
+										<Dvr />
 									</Avatar>
 								</ListItemAvatar>
 								<ListItemText primary="Log" />

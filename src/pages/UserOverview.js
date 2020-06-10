@@ -9,6 +9,9 @@ import {
 	disableById,
 } from "../service/UserOverviewService";
 
+import { Save } from "@material-ui/icons"
+import {Typography} from "@material-ui/core"
+
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -83,44 +86,29 @@ function UserOverView(props) {
 	}
 
 	function handleDisable(id, isNonLocked) {
-		if (!isNonLocked) {
-			alert("Gebruiker is inactief");
-		} else {
-			disableById(id).then((res) => {
-				if (res.status === 200) {
-					getAllUsers().then((res) => {
-						setUsers(res.data);
-						window.location.reload();
+		disableById(id).then((res) => {
+			if (res.status === 200) {
+				getAllUsers().then((res) => {
+					setUsers(res.data);
+					setMessage("Account succesvol ge(de)blokkeerd")
+					setShowMessage(true)
+					setMessageType("success")
+					// window.location.reload();
+				});
+			}
+			else {
+				setMessage("Er is iets misgegaan")
+				setShowMessage(true)
+				setMessageType("warning")
+			}
+		});
 
-						setMessage("Gebruiker succesvol op non actief gezet");
-						setShowMessage(true);
-						setMessageType("success");
-					});
-				}
-				// console.log(res);
-			});
-		}
 	}
 
 	function handleUpdate() {
-		users.map((item) =>
-			updateUser(item).then((res) => {
-				if (res.status === 200) {
-					setMessage("Gebruikers succesvol geupdate");
-					setShowMessage(true);
-					setMessageType("success");
-				} else {
-					setMessage("Er is iets mis gegaan!");
-					setShowMessage(true);
-					setMessageType("warning");
-				}
-			})
-		);
+		users.map((item) => updateUser(item));
 	}
 
-	function handleAddPerson() {
-		props.history.push("/seccreateuser");
-	}
 	// User is de hele user, e is de waarde van het veld
 	function handleOnchange(user, e) {
 		const value = e.target.value;
@@ -164,8 +152,8 @@ function UserOverView(props) {
 			{!isLoading && checkIfNotLoading()}
 			<Navbar />
 			<div className="rightpanel">
-				<h1>Overzicht medewerkers</h1>
-				<p>Totaal aantal personen : {users.length} </p>
+				<Typography variant="h2" component="h1" gutterBottom>Overzicht medewerkers</Typography>
+				<Typography variant="h4" component="h1" gutterBottom>Totaal aantal personen : {users.length}</Typography>
 				<TableContainer className={classes.tableContainer} component={Paper}>
 					<Table className={classes.table} aria-label="simple table">
 						<TableHead>
@@ -221,23 +209,18 @@ function UserOverView(props) {
 						</TableBody>
 					</Table>
 				</TableContainer>
+
 				<div className="btn-submit">
 					<Button
-						className={classes.submit}
+						startIcon={<Save />}
+						fullWidth
+						style={{ margin: 8 }}
+						variant="contained"
 						color="primary"
-						variant="outlined"
 						onClick={handleUpdate}
 					>
 						Wijzigingen opslaan
-					</Button>
-					<Button
-						className={classes.submit}
-						color="secondary"
-						variant="outlined"
-						onClick={handleAddPerson}
-					>
-						Personeel toevoegen
-					</Button>
+						</Button>
 				</div>
 			</div>
 
