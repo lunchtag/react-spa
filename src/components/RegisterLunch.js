@@ -15,7 +15,11 @@ import { Container, Button, Typography } from "@material-ui/core";
 import { Today } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 import SnackbarMessage from "./SnackbarMessage";
-import { deleteLunchId } from "./../service/lunchService";
+import {
+	deleteLunchId,
+	getAllLunchesForUser,
+	addLunch2,
+} from "./../service/lunchService";
 
 function RegisterLunch() {
 	let deleted;
@@ -40,19 +44,15 @@ function RegisterLunch() {
 	}
 
 	function getLunches() {
-		const url = "https://lunchtag-resource-server.herokuapp.com/lunch";
-		fetch(url, {
-			method: "GET",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-				Authorization: "Bearer " + window.sessionStorage.getItem("token"),
-			},
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				setLunch(data);
-			});
+		getAllLunchesForUser().then((res) => {
+			if (res.status === 200) {
+				setLunch(res.data);
+			} else {
+				setMessage("Er is iets misgegaan");
+				setShowMessage(true);
+				setMessageType("warning");
+			}
+		});
 	}
 
 	function deleteLunchApi(lunchId) {
@@ -66,6 +66,7 @@ function RegisterLunch() {
 				setShowMessage(true);
 				setMessageType("warning");
 			}
+
 			getLunches();
 		});
 	}
@@ -92,28 +93,22 @@ function RegisterLunch() {
 	function addlunchApi(newLunch) {
 		checkDelete(newLunch);
 		if (!deleted) {
-			fetch("https://lunchtag-resource-server.herokuapp.com/lunch", {
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-					Authorization: "Bearer " + window.sessionStorage.getItem("token"),
-				},
-				body: JSON.stringify({
-					name: newLunch.title,
-					date: newLunch.date,
-				}),
-			}).then((response) => {
-				if (response.status === 200) {
+			let data = JSON.stringify({
+				name: newLunch.title,
+				date: newLunch.date,
+			});
+
+			addLunch2(data).then((res) => {
+				if (res.status === 200) {
 					setMessage("Lunch succesvol toegevoegd");
 					setShowMessage(true);
 					setMessageType("success");
+					getLunches();
 				} else {
 					setMessage("Er is iets misgegaan");
 					setShowMessage(true);
 					setMessageType("warning");
 				}
-				getLunches();
 			});
 
 			setLunch((oldLunches) => [...oldLunches, newLunch]); // Dit update de lunch array , Wanneer dit samen werkt met de api, kunnen we ook alle lunches ophalen en die in de array zetten

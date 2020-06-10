@@ -81,6 +81,22 @@ export async function addLunch(lunchDate) {
 		});
 }
 
+export async function addLunch2(data) {
+	return Axios.post(`${server}/lunch`, data, {
+		headers: {
+			Authorization: `Bearer ${window.sessionStorage.getItem("token")}`,
+			"Content-Type": "application/json",
+		},
+	})
+		.then((res) => {
+			return res;
+		})
+		.catch((error) => {
+			console.log(error);
+			return error.response;
+		});
+}
+
 export async function deleteLunch(lunchId) {
 	// const token = auth.parseJwt(window.sessionStorage.getItem("token"))
 	return Axios.delete(`${server}/lunch/${lunchId}`, {

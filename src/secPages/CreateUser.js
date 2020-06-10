@@ -21,11 +21,9 @@ export default class CreateUserPage extends Component {
 			password: "",
 			firstName: "",
 			lastName: "",
-			regex: /^[a-zA-Z]*$/
+			regex: /^[a-zA-Z]*$/,
 		};
 	}
-
-
 
 	closeMessage = (e) => {
 		this.setState({
@@ -39,7 +37,6 @@ export default class CreateUserPage extends Component {
 				email: event.target.value,
 			});
 		}
-
 	};
 
 	handleFirstNameChange = (event) => {
@@ -65,7 +62,7 @@ export default class CreateUserPage extends Component {
 
 	checkIfTextAllowed = (character, name) => {
 		if (name == "email") {
-			this.state.regex = /^[a-zA-Z@]*$/
+			this.state.regex = /^[a-zA-Z@.]*$/;
 			console.log("REGEX WITH @");
 		} else {
 			this.state.regex = /^[a-zA-Z]*$/;
@@ -76,7 +73,7 @@ export default class CreateUserPage extends Component {
 		} else {
 			return false;
 		}
-	}
+	};
 
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -107,11 +104,10 @@ export default class CreateUserPage extends Component {
 			this.setState({
 				showMessage: true,
 				messageType: "warning",
-				message: "Email notatie klopt niet"
-			})
+				message: "Email notatie klopt niet",
+			});
 			// melding
 		}
-
 	};
 
 	render() {
