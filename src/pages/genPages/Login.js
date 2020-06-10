@@ -15,10 +15,10 @@ import {
 	Dialpad,
 	Check,
 } from "@material-ui/icons";
-import { getAllUsers, login } from "../service/userService";
-import PinLogin from "../components/PinLogin";
-import SnackbarMessage from "./../components/SnackbarMessage";
-import "../css/Login.css";
+import { getAllUsers, login } from "../../service/userService";
+import PinLogin from "../../components/PinLogin";
+import SnackbarMessage from "../../components/SnackbarMessage";
+import "../../css/Login.css";
 import { withStyles } from "@material-ui/core/styles";
 
 const useStyles = (theme) => ({

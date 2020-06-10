@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Navbar from "../components/navbar/navbar";
-import { updateOwnAccount } from "../service/UserOverviewService";
-import { resetPincode } from "../service/userService";
+import Navbar from "../../components/navbar/navbar";
+import { updateOwnAccount } from "../../service/UserOverviewService";
+import { resetPincode } from "../../service/userService";
 import {
 	Checkbox,
 	TextField,
@@ -11,7 +11,7 @@ import {
 	Box,
 } from "@material-ui/core";
 import { AlternateEmail, FiberPin, Save } from "@material-ui/icons";
-import SnackbarMessage from "../components/SnackbarMessage";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 export default class Profile extends Component {
 	constructor(props) {
