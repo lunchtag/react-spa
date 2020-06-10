@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Button } from "react-bootstrap";
-import auth from "../service/auth";
+import auth from "../../service/auth";
 
 class Register extends Component {
 	constructor(props) {

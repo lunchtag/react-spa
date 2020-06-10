@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Navbar from "../components/navbar/navbar";
+import Navbar from "../../components/navbar/navbar";
 
 import {
 	getAllUsers,
 	updateUser,
 	disableById,
-} from "../service/UserOverviewService";
+} from "../../service/UserOverviewService";
 
 import { Save } from "@material-ui/icons";
 import { Typography } from "@material-ui/core";
@@ -24,8 +24,8 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import BlockIcon from "@material-ui/icons/Block";
 
-import "../css/UserOverView.css";
-import SnackbarMessage from "../components/SnackbarMessage";
+import "../../css/UserOverView.css";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 const useStyles = makeStyles({
 	tableContainer: {
@@ -149,7 +149,7 @@ function UserOverView(props) {
 			<Navbar />
 			<div className="rightpanel">
 				<Typography variant="h2" component="h1" gutterBottom>
-					Overzicht medewerkers
+					Overzicht gebruikers
 				</Typography>
 				<Typography variant="h4" component="h1" gutterBottom>
 					Totaal aantal personen : {users.length}

@@ -1,10 +1,10 @@
 import React from "react";
 import Calander from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "../css/Calendar.css";
-import Navbar from "../components/navbar/navbar";
-import { getAllUserWithLunches } from "../service/userService";
-import { addLunch, deleteLunch } from "../service/secLunchService";
+import "../../css/Calendar.css";
+import Navbar from "../../components/navbar/navbar";
+import { getAllUserWithLunches } from "../../service/userService";
+import { addLunch, deleteLunch } from "../../service/secLunchService";
 import {
 	Typography,
 	FormControl,
@@ -17,7 +17,7 @@ import {
 import { CheckBox } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 import { withStyles } from "@material-ui/core/styles";
-import SnackbarMessage from "./../components/SnackbarMessage";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 const useStyles = (theme) => ({
 	input: {
@@ -26,7 +26,7 @@ const useStyles = (theme) => ({
 	},
 });
 
-class SecAddLunch extends React.Component {
+class LunchAdd extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -252,4 +252,4 @@ class SecAddLunch extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(SecAddLunch);
+export default withStyles(useStyles)(LunchAdd);

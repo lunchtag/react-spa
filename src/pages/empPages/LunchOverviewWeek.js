@@ -8,20 +8,20 @@ import interactionPlugin from "@fullcalendar/interaction";
 
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
-import "../css/RegisterLunch.css";
-import Navbar from "../components/navbar/navbar";
+import "../../css/RegisterLunch.css";
+import Navbar from "../../components/navbar/navbar";
 
 import { Container, Button, Typography } from "@material-ui/core";
 import { Today } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
-import SnackbarMessage from "./SnackbarMessage";
+import SnackbarMessage from "../../components/SnackbarMessage";
 import {
 	deleteLunchId,
 	getAllLunchesForUser,
 	addLunch2,
-} from "./../service/lunchService";
+} from "../../service/lunchService";
 
-function RegisterLunch() {
+function LunchOverviewWeek() {
 	let deleted;
 
 	//const jwtData = auth.parseJwt(window.sessionStorage.getItem("token"));
@@ -190,4 +190,4 @@ function RegisterLunch() {
 	);
 }
 
-export default RegisterLunch;
+export default LunchOverviewWeek;

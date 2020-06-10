@@ -1,9 +1,9 @@
 import React  from "react";
-import Navbar from "../components/navbar/navbar";
+import Navbar from "../../components/navbar/navbar";
 
 import Pagination from '@material-ui/lab/Pagination';
-import { getAllLogs } from "../service/logService";
-import "../css/log.css";
+import { getAllLogs } from "../../service/logService";
+import "../../css/log.css";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
