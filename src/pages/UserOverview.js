@@ -170,11 +170,11 @@ function UserOverView(props) {
 					<Table className={classes.table} aria-label="simple table">
 						<TableHead>
 							<TableRow>
-								<TableCell>Naam</TableCell>
-								<TableCell>Achternaam</TableCell>
-								<TableCell align="right">Email</TableCell>
-								<TableCell align="right">Rol</TableCell>
-								<TableCell align="right"> </TableCell>
+								<TableCell align="center">Naam</TableCell>
+								<TableCell align="center">Achternaam</TableCell>
+								<TableCell align="center">Email</TableCell>
+								<TableCell align="center">Rol</TableCell>
+								<TableCell align="center"> </TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -198,7 +198,7 @@ function UserOverView(props) {
 											onChange={(e) => handleOnchange(item, e)}
 										/>
 									</TableCell>
-									<TableCell align="right">{item.email}</TableCell>
+									<TableCell align="center">{item.email}</TableCell>
 									<TableCell align="right">{item.role}</TableCell>
 									<TableCell align="right">
 										<Button

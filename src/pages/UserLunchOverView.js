@@ -8,7 +8,9 @@ import {
 	deleteLunch,
 } from "../service/lunchService";
 import Navbar from "../components/navbar/navbar";
+
 import { Typography, Paper, Grid } from "@material-ui/core";
+import {Alert } from "@material-ui/lab"
 import { CheckBox } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
 import SnackbarMessage from "./../components/SnackbarMessage";
@@ -39,7 +41,16 @@ class UserLunchOverView extends React.Component {
 				this.setState({
 					lunchedDays: dates,
 				});
-			} else {
+			}
+			else if (value.data === "No Lunches were found") {
+				this.setState({
+					messageType: "info",
+					showMessage: true,
+					message: "Je hebt nog geen lunches"
+				})
+			}
+			else {
+				console.log(value.data);
 				this.setState({
 					messageType: "warning",
 					showMessage: true,
@@ -148,10 +159,8 @@ class UserLunchOverView extends React.Component {
 				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-						<Typography variant="h2" component="h1" gutterBottom>
-							Maand overzicht
-						</Typography>
-						<Grid container justify="center">
+						<Typography variant="h2" component="h1" gutterBottom>Maandoverzicht</Typography>
+						<Grid container maxWidth="lg" justify="center">
 							<Paper elevation={3} className="calendar">
 								<Calander
 									onChange={onChange}
@@ -163,10 +172,8 @@ class UserLunchOverView extends React.Component {
 									tileClassName={tileClassName}
 								/>
 							</Paper>
-						</Grid>
-						<Typography variant="subtitle1" gutterBottom>
-							Klik op een datum om aan te geven of je hebt meegeluncht
-						</Typography>
+							<Alert variant="outlined" style={{marginTop: 8}} severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
+						</Grid>						
 					</div>
 				</div>
 

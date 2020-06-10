@@ -5,23 +5,16 @@ import "../css/Calendar.css";
 import Navbar from "../components/navbar/navbar";
 import { getAllUserWithLunches } from "../service/userService";
 import { addLunch, deleteLunch } from "../service/secLunchService";
-import {
-	Typography,
-	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
-	Paper,
-	Grid,
-} from "@material-ui/core";
-import { CheckBox } from "@material-ui/icons";
-import { withStyles } from "@material-ui/core/styles";
+import { Typography, FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@material-ui/core";
+import { CheckBox } from '@material-ui/icons'
+import { Alert } from '@material-ui/lab'
+import { withStyles } from '@material-ui/core/styles';
 import SnackbarMessage from "./../components/SnackbarMessage";
 
-const useStyles = (theme) => ({
+const useStyles = theme => ({
 	input: {
-		minWidth: "50%",
-		paddingBottom: "1%",
+		minWidth: '50%',
+		paddingBottom: '1%'
 	},
 });
 
@@ -30,10 +23,9 @@ class SecAddLunch extends React.Component {
 		super(props);
 		this.state = {
 			users: [],
-			selectedUser: [],
+			selectedUser: '',
 			date: new Date(),
 			lunchedDays: [],
-
 			showMessage: false,
 			message: "",
 		};
@@ -92,6 +84,7 @@ class SecAddLunch extends React.Component {
 		const { classes } = this.props;
 
 		const onChange = (date) => {
+      if(Object.keys(this.state.selectedUser).length !== 0){
 			for (let i = 0; i < this.state.lunchedDays.length; i++) {
 				const loopDate = this.state.lunchedDays[i];
 				if (
@@ -120,12 +113,11 @@ class SecAddLunch extends React.Component {
 										message: "Er is iets misgegaan.",
 									});
 								}
-							}
-						}
-					);
-					return;
+							}}
+						);
+						return;
+					}
 				}
-			}
 			addLunch(this.state.selectedUser.account.id, date).then((value) => {
 				console.log(value);
 				if (value.status === 200) {
@@ -146,7 +138,7 @@ class SecAddLunch extends React.Component {
 					});
 				}
 			});
-		};
+		}};
 		const tileContent = ({ date, view }) => {
 			if (view === "month") {
 				for (var i = 0; i < this.state.lunchedDays.length; i++) {
@@ -190,11 +182,13 @@ class SecAddLunch extends React.Component {
 				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-						<Typography variant="h2" component="h1" gutterBottom>
-							Lunch toevoegen
-						</Typography>
-						<FormControl className={classes.input} variant="outlined">
-							<InputLabel>Medewerker</InputLabel>
+						<Typography variant="h2" component="h1" gutterBottom>Lunch toevoegen</Typography>
+						<FormControl className={classes.input} variant="outlined" >
+							{this.state.selectedUser === '' ?
+								<InputLabel>Selecteer hier een medewerker</InputLabel> :
+								<InputLabel>Medewerker</InputLabel>
+							}
+
 							<Select onChange={this.onChangeUser}>
 								{this.state.users.map((user, i) => {
 									return (
@@ -205,24 +199,26 @@ class SecAddLunch extends React.Component {
 								})}
 							</Select>
 						</FormControl>
-						<br />
 
-						<Grid container justify="center">
-							<Paper elevation={3} className="calendar">
-								<Calander
-									onChange={onChange}
-									value={date}
-									showWeekNumbers
-									maxDate={new Date()}
-									onClickDay={this.onClickDay}
-									tileContent={tileContent}
-									tileClassName={tileClassName}
-								/>
-							</Paper>
-						</Grid>
-						<Typography variant="subtitle1" gutterBottom>
-							Klik op een datum om aan te geven of je hebt meegeluncht
-						</Typography>
+						{this.state.selectedUser !== '' &&
+							<>
+								<br />
+								<Grid container justify="center">
+									<Paper elevation={3} className="calendar">
+										<Calander
+											onChange={onChange}
+											value={date}
+											showWeekNumbers
+											maxDate={new Date()}
+											onClickDay={this.onClickDay}
+											tileContent={tileContent}
+											tileClassName={tileClassName}
+										/>
+									</Paper>
+									<Alert variant="outlined" style={{ marginTop: 8 }} severity="info">Klik op een datum om een lunch van een medewerker toe te voegen of te verwijderen</Alert>
+								</Grid>
+							</>
+						}
 					</div>
 
 					{this.state.showMessage ? (

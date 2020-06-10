@@ -7,13 +7,20 @@ import {
 	TextField,
 	InputAdornment,
 	Grid,
+	Fab,
 } from "@material-ui/core";
-import { AlternateEmail, Lock } from "@material-ui/icons";
+import {
+	AlternateEmail,
+	Lock,
+	TextFields,
+	Dialpad,
+	Check,
+} from "@material-ui/icons";
 import { getAllUsers, login } from "../service/userService";
 import PinLogin from "../components/PinLogin";
+import SnackbarMessage from "./../components/SnackbarMessage";
 import "../css/Login.css";
 import { withStyles } from "@material-ui/core/styles";
-import SnackbarMessage from "./../components/SnackbarMessage";
 
 const useStyles = (theme) => ({
 	root: {
@@ -23,6 +30,11 @@ const useStyles = (theme) => ({
 	},
 	content: {
 		textAlign: "center",
+	},
+	export: {
+		position: "absolute",
+		bottom: theme.spacing(5),
+		right: theme.spacing(5),
 	},
 });
 
@@ -53,6 +65,12 @@ class Login extends Component {
 			}
 		});
 	}
+
+	closeMessage = () => {
+		this.setState({
+			showMessage: false,
+		});
+	};
 
 	handleEmailChange = (event) => {
 		this.setState({
@@ -108,89 +126,92 @@ class Login extends Component {
 			loginPage = (
 				<div>
 					<PinLogin users={this.state.users} history={this.props.history} />
-					<br />
-					<Button
-						size="large"
-						variant="contained"
+					<Fab
 						color="primary"
+						size="large"
+						variant="extended"
 						onClick={setPasswordLogin}
+						className={classes.export}
 					>
-						Password login
-					</Button>
-					{this.state.showMessage ? (
-						<SnackbarMessage
-							message={this.state.message}
-							messageType={this.state.messageType}
-							showMessage={this.closeMessage}
-						/>
-					) : null}
+						<TextFields /> Wachtwoord login
+					</Fab>
 				</div>
 			);
 		} else {
 			loginPage = (
-				<Container maxWidth="md">
+				<>
 					<Typography variant="h2" component="h1" gutterBottom>
-						Inloggen
+						Log hier in met uw email en wachtwoord
 					</Typography>
-					<TextField
-						required
-						style={{ margin: 8 }}
-						variant="outlined"
-						InputProps={{
-							startAdornment: (
-								<InputAdornment position="start">
-									<AlternateEmail />
-								</InputAdornment>
-							),
-						}}
-						fullWidth
-						xs={12}
-						id="standard-basic"
-						label="Email"
-						onChange={this.handleEmailChange}
-					/>
-					<TextField
-						required
-						style={{ margin: 8 }}
-						variant="outlined"
-						InputProps={{
-							startAdornment: (
-								<InputAdornment position="start">
-									<Lock />
-								</InputAdornment>
-							),
-						}}
-						fullWidth
-						type="password"
-						xs={12}
-						id="standard-basic"
-						label="Wachtwoord"
-						onChange={this.handlePasswordChange}
-					/>
-					<div className={classes.root}>
-						<Button variant="contained" size="large" onClick={setPinLogin}>
-							Pincode Login
-						</Button>
+					<Container maxWidth="md">
+						<TextField
+							required
+							style={{ margin: 8 }}
+							variant="outlined"
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<AlternateEmail />
+									</InputAdornment>
+								),
+							}}
+							fullWidth
+							id="standard-basic"
+							label="Email"
+							onChange={this.handleEmailChange}
+						/>
+						<TextField
+							required
+							style={{ margin: 8 }}
+							variant="outlined"
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<Lock />
+									</InputAdornment>
+								),
+							}}
+							fullWidth
+							type="password"
+							id="standard-basic"
+							label="Wachtwoord"
+							onChange={this.handlePasswordChange}
+						/>
 						<Button
 							color="primary"
+							style={{ margin: 8 }}
+							fullWidth
 							variant="contained"
 							size="large"
 							onClick={this.handleSubmit}
 						>
-							Bevestig
+							<Check />
 						</Button>
-					</div>
-					{this.state.showMessage ? (
-						<SnackbarMessage
-							message={this.state.message}
-							messageType={this.state.messageType}
-							showMessage={this.closeMessage}
-						/>
-					) : null}
-				</Container>
+						<Fab
+							color="primary"
+							size="large"
+							variant="extended"
+							onClick={setPinLogin}
+							className={classes.export}
+						>
+							<Dialpad /> Pincode login
+						</Fab>
+					</Container>
+				</>
 			);
 		}
-		return <Grid className={classes.content}>{loginPage}</Grid>;
+		return (
+			<Grid className={classes.content}>
+				{loginPage}
+				{this.state.showMessage ? (
+					<SnackbarMessage
+						message={this.state.message}
+						messageType={this.state.messageType}
+						showMessage={this.closeMessage}
+					/>
+				) : null}
+			</Grid>
+		);
 	}
 }
 
