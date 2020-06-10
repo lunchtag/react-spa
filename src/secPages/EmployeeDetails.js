@@ -1,18 +1,39 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Navbar from '../components/navbar/navbar'
-import '../css/EmployeeDetails.css'
+import Navbar from "../components/navbar/navbar";
+import "../css/EmployeeDetails.css";
 
-import EmployeeLunchItem from '../components/EmployeeLunchItem';
+import EmployeeLunchItem from "../components/EmployeeLunchItem";
 
-import { Container, Button, Typography, Paper, Table, TableHead, TableRow, TableCell, TableBody, Fab, ButtonGroup, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
-import { Alert } from '@material-ui/lab'
-import { Today, ArrowBack, ArrowForward, OpenInBrowser } from '@material-ui/icons'
-import { getAllLunchesFromUser, exportPdf } from '../service/lunchService';
-import { getAllUsers } from '../service/userService';
+import {
+	Container,
+	Button,
+	Typography,
+	Paper,
+	Table,
+	TableHead,
+	TableRow,
+	TableCell,
+	TableBody,
+	Fab,
+	ButtonGroup,
+	FormControl,
+	InputLabel,
+	Select,
+	MenuItem,
+} from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import {
+	Today,
+	ArrowBack,
+	ArrowForward,
+	OpenInBrowser,
+} from "@material-ui/icons";
+import { getAllLunchesFromUser, exportPdf } from "../service/lunchService";
+import { getAllUsers } from "../service/userService";
 
-import { withStyles } from '@material-ui/core/styles';
-
+import { withStyles } from "@material-ui/core/styles";
+import SnackbarMessage from "./../components/SnackbarMessage";
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -92,7 +113,11 @@ class EmployeeDetails extends Component {
         })
     }
 
-
+	closeMessage = (e) => {
+		this.setState({
+			showMessage: false,
+		});
+	};
 
     render() {
         const { classes } = this.props;
@@ -145,11 +170,27 @@ class EmployeeDetails extends Component {
             }
         }
 
-        const deleteLunch = (lunchId) => {
-            const newLunches = this.state.lunches.filter(lunch => lunch.id !== lunchId)
-            this.setState({ lunches: newLunches, filteredLunches: newLunches })
-            this.filterLunches()
-        }
+        const deleteLunch = (lunchId, messageType) => {
+			if (messageType === "success") {
+				this.setState({
+					showMessage: true,
+					messageType: "success",
+					message: "Lunch succesvol verwijderd",
+				});
+			} else {
+				this.setState({
+					showMessage: true,
+					messageType: "warning",
+					message: "Er is iets misgegaan",
+				});
+			}
+
+			const newLunches = this.state.lunches.filter(
+				(lunch) => lunch.id !== lunchId
+			);
+			this.setState({ lunches: newLunches, filteredLunches: newLunches });
+			this.filterLunches();
+		};
 
 
         return (
@@ -214,6 +255,13 @@ class EmployeeDetails extends Component {
                             </Container>
                         </div>
                     </React.Fragment >
+{this.state.showMessage ? (
+						<SnackbarMessage
+							message={this.state.message}
+							messageType={this.state.messageType}
+							showMessage={this.closeMessage}
+						/>
+					) : null}
                 </div>
             </div>
         )

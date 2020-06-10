@@ -8,14 +8,14 @@ import {
 	deleteLunch,
 } from "../service/lunchService";
 import Navbar from "../components/navbar/navbar";
-import {Typography, Paper, Grid } from "@material-ui/core";
+
+import { Typography, Paper, Grid } from "@material-ui/core";
 import {Alert } from "@material-ui/lab"
-import { CheckBox } from '@material-ui/icons'
-import { withStyles } from '@material-ui/core/styles';
+import { CheckBox } from "@material-ui/icons";
+import { withStyles } from "@material-ui/core/styles";
+import SnackbarMessage from "./../components/SnackbarMessage";
 
-const useStyles = theme => ({
-
-});
+const useStyles = (theme) => ({});
 
 class UserLunchOverView extends React.Component {
 	constructor(props) {
@@ -23,6 +23,10 @@ class UserLunchOverView extends React.Component {
 		this.state = {
 			date: new Date(),
 			lunchedDays: [],
+
+			changePassword: false,
+			showMessage: false,
+			message: "",
 		};
 	}
 
@@ -37,9 +41,21 @@ class UserLunchOverView extends React.Component {
 				this.setState({
 					lunchedDays: dates,
 				});
+			} else {
+				this.setState({
+					messageType: "warning",
+					showMessage: true,
+					message: "Er is iets mis gegaan",
+				});
 			}
 		});
 	}
+
+	closeMessage = () => {
+		this.setState({
+			showMessage: false,
+		});
+	};
 
 	render() {
 		const onChange = (date) => {
@@ -57,6 +73,18 @@ class UserLunchOverView extends React.Component {
 								let newLunchedDays = this.state.lunchedDays;
 								newLunchedDays.splice(i, 1);
 								this.setState({ date: date, LunchedDays: newLunchedDays });
+
+								this.setState({
+									messageType: "success",
+									showMessage: true,
+									message: "Lunch succesvol verwijderd",
+								});
+							} else {
+								this.setState({
+									messageType: "warning",
+									showMessage: true,
+									message: "Er is iets misgegaan",
+								});
 							}
 						}
 					});
@@ -69,6 +97,12 @@ class UserLunchOverView extends React.Component {
 					let newLunchedDays = this.state.lunchedDays;
 					newLunchedDays.push({ id: value.data.id, date: date });
 					this.setState({ date: date, lunchedDays: newLunchedDays });
+
+					this.setState({
+						messageType: "success",
+						showMessage: true,
+						message: "Lunch succesvol toegevoegd",
+					});
 				}
 			});
 		};
@@ -82,7 +116,12 @@ class UserLunchOverView extends React.Component {
 						date.getMonth() === loopDate.getMonth() &&
 						date.getDate() === loopDate.getDate()
 					) {
-						return <><br /><CheckBox /></>
+						return (
+							<>
+								<br />
+								<CheckBox />
+							</>
+						);
 					}
 				}
 			}
@@ -128,9 +167,17 @@ class UserLunchOverView extends React.Component {
 						</Grid>						
 					</div>
 				</div>
+
+				{this.state.showMessage ? (
+					<SnackbarMessage
+						message={this.state.message}
+						messageType={this.state.messageType}
+						showMessage={this.closeMessage}
+					/>
+				) : null}
 			</div>
 		);
 	}
 }
 
-export default withStyles(useStyles)(UserLunchOverView)
+export default withStyles(useStyles)(UserLunchOverView);

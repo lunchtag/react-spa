@@ -10,9 +10,11 @@ import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "../css/RegisterLunch.css";
 import Navbar from "../components/navbar/navbar";
+
 import { Container, Button, Typography} from "@material-ui/core";
 import {Today} from "@material-ui/icons"
 import {Alert} from "@material-ui/lab"
+import SnackbarMessage from "./SnackbarMessage";
 
 function RegisterLunch() {
     let deleted;
@@ -26,8 +28,15 @@ function RegisterLunch() {
             date: new Date("2020-04-10")
         }
     ])
-
     
+    // Message
+	const [message, setMessage] = React.useState();
+	const [showMessage, setShowMessage] = React.useState(false);
+	const [messageType, setMessageType] = React.useState();
+
+	function closeMessage() {
+		setShowMessage(false);
+	}
 
     function getLunches() {
         const url = 'https://lunchtag-resource-server.herokuapp.com/lunch'
@@ -39,27 +48,40 @@ function RegisterLunch() {
                 'Authorization': 'Bearer ' + window.sessionStorage.getItem("token")
             }
         })
-            .then(res => res.json())
             .then(data => {
-                setLunch(data)
+          if (data.status !== 200) {
+				setMessage("Er is iets misgegaan");
+				setShowMessage(true);
+				setMessageType("warning");
+			}
+          setLunch(data)
                 console.log(lunch);
 
             })
     }
 
     function deleteLunchApi(lunchId) {
-        console.log(lunchId);
-        fetch('https://lunchtag-resource-server.herokuapp.com/lunch/' + lunchId, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
-            }
-        }).then(response => {
-            getLunches();
-        })
-    }
+		console.log(lunchId);
+		fetch("https://lunchtag-resource-server.herokuapp.com/lunch/" + lunchId, {
+			method: "DELETE",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + window.sessionStorage.getItem("token"),
+			},
+		}).then((response) => {
+			if (response.status === 200) {
+				setMessage("Lunch succesvol verwijderd");
+				setShowMessage(true);
+				setMessageType("success");
+			} else {
+				setMessage("Er is iets misgegaan");
+				setShowMessage(true);
+				setMessageType("warning");
+			}
+			getLunches();
+		});
+	}
 
     function checkDelete(newLunch) {
         deleted = false;
@@ -81,27 +103,35 @@ function RegisterLunch() {
     }
 
     function addlunchApi(newLunch) {
-        checkDelete(newLunch);
-        if (!deleted) {
-            fetch('https://lunchtag-resource-server.herokuapp.com/lunch', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + window.sessionStorage.getItem('token')
-                },
-                body: JSON.stringify({
-                    name: newLunch.title,
-                    date: newLunch.date
-                })
-            }).then(response => {
-                getLunches();
-            })
+		checkDelete(newLunch);
+		if (!deleted) {
+			fetch("https://lunchtag-resource-server.herokuapp.com/lunch", {
+				method: "POST",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + window.sessionStorage.getItem("token"),
+				},
+				body: JSON.stringify({
+					name: newLunch.title,
+					date: newLunch.date,
+				}),
+			}).then((response) => {
+				if (response.status === 200) {
+					setMessage("Lunch succesvol toegevoegd");
+					setShowMessage(true);
+					setMessageType("success");
+				} else {
+					setMessage("Er is iets misgegaan");
+					setShowMessage(true);
+					setMessageType("warning");
+				}
+				getLunches();
+			});
 
-            setLunch(oldLunches => [...oldLunches, newLunch]); // Dit update de lunch array , Wanneer dit samen werkt met de api, kunnen we ook alle lunches ophalen en die in de array zetten
-
-        }
-    }
+			setLunch((oldLunches) => [...oldLunches, newLunch]); // Dit update de lunch array , Wanneer dit samen werkt met de api, kunnen we ook alle lunches ophalen en die in de array zetten
+		}
+	}
 
 
     function addToday() {
@@ -157,6 +187,14 @@ function RegisterLunch() {
                     <Button variant="contained" color="primary" size="large" onClick={addToday}><Today/> Ik heb vandaag meegeluncht</Button>
                     <Alert variant="outlined" style={{marginTop: 8}} severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
                 </Container>
+      
+      {showMessage && (
+					<SnackbarMessage
+						message={message}
+						messageType={messageType}
+						showMessage={closeMessage}
+					/>
+				)}
             </div>
         </div>
 
