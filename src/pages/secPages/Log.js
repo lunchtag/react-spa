@@ -10,7 +10,19 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {Container} from "@material-ui/core"
+import {Container, Typography} from "@material-ui/core"
+import { Person, Event, Description } from "@material-ui/icons"
+
+const StyledTableCell = withStyles((theme) => ({
+	head: {
+		backgroundColor: theme.palette.primary.main,
+		color: theme.palette.common.white,
+		fontSize: 20,
+	},
+	body: {
+		fontSize: 14,
+	},
+}))(TableCell);
 
 const useStyles = makeStyles({
 	table: {
@@ -64,21 +76,23 @@ class Log extends React.Component {
 			<div className="flexboxes">
 				<Navbar />
 				<div className="rightpanel">
-					<h1>Audit logs</h1>
+				<Typography variant="h2" component="h1" gutterBottom>
+				Audit logs
+						</Typography>
 					<Container maxWidth="md">
 						<Table className={classes.table} aria-label="simple table">
 							<TableHead>
 								<TableRow>
-									<TableCell>User</TableCell>
-									<TableCell align="right">Tijd gemaakt</TableCell>
-									<TableCell align="right">Log omschrijving</TableCell>
+									<StyledTableCell align="left"><Person/></StyledTableCell>
+									<StyledTableCell align="right"><Event/></StyledTableCell>
+									<StyledTableCell align="right"><Description/></StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
 								{this.state.subLogs.map((row) => (
 									<TableRow key={row.name}>
 										<TableCell component="th" scope="row">
-											{row.user.name}
+											{row.user.name + " " + row.user.lastName}
 										</TableCell>
 										<TableCell align="right">{new Date(row.dateOfLog).toLocaleDateString() +
 											" " +
