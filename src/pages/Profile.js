@@ -44,7 +44,6 @@ export default class Profile extends Component {
 	}
 
 	sendNewPincode = () => {
-		console.log("Sending new pincode...");
 		resetPincode().then((value) => {
 			if (value.status === 200) {
 				this.setState({

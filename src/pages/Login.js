@@ -51,8 +51,6 @@ class Login extends Component {
 
 	componentDidMount() {
 		getAllUsers().then((res) => {
-			console.log(res);
-
 			if (res.status === 200) {
 				this.setState({ users: res.data });
 			} else {
@@ -95,7 +93,6 @@ class Login extends Component {
 			if (res.status === 200) {
 				this.props.history.push("/dashboard");
 			} else {
-				console.log(res.data);
 				this.setState({
 					messageType: "warning",
 					showMessage: true,

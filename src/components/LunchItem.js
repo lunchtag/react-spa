@@ -2,21 +2,13 @@ import React from "react";
 
 import { TableRow, TableCell, IconButton, Typography } from "@material-ui/core";
 import { DeleteRounded } from "@material-ui/icons";
+import { deleteLunchId } from "./../service/lunchService";
 
 function LunchItem(props) {
 	const lunchItem = props.lunch;
 
 	function deleteLunch(event) {
-		const url =
-			"https://lunchtag-resource-server.herokuapp.com/lunch/" + lunchItem.id;
-		fetch(url, {
-			method: "DELETE",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-				Authorization: "Bearer " + window.sessionStorage.getItem("token"),
-			},
-		}).then((res) => {
+		deleteLunchId(lunchItem.id).then((res) => {
 			if (res.status === 200) {
 				props.callback("success");
 			} else {

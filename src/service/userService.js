@@ -10,7 +10,6 @@ export async function getAllUserWithLunches() {
 		},
 	})
 		.then((res) => {
-			console.log(res);
 			return res;
 		})
 		.catch((error) => {
@@ -26,7 +25,6 @@ export async function login(credentials) {
 		},
 	})
 		.then((res) => {
-			Auth.login(res.data);
 			return res;
 		})
 		.catch((error) => {
@@ -74,7 +72,6 @@ export async function pinLoginCall(pin, email) {
 export async function getAllUsers() {
 	return Axios.get(`${server}/account/all`)
 		.then((res) => {
-			console.log(res);
 			return res;
 		})
 		.catch((error) => {
@@ -91,7 +88,6 @@ export async function resetPincode() {
 		},
 	})
 		.then((res) => {
-			console.log(res);
 			return res;
 		})
 		.catch((error) => {

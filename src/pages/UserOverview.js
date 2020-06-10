@@ -9,8 +9,8 @@ import {
 	disableById,
 } from "../service/UserOverviewService";
 
-import { Save } from "@material-ui/icons"
-import {Typography} from "@material-ui/core"
+import { Save } from "@material-ui/icons";
+import { Typography } from "@material-ui/core";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -80,7 +80,6 @@ function UserOverView(props) {
 	}, []);
 
 	function handleDetails(id) {
-		console.log("Handle details");
 		// id meesturen naar andere pagina
 		props.history.push("/employee");
 	}
@@ -90,19 +89,17 @@ function UserOverView(props) {
 			if (res.status === 200) {
 				getAllUsers().then((res) => {
 					setUsers(res.data);
-					setMessage("Account succesvol ge(de)blokkeerd")
-					setShowMessage(true)
-					setMessageType("success")
+					setMessage("Account succesvol ge(de)blokkeerd");
+					setShowMessage(true);
+					setMessageType("success");
 					// window.location.reload();
 				});
-			}
-			else {
-				setMessage("Er is iets misgegaan")
-				setShowMessage(true)
-				setMessageType("warning")
+			} else {
+				setMessage("Er is iets misgegaan");
+				setShowMessage(true);
+				setMessageType("warning");
 			}
 		});
-
 	}
 
 	function handleUpdate() {
@@ -133,7 +130,6 @@ function UserOverView(props) {
 				}
 			}
 		});
-		// console.log(users);
 	}
 
 	// Filteren op actief account
@@ -152,8 +148,12 @@ function UserOverView(props) {
 			{!isLoading && checkIfNotLoading()}
 			<Navbar />
 			<div className="rightpanel">
-				<Typography variant="h2" component="h1" gutterBottom>Overzicht medewerkers</Typography>
-				<Typography variant="h4" component="h1" gutterBottom>Totaal aantal personen : {users.length}</Typography>
+				<Typography variant="h2" component="h1" gutterBottom>
+					Overzicht medewerkers
+				</Typography>
+				<Typography variant="h4" component="h1" gutterBottom>
+					Totaal aantal personen : {users.length}
+				</Typography>
 				<TableContainer className={classes.tableContainer} component={Paper}>
 					<Table className={classes.table} aria-label="simple table">
 						<TableHead>
@@ -220,7 +220,7 @@ function UserOverView(props) {
 						onClick={handleUpdate}
 					>
 						Wijzigingen opslaan
-						</Button>
+					</Button>
 				</div>
 			</div>
 

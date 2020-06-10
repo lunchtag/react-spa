@@ -9,7 +9,6 @@ export async function getAllLogs() {
 		},
 	})
 		.then((res) => {
-			console.log(res);
 			return res;
 		})
 		.catch((error) => {
