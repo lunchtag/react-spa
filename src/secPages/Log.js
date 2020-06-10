@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/navbar/navbar";
 import Table from "react-bootstrap/Table";
+import Pagination from '@material-ui/lab/Pagination';
 
 import { getAllLogs } from "../service/logService";
+import "../css/log.css";
 
 export default class Log extends React.Component {
 	constructor(props) {
@@ -10,6 +12,10 @@ export default class Log extends React.Component {
 
 		this.state = {
 			logs: [],
+			subLogs: [],
+			currentPage: 1,
+			logsPerPage: 10,
+			count: 5
 		};
 	}
 
@@ -18,7 +24,26 @@ export default class Log extends React.Component {
 			this.setState({
 				logs: value.data,
 			});
+
+			this.state.count = Math.ceil(this.state.logs.length / this.state.logsPerPage);
+			this.makeSubArray();
 		});
+	}
+
+	handleChange = (event, value) => {
+		this.state.currentPage = value;
+		this.makeSubArray();
+	}
+
+	makeSubArray = () => {
+		let endIndex = this.state.currentPage * this.state.logsPerPage;
+		let startfromIndex = endIndex - this.state.logsPerPage;
+		// slice array
+		this.setState({
+			subLogs: this.state.logs.slice(startfromIndex, endIndex)
+		})
+
+
 	}
 
 	render() {
@@ -39,7 +64,8 @@ export default class Log extends React.Component {
 							</tr>
 						</thead>
 						<tbody>
-							{logs.map((item) => (
+
+							{this.state.subLogs.map((item) => (
 								<tr>
 									<td>{item.user.name + " " + item.user.lastName}</td>
 
@@ -50,6 +76,7 @@ export default class Log extends React.Component {
 							))}
 						</tbody>
 					</Table>
+					<Pagination onChange={this.handleChange} className="pagination" count={this.state.count} />
 				</div>
 			</div>
 		);
