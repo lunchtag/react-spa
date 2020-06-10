@@ -155,7 +155,7 @@ function RegisterLunch() {
                         dateClick={handleDateClick}
                     />
                     <Button variant="contained" color="primary" size="large" onClick={addToday}><Today/> Ik heb vandaag meegeluncht</Button>
-                    <Alert style={{marginTop: 8}} severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
+                    <Alert variant="outlined" style={{marginTop: 8}} severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
                 </Container>
             </div>
         </div>

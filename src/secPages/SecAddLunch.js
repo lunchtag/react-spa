@@ -5,7 +5,7 @@ import "../css/Calendar.css";
 import Navbar from "../components/navbar/navbar";
 import { getAllUserWithLunches } from "../service/userService";
 import { addLunch, deleteLunch } from "../service/secLunchService";
-import { Typography,FormControl, InputLabel, Select, MenuItem, Paper, Container } from "@material-ui/core";
+import { Typography,FormControl, InputLabel, Select, MenuItem, Paper, Grid } from "@material-ui/core";
 import { CheckBox } from '@material-ui/icons'
 import { Alert } from '@material-ui/lab'
 import { withStyles } from '@material-ui/core/styles';
@@ -163,7 +163,7 @@ class SecAddLunch extends React.Component {
 						</FormControl>
 						<br/>
 
-						<Container maxWidth="lg" justify="center">
+						<Grid container justify="center">
 						<Paper elevation={3} className="calendar">
 								<Calander
 									onChange={onChange}
@@ -175,10 +175,8 @@ class SecAddLunch extends React.Component {
 									tileClassName={tileClassName}
 								/>
 							</Paper>
-
-							<br/>
-							<Alert severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
-						</Container>
+							<Alert variant="outlined" style={{marginTop: 8}} severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
+						</Grid>
 					</div>
 				</div>
 			</div>

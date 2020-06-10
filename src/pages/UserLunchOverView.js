@@ -8,7 +8,7 @@ import {
 	deleteLunch,
 } from "../service/lunchService";
 import Navbar from "../components/navbar/navbar";
-import {Typography, Paper, Grid, Container } from "@material-ui/core";
+import {Typography, Paper, Grid } from "@material-ui/core";
 import {Alert } from "@material-ui/lab"
 import { CheckBox } from '@material-ui/icons'
 import { withStyles } from '@material-ui/core/styles';
@@ -111,8 +111,8 @@ class UserLunchOverView extends React.Component {
 				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-						<Typography variant="h2" component="h1" gutterBottom>Maand overzicht</Typography>
-						<Container maxWidth="lg" justify="center">
+						<Typography variant="h2" component="h1" gutterBottom>Maandoverzicht</Typography>
+						<Grid container maxWidth="lg" justify="center">
 							<Paper elevation={3} className="calendar">
 								<Calander
 									onChange={onChange}
@@ -124,9 +124,8 @@ class UserLunchOverView extends React.Component {
 									tileClassName={tileClassName}
 								/>
 							</Paper>
-							<br/>
-							<Alert severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
-						</Container>						
+							<Alert variant="outlined" style={{marginTop: 8}} severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
+						</Grid>						
 					</div>
 				</div>
 			</div>
