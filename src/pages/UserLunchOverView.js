@@ -48,6 +48,7 @@ class UserLunchOverView extends React.Component {
 					message: "Je hebt nog geen lunches",
 				});
 			} else {
+				console.log(value.data);
 				this.setState({
 					messageType: "warning",
 					showMessage: true,

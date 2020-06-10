@@ -81,6 +81,13 @@ class Login extends Component {
 		});
 	};
 
+	closeMessage = (e) => {
+		this.setState({
+			showMessage: false,
+		});
+	};
+
+
 	handleSubmit = (e) => {
 		e.preventDefault();
 
