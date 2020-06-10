@@ -160,9 +160,8 @@ function PinLogin(props) {
 				<Grid item xs={12} container justify="center" spacing={3}>
 					{firstRow.map((value) => {
 						return (
-							<Grid item>
+							<Grid item key={value}>
 								<Paper
-									key={value}
 									className={classes.paper}
 									onClick={() => filterUsers(value)}
 								>
@@ -175,9 +174,8 @@ function PinLogin(props) {
 				<Grid item xs={12} container justify="center" spacing={3}>
 					{secondRow.map((value) => {
 						return (
-							<Grid item>
+							<Grid item key={value}>
 								<Paper
-									key={value}
 									className={classes.paper}
 									onClick={() => filterUsers(value)}
 								>
@@ -190,9 +188,8 @@ function PinLogin(props) {
 				<Grid item xs={12} container justify="center" spacing={3}>
 					{thirdRow.map((value) => {
 						return (
-							<Grid item>
+							<Grid item key={value}>
 								<Paper
-									key={value}
 									className={classes.paper}
 									onClick={() => filterUsers(value)}
 								>

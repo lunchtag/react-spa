@@ -36,7 +36,7 @@ class Log extends React.Component {
 				logs: value.data,
 			});
 
-			this.state.count = Math.ceil(this.state.logs.length / this.state.logsPerPage);
+			this.setState({count: Math.ceil(this.state.logs.length / this.state.logsPerPage)});
 			this.makeSubArray();
 		});
 	}
@@ -58,7 +58,6 @@ class Log extends React.Component {
 	}
 
 	render() {
-		const logs = this.state.logs;
 		const { classes } = this.props;
 		return (
 			<div className="flexboxes">
@@ -76,7 +75,7 @@ class Log extends React.Component {
 							</TableHead>
 							<TableBody>
 								{this.state.subLogs.map((row) => (
-									<TableRow key={row.name}>
+									<TableRow key={row.id}>
 										<TableCell component="th" scope="row">
 											{row.user.name}
 										</TableCell>
