@@ -9,20 +9,8 @@ import {
 	disableById,
 } from "../../service/UserOverviewService";
 
-import { Save } from "@material-ui/icons";
-import { Typography } from "@material-ui/core";
-
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import BlockIcon from "@material-ui/icons/Block";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField, Button } from "@material-ui/core/";
+import { Save, Block, AddCircleOutlineOutlined } from "@material-ui/icons/";
 
 import "../../css/UserOverView.css";
 import SnackbarMessage from "../../components/SnackbarMessage";
@@ -85,6 +73,7 @@ function UserOverView(props) {
 	}
 
 	function handleDisable(id, isNonLocked) {
+		console.log(id);
 		disableById(id).then((res) => {
 			if (res.status === 200) {
 				getAllUsers().then((res) => {
@@ -198,11 +187,19 @@ function UserOverView(props) {
 										>
 											Details
 										</Button>
-										<BlockIcon
-											color={!item.isNonLocked ? "disabled" : "secondary"}
-											style={{ cursor: "pointer" }}
-											onClick={() => handleDisable(item.id, item.isNonLocked)}
-										/>
+										{!item.isNonLocked ?
+											<AddCircleOutlineOutlined
+												color={"primary"}
+												style={{ cursor: "pointer" }}
+												onClick={() => handleDisable(item.id, item.isNonLocked)}
+											/> :
+											<Block
+												color={!item.isNonLocked ? "disabled" : "secondary"}
+												style={{ cursor: "pointer" }}
+												onClick={() => handleDisable(item.id, item.isNonLocked)}
+											/>
+										}
+
 									</TableCell>
 								</TableRow>
 							))}
