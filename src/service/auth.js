@@ -6,7 +6,6 @@ class Auth {
 		window.sessionStorage.setItem("firstName", data.user.name);
 		window.sessionStorage.setItem("lastName", data.user.lastName);
 		window.sessionStorage.setItem("email", data.user.email);
-		console.log(data.user);
 		window.sessionStorage.setItem(
 			"name",
 			data.user.name + " " + data.user.lastName

@@ -1,31 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Navbar from "../components/navbar/navbar";
+import Navbar from "../../components/navbar/navbar";
 
 import {
 	getAllUsers,
 	updateUser,
 	disableById,
-} from "../service/UserOverviewService";
+} from "../../service/UserOverviewService";
 
-import { Save } from "@material-ui/icons"
-import {Typography} from "@material-ui/core"
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField, Button } from "@material-ui/core/";
+import { Save, Block, AddCircleOutlineOutlined } from "@material-ui/icons/";
 
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import BlockIcon from "@material-ui/icons/Block";
-
-import "../css/UserOverView.css";
-import SnackbarMessage from "../components/SnackbarMessage";
+import "../../css/UserOverView.css";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 const useStyles = makeStyles({
 	tableContainer: {
@@ -69,29 +57,27 @@ function UserOverView(props) {
 	}, []);
 
 	function handleDetails(id) {
-		console.log("Handle details");
 		// id meesturen naar andere pagina
 		props.history.push("/employee");
 	}
 
 	function handleDisable(id, isNonLocked) {
+		console.log(id);
 		disableById(id).then((res) => {
 			if (res.status === 200) {
 				getAllUsers().then((res) => {
 					setUsers(res.data);
-					setMessage("Account succesvol ge(de)blokkeerd")
-					setShowMessage(true)
-					setMessageType("success")
+					setMessage("Account succesvol ge(de)blokkeerd");
+					setShowMessage(true);
+					setMessageType("success");
 					// window.location.reload();
 				});
-			}
-			else {
-				setMessage("Er is iets misgegaan")
-				setShowMessage(true)
-				setMessageType("warning")
+			} else {
+				setMessage("Er is iets misgegaan");
+				setShowMessage(true);
+				setMessageType("warning");
 			}
 		});
-
 	}
 
 	function handleUpdate() {
@@ -122,7 +108,6 @@ function UserOverView(props) {
 				}
 			}
 		});
-		// console.log(users);
 	}
 
 	// Filteren op actief account
@@ -141,8 +126,12 @@ function UserOverView(props) {
 			{!isLoading && checkIfNotLoading()}
 			<Navbar />
 			<div className="rightpanel">
-				<Typography variant="h2" component="h1" gutterBottom>Overzicht medewerkers</Typography>
-				<Typography variant="h4" component="h1" gutterBottom>Totaal aantal personen : {users.length}</Typography>
+				<Typography variant="h2" component="h1" gutterBottom>
+					Overzicht gebruikers
+				</Typography>
+				<Typography variant="h4" component="h1" gutterBottom>
+					Totaal aantal personen : {users.length}
+				</Typography>
 				<TableContainer className={classes.tableContainer} component={Paper}>
 					<Table className={classes.table} aria-label="simple table">
 						<TableHead>
@@ -187,11 +176,19 @@ function UserOverView(props) {
 										>
 											Details
 										</Button>
-										<BlockIcon
-											color={!item.isNonLocked ? "disabled" : "secondary"}
-											style={{ cursor: "pointer" }}
-											onClick={() => handleDisable(item.id, item.isNonLocked)}
-										/>
+										{!item.isNonLocked ?
+											<AddCircleOutlineOutlined
+												color={"primary"}
+												style={{ cursor: "pointer" }}
+												onClick={() => handleDisable(item.id, item.isNonLocked)}
+											/> :
+											<Block
+												color={!item.isNonLocked ? "disabled" : "secondary"}
+												style={{ cursor: "pointer" }}
+												onClick={() => handleDisable(item.id, item.isNonLocked)}
+											/>
+										}
+
 									</TableCell>
 								</TableRow>
 							))}
@@ -209,7 +206,7 @@ function UserOverView(props) {
 						onClick={handleUpdate}
 					>
 						Wijzigingen opslaan
-						</Button>
+					</Button>
 				</div>
 			</div>
 

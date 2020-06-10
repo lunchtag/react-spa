@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
-import { Container, Row, Button } from 'react-bootstrap'
-import auth from '../service/auth'
-
+import React, { Component } from "react";
+import { Container, Row, Button } from "react-bootstrap";
+import auth from "../../service/auth";
 
 class Register extends Component {
 	constructor(props) {
@@ -39,7 +38,6 @@ class Register extends Component {
 		});
 	};
 
-
 	handleSubmit = (e) => {
 		e.preventDefault();
 		fetch("https:lunchtag-resource-server.herokuapp.com/auth/register", {
@@ -57,15 +55,13 @@ class Register extends Component {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
 				if (data.token != null) {
-          auth.login(data)
+					auth.login(data);
 					window.alert("De gebruiker is succesvol aangemaakt!");
 				}
 				this.props.history.push("/");
 			});
 	};
-
 
 	render() {
 		return (

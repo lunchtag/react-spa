@@ -1,23 +1,23 @@
 import React from "react";
 import Calander from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import "../css/Calendar.css";
+import "../../css/Calendar.css";
 import {
 	getAllLunchesForUser,
 	addLunch,
 	deleteLunch,
-} from "../service/lunchService";
-import Navbar from "../components/navbar/navbar";
+} from "../../service/lunchService";
+import Navbar from "../../components/navbar/navbar";
 
 import { Typography, Paper, Grid } from "@material-ui/core";
-import {Alert } from "@material-ui/lab"
+import { Alert } from "@material-ui/lab";
 import { CheckBox } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
-import SnackbarMessage from "./../components/SnackbarMessage";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 const useStyles = (theme) => ({});
 
-class UserLunchOverView extends React.Component {
+class LunchOverviewMonth extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -41,15 +41,13 @@ class UserLunchOverView extends React.Component {
 				this.setState({
 					lunchedDays: dates,
 				});
-			}
-			else if (value.data === "No Lunches were found") {
+			} else if (value.data === "No Lunches were found") {
 				this.setState({
 					messageType: "info",
 					showMessage: true,
-					message: "Je hebt nog geen lunches"
-				})
-			}
-			else {
+					message: "Je hebt nog geen lunches",
+				});
+			} else {
 				console.log(value.data);
 				this.setState({
 					messageType: "warning",
@@ -77,7 +75,6 @@ class UserLunchOverView extends React.Component {
 				) {
 					deleteLunch(loopDate.id).then((value) => {
 						if (value) {
-							console.log(value);
 							if (value.status === 200) {
 								let newLunchedDays = this.state.lunchedDays;
 								newLunchedDays.splice(i, 1);
@@ -101,7 +98,6 @@ class UserLunchOverView extends React.Component {
 				}
 			}
 			addLunch(date).then((value) => {
-				console.log(value);
 				if (value.status === 200) {
 					let newLunchedDays = this.state.lunchedDays;
 					newLunchedDays.push({ id: value.data.id, date: date });
@@ -159,7 +155,9 @@ class UserLunchOverView extends React.Component {
 				<Navbar />
 				<div className="rightpanel">
 					<div className="content">
-						<Typography variant="h2" component="h1" gutterBottom>Maand</Typography>
+						<Typography variant="h2" component="h1" gutterBottom>
+							Maand
+						</Typography>
 						<Grid container maxWidth="lg" justify="center">
 							<Paper elevation={3} className="calendar">
 								<Calander
@@ -172,8 +170,14 @@ class UserLunchOverView extends React.Component {
 									tileClassName={tileClassName}
 								/>
 							</Paper>
-							<Alert variant="outlined" style={{marginTop: 8}} severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
-						</Grid>						
+							<Alert
+								variant="outlined"
+								style={{ marginTop: 8 }}
+								severity="info"
+							>
+								Klik op een datum om aan te geven of je hebt meegeluncht
+							</Alert>
+						</Grid>
 					</div>
 				</div>
 
@@ -189,4 +193,4 @@ class UserLunchOverView extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(UserLunchOverView);
+export default withStyles(useStyles)(LunchOverviewMonth);

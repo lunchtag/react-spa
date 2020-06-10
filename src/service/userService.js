@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { server } from "./constants.js";
+import Auth from "./auth";
 
 export async function getAllUserWithLunches() {
 	return Axios.get(`${server}/account/alluserlunches`, {
@@ -9,12 +10,27 @@ export async function getAllUserWithLunches() {
 		},
 	})
 		.then((res) => {
-			console.log(res);
 			return res;
 		})
 		.catch((error) => {
 			console.log(error);
 			return error.response;
+		});
+}
+
+export async function login(credentials) {
+	return Axios.post(`${server}/auth/login`, credentials, {
+		headers: {
+			"Content-Type": "application/json",
+		},
+	})
+		.then((res) => {
+			Auth.login(res.data);
+			return res;
+		})
+		.catch((error) => {
+			console.log(error);
+			return error;
 		});
 }
 
@@ -73,7 +89,6 @@ export async function resetPincode() {
 		},
 	})
 		.then((res) => {
-			console.log(res);
 			return res;
 		})
 		.catch((error) => {

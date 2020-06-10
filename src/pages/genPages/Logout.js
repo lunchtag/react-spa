@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import Auth from "../service/auth";
+import Auth from "../../service/auth";
 
-class LogoutPage extends Component {
+class Logout extends Component {
 	componentWillMount() {
 		Auth.logout();
 	}
@@ -12,4 +12,4 @@ class LogoutPage extends Component {
 	}
 }
 
-export default LogoutPage;
+export default Logout;

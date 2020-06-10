@@ -17,7 +17,6 @@ export default class SnackbarMessage extends Component {
 	};
 
 	render() {
-		console.log("snackbarMessage");
 		return (
 			<Snackbar
 				anchorOrigin={{

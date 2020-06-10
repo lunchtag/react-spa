@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
 import "react-moment";
-import dateHelper from "../service/dateHelper";
-import Navbar from "../components/navbar/navbar";
+import dateHelper from "../../service/dateHelper";
+import Navbar from "../../components/navbar/navbar";
 
-import LunchItem from "../components/LunchItem";
+import LunchItem from "../../components/LunchItem";
 
 import {
 	Container,
@@ -21,12 +21,12 @@ import {
 import { Alert } from "@material-ui/lab";
 import { Person, Today, ArrowBack, ArrowForward } from "@material-ui/icons";
 
-import { getAllLunchesForUser } from "../service/lunchService";
+import { getAllLunchesForUser } from "../../service/lunchService";
 
-import "../css/LunchOverview.css";
+import "../../css/LunchOverview.css";
 import moment from "moment";
 import { withStyles } from "@material-ui/core/styles";
-import SnackbarMessage from "./../components/SnackbarMessage";
+import SnackbarMessage from "../../components/SnackbarMessage";
 
 const StyledTableCell = withStyles((theme) => ({
 	head: {
@@ -45,7 +45,7 @@ const useStyles = (theme) => ({
 	table: {},
 });
 
-class LunchOverview extends Component {
+class LunchOverviewList extends Component {
 	constructor(props) {
 		super(props);
 
@@ -65,7 +65,6 @@ class LunchOverview extends Component {
 
 	componentDidMount() {
 		getAllLunchesForUser().then((data) => {
-			console.log(data.data);
 			if (data.data !== "No Lunches were found") {
 				this.setState({
 					lunches: data.data,
@@ -78,9 +77,6 @@ class LunchOverview extends Component {
 
 	filterLunches() {
 		if (this.state.filterValue === "month") {
-			console.log(this.state.filterValue);
-			console.log(this.state.filteredLunches);
-
 			this.setState({
 				filteredLunches: this.state.lunches.filter((item) => {
 					return new Date(item.date).getMonth() === this.state.currentMonth;
@@ -357,4 +353,4 @@ class LunchOverview extends Component {
 	}
 }
 
-export default withStyles(useStyles)(LunchOverview);
+export default withStyles(useStyles)(LunchOverviewList);
