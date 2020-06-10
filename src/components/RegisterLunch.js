@@ -11,25 +11,26 @@ import "@fullcalendar/daygrid/main.css";
 import "../css/RegisterLunch.css";
 import Navbar from "../components/navbar/navbar";
 
-import { Container, Button, Typography} from "@material-ui/core";
-import {Today} from "@material-ui/icons"
-import {Alert} from "@material-ui/lab"
+import { Container, Button, Typography } from "@material-ui/core";
+import { Today } from "@material-ui/icons";
+import { Alert } from "@material-ui/lab";
 import SnackbarMessage from "./SnackbarMessage";
+import { deleteLunchId } from "./../service/lunchService";
 
 function RegisterLunch() {
-    let deleted;
+	let deleted;
 
-    //const jwtData = auth.parseJwt(window.sessionStorage.getItem("token"));
+	//const jwtData = auth.parseJwt(window.sessionStorage.getItem("token"));
 
-    const [lunch, setLunch] = useState([
-        {
-            id: "",
-            title: "Lunch",
-            date: new Date("2020-04-10")
-        }
-    ])
-    
-    // Message
+	const [lunch, setLunch] = useState([
+		{
+			id: "",
+			title: "Lunch",
+			date: new Date("2020-04-10"),
+		},
+	]);
+
+	// Message
 	const [message, setMessage] = React.useState();
 	const [showMessage, setShowMessage] = React.useState(false);
 	const [messageType, setMessageType] = React.useState();
@@ -38,7 +39,7 @@ function RegisterLunch() {
 		setShowMessage(false);
 	}
 
-    function getLunches() {
+	function getLunches() {
 		const url = "https://lunchtag-resource-server.herokuapp.com/lunch";
 		fetch(url, {
 			method: "GET",
@@ -51,20 +52,11 @@ function RegisterLunch() {
 			.then((res) => res.json())
 			.then((data) => {
 				setLunch(data);
-				console.log(lunch);
 			});
 	}
 
-    function deleteLunchApi(lunchId) {
-		console.log(lunchId);
-		fetch("https://lunchtag-resource-server.herokuapp.com/lunch/" + lunchId, {
-			method: "DELETE",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-				Authorization: "Bearer " + window.sessionStorage.getItem("token"),
-			},
-		}).then((response) => {
+	function deleteLunchApi(lunchId) {
+		deleteLunchId(lunchId).then((response) => {
 			if (response.status === 200) {
 				setMessage("Lunch succesvol verwijderd");
 				setShowMessage(true);
@@ -78,26 +70,26 @@ function RegisterLunch() {
 		});
 	}
 
-    function checkDelete(newLunch) {
-        deleted = false;
-        // Eerst even kijken of er gedeleted moet worden of niet
-        lunch.forEach(l => {
-            let dateJavascript = new Date(newLunch.date);
-            let dateDB = new Date(l.date);
+	function checkDelete(newLunch) {
+		deleted = false;
+		// Eerst even kijken of er gedeleted moet worden of niet
+		lunch.forEach((l) => {
+			let dateJavascript = new Date(newLunch.date);
+			let dateDB = new Date(l.date);
 
-            if (
-                dateJavascript.getFullYear() === dateDB.getFullYear() &&
-                dateJavascript.getMonth() === dateDB.getMonth() &&
-                dateJavascript.getDate() === dateDB.getDate()
-            ) {
-                // Alle lunches verwijderen met deze datum (dateDB)
-                deleteLunchApi(l.id);
-                deleted = true;
-            }
-        })
-    }
+			if (
+				dateJavascript.getFullYear() === dateDB.getFullYear() &&
+				dateJavascript.getMonth() === dateDB.getMonth() &&
+				dateJavascript.getDate() === dateDB.getDate()
+			) {
+				// Alle lunches verwijderen met deze datum (dateDB)
+				deleteLunchApi(l.id);
+				deleted = true;
+			}
+		});
+	}
 
-    function addlunchApi(newLunch) {
+	function addlunchApi(newLunch) {
 		checkDelete(newLunch);
 		if (!deleted) {
 			fetch("https://lunchtag-resource-server.herokuapp.com/lunch", {
@@ -128,72 +120,79 @@ function RegisterLunch() {
 		}
 	}
 
+	function addToday() {
+		let today = new Date();
+		let dd = String(today.getDate()).padStart(2, "0");
+		let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+		let yyyy = today.getFullYear();
 
-    function addToday() {
-        let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        let yyyy = today.getFullYear();
+		today = mm + "/" + dd + "/" + yyyy;
 
-        today = mm + '/' + dd + '/' + yyyy;
+		const date = dateFormat(today, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
 
-        const date = dateFormat(today, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
+		const newLunch = {
+			title: "Lunch",
+			date: date,
+		};
+		addlunchApi(newLunch);
+	}
 
-        const newLunch = {
-            title: "Lunch",
-            date: date
-        }
-        addlunchApi(newLunch);
-    }
+	// Wanneer er op een datum wordt geklikt
+	const handleDateClick = (arg) => {
+		const currentDate = new Date();
+		const date = dateFormat(arg.dateStr, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
+		const newLunch = {
+			title: "Lunch",
+			date: date,
+		};
+		if (arg.date < currentDate) {
+			addlunchApi(newLunch);
+		}
+	};
 
-    // Wanneer er op een datum wordt geklikt
-    const handleDateClick = arg => {
-        const currentDate = new Date();
-        const date = dateFormat(arg.dateStr, "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'");
-        const newLunch = {
-            title: "Lunch",
-            date: date
-        }
-        if (arg.date < currentDate) {
-            addlunchApi(newLunch)
-        }
-    };
+	useEffect(() => {
+		getLunches();
+	}, []);
 
-    
+	return (
+		<div class="flexboxes">
+			<Navbar />
+			<div class="rightpanel">
+				<Container maxWidth="lg">
+					<Typography variant="h2" component="h1" gutterBottom>
+						Week
+					</Typography>
+					<FullCalendar
+						defaultView="dayGridWeek"
+						plugins={[dayGridPlugin, interactionPlugin]}
+						events={lunch}
+						locale="nl"
+						contentHeight="auto"
+						dateClick={handleDateClick}
+					/>
+					<Button
+						variant="contained"
+						color="primary"
+						size="large"
+						onClick={addToday}
+					>
+						<Today /> Ik heb vandaag meegeluncht
+					</Button>
+					<Alert variant="outlined" style={{ marginTop: 8 }} severity="info">
+						Klik op een datum om aan te geven of je hebt meegeluncht
+					</Alert>
+				</Container>
 
-    useEffect(() => {
-        getLunches();
-    }, []);
-
-    return (
-        <div class="flexboxes">
-            <Navbar />
-            <div class="rightpanel">
-                <Container maxWidth="lg">
-                    <Typography variant="h2" component="h1" gutterBottom>Week</Typography>
-                    <FullCalendar
-                        defaultView="dayGridWeek"
-                        plugins={[dayGridPlugin, interactionPlugin]}
-                        events={lunch}
-                        locale="nl"
-                        contentHeight="auto"
-                        dateClick={handleDateClick}
-                    />
-                    <Button variant="contained" color="primary" size="large" onClick={addToday}><Today/> Ik heb vandaag meegeluncht</Button>
-                    <Alert variant="outlined" style={{marginTop: 8}} severity="info">Klik op een datum om aan te geven of je hebt meegeluncht</Alert>
-                </Container>
-      
-      {showMessage && (
+				{showMessage && (
 					<SnackbarMessage
 						message={message}
 						messageType={messageType}
 						showMessage={closeMessage}
 					/>
 				)}
-            </div>
-        </div>
-
-    );
+			</div>
+		</div>
+	);
 }
 
 export default RegisterLunch;

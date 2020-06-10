@@ -25,6 +25,7 @@ export async function login(credentials) {
 		},
 	})
 		.then((res) => {
+			Auth.login(res.data);
 			return res;
 		})
 		.catch((error) => {
