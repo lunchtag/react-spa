@@ -9,7 +9,18 @@ import {
 	disableById,
 } from "../../service/UserOverviewService";
 
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField, Button } from "@material-ui/core/";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Paper,
+	Typography,
+	TextField,
+	Button,
+} from "@material-ui/core/";
 import { Save, Block, AddCircleOutlineOutlined } from "@material-ui/icons/";
 
 import "../../css/UserOverView.css";
@@ -39,7 +50,6 @@ function UserOverView(props) {
 	const [users, setUsers] = useState([]);
 
 	const [isLoading, setIsLoading] = useState(true);
-	let result = [];
 	// Snackbar
 
 	// Message
@@ -112,7 +122,7 @@ function UserOverView(props) {
 
 	// Filteren op actief account
 	function checkIfNotLoading() {
-		result = users.sort(function (a, b) {
+		users.sort(function (a, b) {
 			return b.isNonLocked - a.isNonLocked;
 		});
 	}
@@ -176,19 +186,19 @@ function UserOverView(props) {
 										>
 											Details
 										</Button>
-										{!item.isNonLocked ?
+										{!item.isNonLocked ? (
 											<AddCircleOutlineOutlined
 												color={"primary"}
 												style={{ cursor: "pointer" }}
 												onClick={() => handleDisable(item.id, item.isNonLocked)}
-											/> :
+											/>
+										) : (
 											<Block
 												color={!item.isNonLocked ? "disabled" : "secondary"}
 												style={{ cursor: "pointer" }}
 												onClick={() => handleDisable(item.id, item.isNonLocked)}
 											/>
-										}
-
+										)}
 									</TableCell>
 								</TableRow>
 							))}
