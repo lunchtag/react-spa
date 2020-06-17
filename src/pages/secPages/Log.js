@@ -37,15 +37,10 @@ class Log extends React.Component {
 			this.setState({
 				logs: value.data,
 			});
-<<<<<<< HEAD
 			this.state.logs = this.state.logs.sort(function (a, b) {
 				return new Date(b.dateOfLog) - new Date(a.dateOfLog);
 			});
 			this.state.count = Math.ceil(this.state.logs.length / this.state.logsPerPage);
-=======
-
-			this.setState({count: Math.ceil(this.state.logs.length / this.state.logsPerPage)});
->>>>>>> master
 			this.makeSubArray();
 		});
 	}
