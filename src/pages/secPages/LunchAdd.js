@@ -19,6 +19,8 @@ import { Alert } from "@material-ui/lab";
 import { withStyles } from "@material-ui/core/styles";
 import SnackbarMessage from "../../components/SnackbarMessage";
 
+import { withTranslation } from 'react-i18next';
+
 const useStyles = (theme) => ({
 	input: {
 		minWidth: "50%",
@@ -39,6 +41,8 @@ class LunchAdd extends React.Component {
 		};
 		this.onChangeUser = this.onChangeUser.bind(this);
 	}
+
+	
 
 	closeMessage = (e) => {
 		this.setState({
@@ -89,7 +93,7 @@ class LunchAdd extends React.Component {
 	}
 
 	render() {
-		const { classes } = this.props;
+		const { classes, t } = this.props;
 
 		const onChange = (date) => {
 			if (Object.keys(this.state.selectedUser).length !== 0) {
@@ -111,13 +115,13 @@ class LunchAdd extends React.Component {
 											LunchedDays: newLunchedDays,
 											showMessage: true,
 											messageType: "success",
-											message: "Lunch succesvol verwijderd",
+											message: t("Lunch verwijderd"),
 										});
 									} else {
 										this.setState({
 											showMessage: true,
 											messageType: "warning",
-											message: "Er is iets misgegaan.",
+											message: t("Er is iets mis gegaan"),
 										});
 									}
 								}
@@ -135,13 +139,13 @@ class LunchAdd extends React.Component {
 							lunchedDays: newLunchedDays,
 							showMessage: true,
 							messageType: "success",
-							message: "Lunch succesvol toegevoegd.",
+							message: t("Lunch toegevoegd"),
 						});
 					} else {
 						this.setState({
 							showMessage: true,
 							messageType: "warning",
-							message: "Er is iets misgegaan.",
+							message: t("Er is iets mis gegaan"),
 						});
 					}
 				});
@@ -191,13 +195,13 @@ class LunchAdd extends React.Component {
 				<div className="rightpanel">
 					<div className="content">
 						<Typography variant="h2" component="h1" gutterBottom>
-							Lunch toevoegen
+							{t("Lunch toevoegen")}
 						</Typography>
 						<FormControl className={classes.input} variant="outlined">
 							{this.state.selectedUser === "" ? (
-								<InputLabel>Selecteer hier een medewerker</InputLabel>
+								<InputLabel>{t("Selecteer een medewerker")}</InputLabel>
 							) : (
-								<InputLabel>Medewerker</InputLabel>
+								<InputLabel>{t("Medewerker")}</InputLabel>
 							)}
 
 							<Select onChange={this.onChangeUser}>
@@ -231,8 +235,7 @@ class LunchAdd extends React.Component {
 										style={{ marginTop: 8 }}
 										severity="info"
 									>
-										Klik op een datum om een lunch van een medewerker toe te
-										voegen of te verwijderen
+										{t("Klik op een datum om een lunch van een medewerker toe te voegen of te verwijderen")}
 									</Alert>
 								</Grid>
 							</>
@@ -252,4 +255,4 @@ class LunchAdd extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(LunchAdd);
+export default withTranslation() (withStyles(useStyles)(LunchAdd));

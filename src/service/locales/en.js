@@ -16,9 +16,14 @@ let en = {
         "Klik op een datum om aan te geven of je hebt meegeluncht": "Click on a date to indicate whether you have had lunched",
         "Je hebt nog geen lunches": "You don't have lunches yet",
         "Er is iets mis gegaan": "Something went wrong",
-        "Lunch succesvol verwijderd": "Deleted lunch succesfully",
+        "Lunch verwijderd": "Lunch deleted",
         "Ik heb vandaag meegeluncht": "I lunched today",
-        "Vandaag": "Today"
+        "Vandaag": "Today",
+        "Selecteer een medewerker": "Select an employee",
+        "Medewerker": "Employee",
+        "Klik op een datum om een lunch van een medewerker toe te voegen of te verwijderen": "Click on a date to add or delete a lunch from an employee",
+        "Lunch toegevoegd": "Lunch added",
+        "lunches deze maand": "lunches this month"
 
 
       }
