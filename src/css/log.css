@@ -1,3 +1,7 @@
 .pagination{
     justify-content: center;
 }
+
+.sort{
+    cursor: pointer;
+}
