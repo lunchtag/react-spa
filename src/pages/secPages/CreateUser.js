@@ -56,16 +56,20 @@ export default class CreateUser extends Component {
 	};
 
 	validateEmail(email) {
-		const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const re = /^(([^<>()\\.,;:\s@"]+(\.[^<>()\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		return re.test(String(email).toLowerCase());
 	}
 
 	checkIfTextAllowed = (character, name) => {
-		if (name == "email") {
-			this.state.regex = /^[a-zA-Z@.]*$/;
+		if (name === "email") {
+			this.setState({
+				regex: /^[a-zA-Z@.]*$/,
+			});
 			console.log("REGEX WITH @");
 		} else {
-			this.state.regex = /^[a-zA-Z]*$/;
+			this.setState({
+				regex: /^[a-zA-Z0-9_ ]*$/,
+			});
 		}
 
 		if (this.state.regex.test(character)) {
