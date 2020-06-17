@@ -21,6 +21,8 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { Person } from "@material-ui/icons";
 
+import { useTranslation } from 'react-i18next';
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
@@ -67,6 +69,8 @@ function PinLogin(props) {
 	let secondRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
 	let thirdRow = ["z", "x", "c", "v", "b", "n", "m"];
 
+	const { t, i18n } = useTranslation();
+
 	function filterUsers(letter) {
 		let filterUsersArray = props.users.filter(
 			checkFirstLetter.bind(this, letter)
@@ -81,7 +85,7 @@ function PinLogin(props) {
 	let filteredUsersDiv = (
 		<Container className={classes.div}>
 			<Typography variant="h2" component="h1" gutterBottom>
-				Selecteer de eerste letter van uw naam
+				{t("Selecteer de eerste letter van uw naam")}
 			</Typography>
 		</Container>
 	);

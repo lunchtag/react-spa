@@ -7,6 +7,7 @@ import {
 	InputAdornment,
 	Grid,
 	Fab,
+	ButtonGroup,
 } from "@material-ui/core";
 import {
 	AlternateEmail,
@@ -14,12 +15,16 @@ import {
 	TextFields,
 	Dialpad,
 	Check,
+	Language,
 } from "@material-ui/icons";
 import { getAllUsers, login } from "../../service/userService";
 import PinLogin from "../../components/PinLogin";
 import SnackbarMessage from "../../components/SnackbarMessage";
 import "../../css/Login.css";
 import { withStyles } from "@material-ui/core/styles";
+
+import { withTranslation } from 'react-i18next';
+
 
 const useStyles = (theme) => ({
 	root: {
@@ -35,6 +40,11 @@ const useStyles = (theme) => ({
 		bottom: theme.spacing(5),
 		right: theme.spacing(5),
 	},
+	language: {
+		position: "absolute",
+		bottom: theme.spacing(5),
+		left: theme.spacing(5),
+	}
 });
 
 class Login extends Component {
@@ -116,7 +126,10 @@ class Login extends Component {
 	};
 
 	render() {
-		const { classes } = this.props;
+		const { classes, t, i18n } = this.props;
+		console.log(this.props)
+
+
 
 		const setPinLogin = () => {
 			this.setState({ pinLogin: true });
@@ -136,8 +149,16 @@ class Login extends Component {
 						onClick={setPasswordLogin}
 						className={classes.export}
 					>
-						<TextFields /> Wachtwoord login
+						<TextFields /> {t("Wachtwoord login")}
 					</Fab>
+
+					<div className={classes.language}>
+						<Language fontSize="large" />
+						<ButtonGroup size="large" color="primary" aria-label="outlined primary button group">
+							<Button onClick={() => { i18n.changeLanguage("nl") }}>Nederlands</Button>
+							<Button onClick={() => { i18n.changeLanguage("en") }}>English</Button>
+						</ButtonGroup>
+					</div>
 				</div>
 			);
 		} else {
@@ -218,4 +239,4 @@ class Login extends Component {
 	}
 }
 
-export default withStyles(useStyles)(Login);
+export default withTranslation()(withStyles(useStyles)(Login));
