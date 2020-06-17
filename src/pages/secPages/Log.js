@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import Navbar from "../../components/navbar/navbar";
 
 import Pagination from '@material-ui/lab/Pagination';
@@ -10,13 +10,14 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {Container} from "@material-ui/core"
+import { Container } from "@material-ui/core"
+import DateRange from "@material-ui/icons/DateRange";
 
 const useStyles = makeStyles({
 	table: {
-	  minWidth: 650,
-	},
-  });
+		minWidth: 650,
+	}
+});
 class Log extends React.Component {
 	constructor(props) {
 		super(props);
@@ -26,7 +27,8 @@ class Log extends React.Component {
 			subLogs: [],
 			currentPage: 1,
 			logsPerPage: 10,
-			count: 5
+			count: 5,
+			sort: false
 		};
 	}
 
@@ -35,7 +37,9 @@ class Log extends React.Component {
 			this.setState({
 				logs: value.data,
 			});
-
+			this.state.logs = this.state.logs.sort(function (a, b) {
+				return new Date(b.dateOfLog) - new Date(a.dateOfLog);
+			});
 			this.state.count = Math.ceil(this.state.logs.length / this.state.logsPerPage);
 			this.makeSubArray();
 		});
@@ -57,6 +61,26 @@ class Log extends React.Component {
 
 	}
 
+	sortByDate = () => {
+		let sort = this.state.sort;
+		if (!sort) {
+			this.state.logs = this.state.logs.sort(function (a, b) {
+				return new Date(a.dateOfLog) - new Date(b.dateOfLog);
+			});
+			this.setState({
+				sort: true
+			})
+		} else {
+			this.state.logs = this.state.logs.sort(function (a, b) {
+				return new Date(b.dateOfLog) - new Date(a.dateOfLog);
+			});
+			this.setState({
+				sort: false
+			})
+		}
+		this.makeSubArray();
+	}
+
 	render() {
 		const logs = this.state.logs;
 		const { classes } = this.props;
@@ -70,7 +94,7 @@ class Log extends React.Component {
 							<TableHead>
 								<TableRow>
 									<TableCell>User</TableCell>
-									<TableCell align="right">Tijd gemaakt</TableCell>
+									<TableCell align="right" >Tijd gemaakt <DateRange onClick={this.sortByDate} className="sort" /></TableCell>
 									<TableCell align="right">Log omschrijving</TableCell>
 								</TableRow>
 							</TableHead>
