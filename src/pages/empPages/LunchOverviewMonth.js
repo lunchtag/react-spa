@@ -15,9 +15,12 @@ import { CheckBox } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
 import SnackbarMessage from "../../components/SnackbarMessage";
 
+import { withTranslation } from 'react-i18next';
+
 const useStyles = (theme) => ({});
 
 class LunchOverviewMonth extends React.Component {
+	
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -65,6 +68,7 @@ class LunchOverviewMonth extends React.Component {
 	};
 
 	render() {
+		const {t} = this.props;
 		const onChange = (date) => {
 			for (let i = 0; i < this.state.lunchedDays.length; i++) {
 				const loopDate = this.state.lunchedDays[i];
@@ -162,7 +166,7 @@ class LunchOverviewMonth extends React.Component {
 				<div className="rightpanel">
 					<div className="content">
 						<Typography variant="h2" component="h1" gutterBottom>
-							Maand
+							{t("Maand")}
 						</Typography>
 						<Grid container maxWidth="lg" justify="center">
 							<Paper elevation={3} className="calendar">
@@ -181,7 +185,7 @@ class LunchOverviewMonth extends React.Component {
 								style={{ marginTop: 8 }}
 								severity="info"
 							>
-								Klik op een datum om aan te geven of je hebt meegeluncht
+								{t("Klik op een datum om aan te geven of je hebt meegeluncht")}
 							</Alert>
 						</Grid>
 					</div>
@@ -199,4 +203,4 @@ class LunchOverviewMonth extends React.Component {
 	}
 }
 
-export default withStyles(useStyles)(LunchOverviewMonth);
+export default withTranslation() (withStyles(useStyles)(LunchOverviewMonth));

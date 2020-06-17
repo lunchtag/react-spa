@@ -1,13 +1,12 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import en from "./service/locales/en"
-import nl from "./service/locales/nl";
+
 
 // the translations
 // (tip move them in a JSON file and import them)
 const resources = {
   en: en,
-  nl: nl,
 };
 
 i18n

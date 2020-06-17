@@ -239,7 +239,7 @@ function PinLogin(props) {
 								type="password"
 								error
 								label="Pincode"
-								helperText="Verkeerde pincode"
+								helperText={t("Verkeerde pincode")}
 								value={pin}
 								InputProps={{ readOnly: true }}
 								variant="outlined"

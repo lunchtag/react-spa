@@ -165,7 +165,7 @@ class Login extends Component {
 			loginPage = (
 				<>
 					<Typography variant="h2" component="h1" gutterBottom>
-						Log hier in met uw email en wachtwoord
+						{t("Log hier in met uw email en wachtwoord")}
 					</Typography>
 					<Container maxWidth="md">
 						<TextField
@@ -198,7 +198,7 @@ class Login extends Component {
 							fullWidth
 							type="password"
 							id="standard-basic"
-							label="Wachtwoord"
+							label={t("Wachtwoord")}
 							onChange={this.handlePasswordChange}
 						/>
 						<Button
@@ -218,8 +218,16 @@ class Login extends Component {
 							onClick={setPinLogin}
 							className={classes.export}
 						>
+							
 							<Dialpad /> Pincode login
 						</Fab>
+						<div className={classes.language}>
+						<Language fontSize="large" />
+						<ButtonGroup size="large" color="primary" aria-label="outlined primary button group">
+							<Button onClick={() => { i18n.changeLanguage("nl") }}>Nederlands</Button>
+							<Button onClick={() => { i18n.changeLanguage("en") }}>English</Button>
+						</ButtonGroup>
+					</div>
 					</Container>
 				</>
 			);
