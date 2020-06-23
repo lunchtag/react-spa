@@ -11,10 +11,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { Container, Typography, Paper } from "@material-ui/core"
+import { Typography, Paper } from "@material-ui/core"
 import { withTranslation } from 'react-i18next';
 import { Person, AccessTime } from '@material-ui/icons'
-import DateRange from "@material-ui/icons/DateRange";
+
 
 const useStyles = (theme) => ({
 	tableContainer: {
@@ -50,10 +50,10 @@ class Log extends React.Component {
 			this.setState({
 				logs: value.data,
 			});
-			this.state.logs = this.state.logs.sort(function (a, b) {
+			this.setState({logs: this.state.logs.sort(function (a, b) {
 				return new Date(b.dateOfLog) - new Date(a.dateOfLog);
-			});
-			this.state.count = Math.ceil(this.state.logs.length / this.state.logsPerPage)
+			})})
+			this.setState({count: Math.ceil(this.state.logs.length / this.state.logsPerPage)})
 			this.makeSubArray();
 		});
 	}
@@ -77,19 +77,13 @@ class Log extends React.Component {
 	sortByDate = () => {
 		let sort = this.state.sort;
 		if (!sort) {
-			this.state.logs = this.state.logs.sort(function (a, b) {
+			this.setState({logs: this.state.logs.sort(function (a, b) {
 				return new Date(a.dateOfLog) - new Date(b.dateOfLog);
-			});
-			this.setState({
-				sort: true
-			})
+			}), sort: true})
 		} else {
-			this.state.logs = this.state.logs.sort(function (a, b) {
+			this.setState({logs: this.state.logs.sort(function (a, b) {
 				return new Date(b.dateOfLog) - new Date(a.dateOfLog);
-			});
-			this.setState({
-				sort: false
-			})
+			}), sort: false})
 		}
 		this.makeSubArray();
 	}

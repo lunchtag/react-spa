@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
 import Navbar from "../../components/navbar/navbar";
-
 
 
 import {
@@ -15,7 +13,6 @@ import {
 	Table,
 	TableBody,
 	TableCell,
-	TableContainer,
 	TableHead,
 	TableRow,
 	Paper,
@@ -27,9 +24,7 @@ import { Save, Block, AddCircleOutlineOutlined, Search } from "@material-ui/icon
 
 import "../../css/UserOverView.css";
 import SnackbarMessage from "../../components/SnackbarMessage";
-
 import { useTranslation } from 'react-i18next';
-import { color } from "@material-ui/system";
 
 const useStyles = makeStyles({
 	tableContainer: {
@@ -67,7 +62,7 @@ function UserOverView(props) {
 	const [showMessage, setShowMessage] = React.useState(false);
 	const [messageType, setMessageType] = React.useState();
 
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		getAllUsers().then((res) => {
