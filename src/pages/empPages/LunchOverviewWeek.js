@@ -21,8 +21,12 @@ import {
 	addLunch2,
 } from "../../service/lunchService";
 
+import { useTranslation } from 'react-i18next';
+
 function LunchOverviewWeek() {
 	let deleted;
+
+	const {t} = useTranslation();
 
 	//const jwtData = auth.parseJwt(window.sessionStorage.getItem("token"));
 
@@ -171,10 +175,10 @@ function LunchOverviewWeek() {
 						size="large"
 						onClick={addToday}
 					>
-						<Today /> Ik heb vandaag meegeluncht
+						<Today /> {t("Ik heb vandaag meegeluncht")}
 					</Button>
 					<Alert variant="outlined" style={{ marginTop: 8 }} severity="info">
-						Klik op een datum om aan te geven of je hebt meegeluncht
+						{t("Klik op een datum om aan te geven of je hebt meegeluncht")}
 					</Alert>
 				</Container>
 

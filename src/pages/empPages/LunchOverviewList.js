@@ -28,6 +28,8 @@ import moment from "moment";
 import { withStyles } from "@material-ui/core/styles";
 import SnackbarMessage from "../../components/SnackbarMessage";
 
+import { withTranslation } from 'react-i18next';
+
 const StyledTableCell = withStyles((theme) => ({
 	head: {
 		backgroundColor: theme.palette.primary.main,
@@ -112,7 +114,7 @@ class LunchOverviewList extends Component {
 	};
 
 	render() {
-		const { classes } = this.props;
+		const { classes, t } = this.props;
 
 		const {
 			filteredLunches,
@@ -181,13 +183,13 @@ class LunchOverviewList extends Component {
 				this.setState({
 					showMessage: true,
 					messageType: "success",
-					message: "Lunch succesvol verwijderd",
+					message: t("Lunch succesvol verwijderd"),
 				});
 			} else {
 				this.setState({
 					showMessage: true,
 					messageType: "warning",
-					message: "Er is iets misgegaan",
+					message: t("Er is iets mis gegaan"),
 				});
 			}
 
@@ -206,16 +208,15 @@ class LunchOverviewList extends Component {
 						<div>
 							<Container maxWidth="lg">
 								<Typography variant="h2" component="h1" gutterBottom>
-									Overzicht
+									{t("Overzicht")}
 								</Typography>
 								{this.state.filterValue === "month" ? (
 									<Typography variant="h4" component="h1" gutterBottom>
-										Huidige maand:{" "}
-										{dateHelper.getMonthFromNumber(this.state.currentMonth)}
+										{t("Maand") + " " + dateHelper.getMonthFromNumber(this.state.currentMonth)}
 									</Typography>
 								) : (
 									<Typography variant="h4" component="h1" gutterBottom>
-										Huidig week: {this.state.currentWeekNr}
+										{t("Week") + " " + this.state.currentWeekNr}
 									</Typography>
 								)}
 
@@ -241,7 +242,7 @@ class LunchOverviewList extends Component {
 													setFilterValue("month");
 												}}
 											>
-												Maand
+												{t("Maand")}
 											</Button>
 										</>
 									) : (
@@ -265,7 +266,7 @@ class LunchOverviewList extends Component {
 													setFilterValue("month");
 												}}
 											>
-												Maand
+												{t("Maand")}
 											</Button>
 										</>
 									)}
@@ -289,7 +290,7 @@ class LunchOverviewList extends Component {
 											filterByCurrent();
 										}}
 									>
-										Vandaag
+										{t("Vandaag")}
 									</Button>
 									<Button
 										onClick={() => {
@@ -353,4 +354,4 @@ class LunchOverviewList extends Component {
 	}
 }
 
-export default withStyles(useStyles)(LunchOverviewList);
+export default withTranslation() (withStyles(useStyles)(LunchOverviewList));

@@ -12,7 +12,9 @@ import {
 import { AlternateEmail, Save } from "@material-ui/icons";
 import SnackbarMessage from "../../components/SnackbarMessage";
 
-export default class CreateUser extends Component {
+import { withTranslation } from 'react-i18next';
+
+class CreateUser extends Component {
 	constructor(props) {
 		super(props);
 
@@ -115,13 +117,15 @@ export default class CreateUser extends Component {
 	};
 
 	render() {
+		const { t } = this.props;
+
 		return (
 			<div className="flexboxes">
 				<Navbar />
 				<div className="rightpanel">
 					<Container maxWidth="md">
 						<Typography variant="h2" component="h1" gutterBottom>
-							Maak een gebruiker aan
+							{t("Maak een gebruiker aan")}
 						</Typography>
 
 						<TextField
@@ -148,7 +152,7 @@ export default class CreateUser extends Component {
 							style={{ margin: 8 }}
 							variant="outlined"
 							fullWidth
-							label="Voornaam"
+							label={t("Voornaam")}
 							name="firstname"
 							value={this.state.firstName}
 							inputProps={{ maxLength: 35, pattern: "[a-zA-Z]" }}
@@ -159,7 +163,7 @@ export default class CreateUser extends Component {
 							style={{ margin: 8 }}
 							variant="outlined"
 							fullWidth
-							label="Achternaam"
+							label={t("Achternaam")}
 							name="lastName"
 							value={this.state.lastName}
 							inputProps={{ maxLength: 35 }}
@@ -174,7 +178,7 @@ export default class CreateUser extends Component {
 							color="primary"
 							onClick={this.handleSubmit}
 						>
-							Bevestig
+							{t("Bevestig")}
 						</Button>
 					</Container>
 
@@ -190,3 +194,5 @@ export default class CreateUser extends Component {
 		);
 	}
 }
+
+export default withTranslation() (CreateUser)

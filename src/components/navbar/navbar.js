@@ -9,6 +9,8 @@ import {
 	ListItemText,
 	ListItemAvatar,
 	Avatar,
+	ButtonGroup,
+	Button,
 } from "@material-ui/core";
 import {
 	DateRange,
@@ -22,10 +24,12 @@ import {
 	LocalOfferOutlined,
 	Fastfood,
 	Dvr,
+	Language,
 
 } from "@material-ui/icons";
 import "./navbar.css";
 import { withStyles } from "@material-ui/core/styles";
+import { withTranslation } from 'react-i18next';
 
 const drawerWidth = 300;
 
@@ -46,6 +50,10 @@ const useStyles = (theme) => ({
 		width: drawerWidth,
 		backgroundColor: "#ebebf2",
 	},
+	language: {
+		position: "absolute",
+		bottom: theme.spacing(0),
+	},
 	// necessary for content to be below app bar
 	toolbar: theme.mixins.toolbar,
 	content: {
@@ -63,7 +71,7 @@ const useStyles = (theme) => ({
 
 class Navbar extends React.Component {
 	render() {
-		const { classes } = this.props;
+		const { classes, t, i18n } = this.props;
 
 		return (
 			<Drawer
@@ -88,7 +96,7 @@ class Navbar extends React.Component {
 								<DateRange />
 							</Avatar>
 						</ListItemAvatar>
-						<ListItemText primary="Maand" />
+						<ListItemText primary={t("Maand")} />
 					</ListItem>
 					<ListItem button component={Link} to="/add">
 						<ListItemAvatar>
@@ -104,7 +112,7 @@ class Navbar extends React.Component {
 								<ViewList />
 							</Avatar>
 						</ListItemAvatar>
-						<ListItemText primary="Overzicht" />
+						<ListItemText primary={t("Overzicht")} />
 					</ListItem>
 				</List>
 				<Divider />
@@ -117,7 +125,7 @@ class Navbar extends React.Component {
 										<Add />
 									</Avatar>
 								</ListItemAvatar>
-								<ListItemText primary="Lunch toevoegen" />
+								<ListItemText primary={t("Lunch toevoegen")} />
 							</ListItem>
 							<ListItem button component={Link} to="/employee">
 								<ListItemAvatar>
@@ -125,7 +133,7 @@ class Navbar extends React.Component {
 										<Fastfood />
 									</Avatar>
 								</ListItemAvatar>
-								<ListItemText primary="Lunches medewerker" />
+								<ListItemText primary={t("Lunches medewerker")} />
 							</ListItem>
 							<ListItem button component={Link} to="/seccreateuser">
 								<ListItemAvatar>
@@ -133,7 +141,7 @@ class Navbar extends React.Component {
 										<PersonAdd />
 									</Avatar>
 								</ListItemAvatar>
-								<ListItemText primary="Nieuw account" />
+								<ListItemText primary={t("Nieuw account")} />
 							</ListItem>
 							<ListItem button component={Link} to="/employees">
 								<ListItemAvatar>
@@ -141,7 +149,7 @@ class Navbar extends React.Component {
 										<Group />
 									</Avatar>
 								</ListItemAvatar>
-								<ListItemText primary="Overzicht gebruikers" />
+								<ListItemText primary={t("Overzicht gebruikers")} />
 							</ListItem>
 							<ListItem button component={Link} to="/log">
 								<ListItemAvatar>
@@ -155,14 +163,25 @@ class Navbar extends React.Component {
 						<Divider />
 					</>
 				)}
-				<List>
+				<List className={classes.language}>
+				<ListItem >
+						<ListItemAvatar>
+							<Avatar className={classes.avatar}>
+								<Language />
+							</Avatar>
+						</ListItemAvatar>
+						<ButtonGroup fullWidth  color="primary" aria-label="text primary button group">
+								<Button onClick={() => { i18n.changeLanguage("nl") }}>NL</Button>
+								<Button onClick={() => { i18n.changeLanguage("en") }}>EN</Button>
+							</ButtonGroup>
+					</ListItem>
 					<ListItem button component={Link} to="/profile">
 						<ListItemAvatar>
 							<Avatar className={classes.avatar}>
 								<Person />
 							</Avatar>
 						</ListItemAvatar>
-						<ListItemText primary="Profiel" />
+						<ListItemText primary={t("Profiel")} />
 					</ListItem>
 					<ListItem button component={Link} to="/logout">
 						<ListItemAvatar>
@@ -170,12 +189,14 @@ class Navbar extends React.Component {
 								<ExitToApp />
 							</Avatar>
 						</ListItemAvatar>
-						<ListItemText primary="Uitloggen" />
+						<ListItemText primary={t("Uitloggen")} />
 					</ListItem>
 				</List>
+
+				
 			</Drawer>
 		);
 	}
 }
 
-export default withStyles(useStyles)(Navbar);
+export default withTranslation()(withStyles(useStyles)(Navbar));

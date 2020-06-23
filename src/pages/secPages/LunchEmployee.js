@@ -35,6 +35,8 @@ import { getAllUsers } from "../../service/userService";
 import { withStyles } from "@material-ui/core/styles";
 import SnackbarMessage from "../../components/SnackbarMessage";
 
+import { withTranslation } from 'react-i18next';
+
 const StyledTableCell = withStyles((theme) => ({
 	head: {
 		backgroundColor: theme.palette.primary.main,
@@ -120,7 +122,7 @@ class LunchEmployee extends Component {
 	};
 
 	render() {
-		const { classes } = this.props;
+		const { classes, t } = this.props;
 		const {
 			filteredLunches,
 			currentMonth,
@@ -190,13 +192,13 @@ class LunchEmployee extends Component {
 				this.setState({
 					showMessage: true,
 					messageType: "success",
-					message: "Lunch succesvol verwijderd",
+					message: t("Lunch verwijderd"),
 				});
 			} else {
 				this.setState({
 					showMessage: true,
 					messageType: "warning",
-					message: "Er is iets misgegaan",
+					message: t("Er is iets mis gegaan"),
 				});
 			}
 
@@ -215,14 +217,14 @@ class LunchEmployee extends Component {
 						<div className="content">
 							<Container maxWidth="md">
 								<Typography variant="h2" component="h1" gutterBottom>
-									Lunches medewerker
+									{t("Lunches medewerker")}
 								</Typography>
 
 								<FormControl className={classes.input} variant="outlined">
 									{this.state.selectedUser === "" ? (
-										<InputLabel>Selecteer hier een medewerker</InputLabel>
+										<InputLabel>{t("Selecteer een medewerker")}</InputLabel>
 									) : (
-										<InputLabel>Medewerker</InputLabel>
+										<InputLabel>{t("Medewerker")}</InputLabel>
 									)}
 
 									<Select
@@ -242,7 +244,7 @@ class LunchEmployee extends Component {
 									<>
 										<Paper className={classes.info} elevation={3}>
 											<Typography variant="h5">
-												{filteredLunches.length} lunches deze maand
+												{filteredLunches.length + " " + t("lunches deze maand")}
 											</Typography>
 										</Paper>
 										<br />
@@ -264,7 +266,7 @@ class LunchEmployee extends Component {
 													filterByCurrent();
 												}}
 											>
-												Vandaag
+												{t("Vandaag")}
 											</Button>
 											<Button
 												onClick={() => {
@@ -301,7 +303,7 @@ class LunchEmployee extends Component {
 
 										{filteredLunches.length === 0 && (
 											<Alert variant="outlined" severity="info">
-												Er zijn geen lunches deze maand
+												{t("Er zijn geen lunches deze maand")}
 											</Alert>
 										)}
 										<Fab
@@ -330,4 +332,4 @@ class LunchEmployee extends Component {
 	}
 }
 
-export default withStyles(useStyles)(LunchEmployee);
+export default withTranslation() (withStyles(useStyles)(LunchEmployee));

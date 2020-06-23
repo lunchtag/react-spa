@@ -12,8 +12,9 @@ import {
 } from "@material-ui/core";
 import { AlternateEmail, FiberPin, Save } from "@material-ui/icons";
 import SnackbarMessage from "../../components/SnackbarMessage";
+import { withTranslation } from 'react-i18next';
 
-export default class Profile extends Component {
+class Profile extends Component {
 	constructor(props) {
 		super(props);
 
@@ -124,6 +125,8 @@ export default class Profile extends Component {
 			changePassword,
 		} = this.state;
 
+		const { t} = this.props;
+
 		return (
 			<div className="flexboxes">
 				<div className="leftpanel">
@@ -133,7 +136,7 @@ export default class Profile extends Component {
 				<div className="rightpanel">
 					<Container>
 						<Box my={5} ml={5}>
-							<h2> Jouw profiel</h2>
+							<h2>{t("Jouw profiel")}</h2>
 						</Box>
 
 						<form onSubmit={this.saveNewProfileSettings}>
@@ -158,7 +161,7 @@ export default class Profile extends Component {
 									id="firstName"
 									style={{ margin: 8 }}
 									variant="outlined"
-									label="First Name"
+									label={t("Voornaam")}
 									placeholder={firstName}
 									onChange={this.onChange}
 								/>
@@ -166,7 +169,7 @@ export default class Profile extends Component {
 									id="lastName"
 									style={{ margin: 8 }}
 									variant="outlined"
-									label="Last Name"
+									label={t("Achternaam")}
 									placeholder={lastName}
 									onChange={this.onChange}
 								/>
@@ -177,7 +180,7 @@ export default class Profile extends Component {
 									color="Primary"
 									onChange={this.changePasswordToggle}
 								/>
-								Change password?
+								{t("Wijzig wachtwoord")}
 								{changePassword && (
 									<div>
 										<TextField
@@ -186,7 +189,7 @@ export default class Profile extends Component {
 											style={{ margin: 8 }}
 											variant="outlined"
 											xs={12}
-											label="Password"
+											label={t("Wachtwoord")}
 											type="password"
 											onChange={this.onChange}
 										/>
@@ -198,13 +201,13 @@ export default class Profile extends Component {
 											style={{ margin: 8 }}
 											variant="outlined"
 											xs={12}
-											label="Repeat password"
+											label={t("Wachtwoord herhalen")}
 											onChange={this.onChange}
 											errorText
 										/>
 
 										{password !== password2 && (
-											<div>Passwords do not match!</div>
+											<div>{t("De wachtwoorden komen niet overeen!")}</div>
 										)}
 									</div>
 								)}
@@ -217,7 +220,7 @@ export default class Profile extends Component {
 									size="large"
 								>
 									<Save />
-									Wijzigingen opslaan
+									{" " + t("Wijzigingen opslaan")}
 								</Button>
 							</Box>
 						</form>
@@ -230,7 +233,7 @@ export default class Profile extends Component {
 								onClick={this.sendNewPincode}
 							>
 								<FiberPin />
-								Stuur nieuwe pincode
+								{" " + t("Stuur nieuwe pincode")}
 							</Button>
 						</Box>
 					</Container>
@@ -247,3 +250,5 @@ export default class Profile extends Component {
 		);
 	}
 }
+
+export default withTranslation() (Profile);

@@ -101,6 +101,7 @@ class Login extends Component {
 		const setPinLogin = () => {
 			this.setState({ pinLogin: true })
 		}
+		
 		const setPasswordLogin = () => {
 			this.setState({ pinLogin: false })
 		}
@@ -115,6 +116,7 @@ class Login extends Component {
 		} else {
 			loginPage = (
 				<>
+
 				<Typography variant="h2" component="h1" gutterBottom>Log hier in met uw email en wachtwoord</Typography>
 				<Container maxWidth="md">
 					<TextField required style={{ margin: 8 }} variant="outlined" InputProps={{

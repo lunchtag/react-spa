@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Navbar from "../../components/navbar/navbar";
 
+
+
 import {
 	getAllUsers,
 	updateUser,
@@ -21,10 +23,13 @@ import {
 	TextField,
 	Button,
 } from "@material-ui/core/";
-import { Save, Block, AddCircleOutlineOutlined } from "@material-ui/icons/";
+import { Save, Block, AddCircleOutlineOutlined, Search } from "@material-ui/icons/";
 
 import "../../css/UserOverView.css";
 import SnackbarMessage from "../../components/SnackbarMessage";
+
+import { useTranslation } from 'react-i18next';
+import { color } from "@material-ui/system";
 
 const useStyles = makeStyles({
 	tableContainer: {
@@ -42,6 +47,11 @@ const useStyles = makeStyles({
 		marginTop: "50px",
 		marginRight: "15px",
 	},
+	head: {
+		backgroundColor: "#3f51b5",
+		color: "white",
+		fontSize: 14,
+	},
 });
 
 function UserOverView(props) {
@@ -56,6 +66,8 @@ function UserOverView(props) {
 	const [message, setMessage] = React.useState();
 	const [showMessage, setShowMessage] = React.useState(false);
 	const [messageType, setMessageType] = React.useState();
+
+	const { t, i18n } = useTranslation();
 
 	useEffect(() => {
 		getAllUsers().then((res) => {
@@ -77,13 +89,12 @@ function UserOverView(props) {
 			if (res.status === 200) {
 				getAllUsers().then((res) => {
 					setUsers(res.data);
-					setMessage("Account succesvol ge(de)blokkeerd");
+					setMessage(t("Account succesvol ge(de)blokkeerd"));
 					setShowMessage(true);
 					setMessageType("success");
-					// window.location.reload();
 				});
 			} else {
-				setMessage("Er is iets misgegaan");
+				setMessage(t("Er is iets misgegaan"));
 				setShowMessage(true);
 				setMessageType("warning");
 			}
@@ -137,20 +148,20 @@ function UserOverView(props) {
 			<Navbar />
 			<div className="rightpanel">
 				<Typography variant="h2" component="h1" gutterBottom>
-					Overzicht gebruikers
+					{t("Overzicht gebruikers")}
 				</Typography>
 				<Typography variant="h4" component="h1" gutterBottom>
-					Totaal aantal personen : {users.length}
+					{t("Totaal aantal gebruikers") + ": " + users.length}
 				</Typography>
-				<TableContainer className={classes.tableContainer} component={Paper}>
+				<Paper className={classes.tableContainer} elevation={3}>
 					<Table className={classes.table} aria-label="simple table">
 						<TableHead>
 							<TableRow>
-								<TableCell align="center">Naam</TableCell>
-								<TableCell align="center">Achternaam</TableCell>
-								<TableCell align="center">Email</TableCell>
-								<TableCell align="center">Rol</TableCell>
-								<TableCell align="center"> </TableCell>
+								<TableCell className={classes.head} align="center">{t("Naam")}</TableCell>
+								<TableCell className={classes.head} align="center">{t("Achternaam")}</TableCell>
+								<TableCell className={classes.head} align="center">{t("Email")}</TableCell>
+								<TableCell className={classes.head} align="center">{t("Rol")}</TableCell>
+								<TableCell className={classes.head} align="center"> </TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -159,7 +170,6 @@ function UserOverView(props) {
 									<TableCell component="th" scope="row">
 										<TextField
 											id="standard-basic"
-											label="voornaam"
 											name="name"
 											defaultValue={item.name}
 											onChange={(e) => handleOnchange(item, e)}
@@ -168,7 +178,6 @@ function UserOverView(props) {
 									<TableCell align="right">
 										<TextField
 											id="standard-basic"
-											label="achternaam"
 											name="lastName"
 											defaultValue={item.lastName}
 											onChange={(e) => handleOnchange(item, e)}
@@ -184,7 +193,7 @@ function UserOverView(props) {
 											onClick={() => handleDetails(item.id)}
 											variant="contained"
 										>
-											Details
+											<Search/>
 										</Button>
 										{!item.isNonLocked ? (
 											<AddCircleOutlineOutlined
@@ -204,7 +213,8 @@ function UserOverView(props) {
 							))}
 						</TableBody>
 					</Table>
-				</TableContainer>
+					</Paper>
+				
 
 				<div className="btn-submit">
 					<Button
@@ -215,7 +225,7 @@ function UserOverView(props) {
 						color="primary"
 						onClick={handleUpdate}
 					>
-						Wijzigingen opslaan
+						{t("Wijzigingen opslaan")}
 					</Button>
 				</div>
 			</div>
