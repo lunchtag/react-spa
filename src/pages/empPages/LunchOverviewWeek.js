@@ -52,9 +52,9 @@ function LunchOverviewWeek() {
 			if (res.status === 200) {
 				setLunch(res.data);
 			} else {
-				setMessage("Er is iets misgegaan");
+				setMessage("Je hebt nog geen lunches");
 				setShowMessage(true);
-				setMessageType("warning");
+				setMessageType("info");
 			}
 		});
 	}

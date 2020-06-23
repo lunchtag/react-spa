@@ -10,10 +10,11 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
 import { Container, Typography, Paper } from "@material-ui/core"
 import { withTranslation } from 'react-i18next';
 import { Person, AccessTime } from '@material-ui/icons'
-
+import DateRange from "@material-ui/icons/DateRange";
 
 const useStyles = (theme) => ({
 	tableContainer: {
@@ -39,7 +40,8 @@ class Log extends React.Component {
 			subLogs: [],
 			currentPage: 1,
 			logsPerPage: 10,
-			count: 5
+			count: 5,
+			sort: false
 		};
 	}
 
@@ -48,8 +50,10 @@ class Log extends React.Component {
 			this.setState({
 				logs: value.data,
 			});
-
-			this.setState({ count: Math.ceil(this.state.logs.length / this.state.logsPerPage) });
+			this.state.logs = this.state.logs.sort(function (a, b) {
+				return new Date(b.dateOfLog) - new Date(a.dateOfLog);
+			});
+			this.state.count = Math.ceil(this.state.logs.length / this.state.logsPerPage)
 			this.makeSubArray();
 		});
 	}
@@ -70,6 +74,26 @@ class Log extends React.Component {
 
 	}
 
+	sortByDate = () => {
+		let sort = this.state.sort;
+		if (!sort) {
+			this.state.logs = this.state.logs.sort(function (a, b) {
+				return new Date(a.dateOfLog) - new Date(b.dateOfLog);
+			});
+			this.setState({
+				sort: true
+			})
+		} else {
+			this.state.logs = this.state.logs.sort(function (a, b) {
+				return new Date(b.dateOfLog) - new Date(a.dateOfLog);
+			});
+			this.setState({
+				sort: false
+			})
+		}
+		this.makeSubArray();
+	}
+
 	render() {
 		const { classes, t } = this.props;
 		return (
@@ -84,7 +108,7 @@ class Log extends React.Component {
 							<TableHead>
 								<TableRow>
 									<TableCell className={classes.head}><Person/></TableCell>
-									<TableCell className={classes.head} align="right"><AccessTime/></TableCell>
+									<TableCell className={classes.head} align="right" ><AccessTime onClick={this.sortByDate}/></TableCell>
 									<TableCell className={classes.head} align="right">{t("Omschrijving")}</TableCell>
 								</TableRow>
 							</TableHead>
