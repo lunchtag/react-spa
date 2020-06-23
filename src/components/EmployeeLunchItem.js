@@ -4,8 +4,13 @@ import { TableCell, TableRow, Typography, IconButton } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import { deleteLunchId } from "./../service/lunchService";
 
+import { useTranslation } from 'react-i18next';
+
 function EmployeeLunchItem(props) {
 	const lunchItem = props.lunch;
+	const { i18n } = useTranslation()
+
+	var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
 	function deleteLunch(event) {
 		deleteLunchId(lunchItem.id).then((res) => {
@@ -21,7 +26,10 @@ function EmployeeLunchItem(props) {
 		<TableRow>
 			<TableCell align="middle">
 				<Typography variant="h6" gutterBottom>
-					{new Date(lunchItem.date).toDateString()}
+					{i18n.language === 'nl' ?
+						new Date(lunchItem.date).toLocaleDateString('nl-NL', options) :
+						new Date(lunchItem.date).toDateString()
+					}
 				</Typography>
 			</TableCell>
 			<TableCell align="right">

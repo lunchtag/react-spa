@@ -266,7 +266,7 @@ class LunchEmployee extends Component {
 													filterByCurrent();
 												}}
 											>
-												Vandaag
+												{t("Vandaag")}
 											</Button>
 											<Button
 												onClick={() => {
@@ -303,7 +303,7 @@ class LunchEmployee extends Component {
 
 										{filteredLunches.length === 0 && (
 											<Alert variant="outlined" severity="info">
-												Er zijn geen lunches deze maand
+												{t("Er zijn geen lunches deze maand")}
 											</Alert>
 										)}
 										<Fab

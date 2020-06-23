@@ -38,7 +38,6 @@ function LunchItem(props) {
 					new Date(lunchItem.date).toLocaleDateString('nl-NL', options):
 					new Date(lunchItem.date).toDateString()
 					}
-					{}
 				</Typography>
 			</TableCell>
 			<TableCell align="right">

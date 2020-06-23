@@ -23,8 +23,21 @@ let en = {
         "Medewerker": "Employee",
         "Klik op een datum om een lunch van een medewerker toe te voegen of te verwijderen": "Click on a date to add or delete a lunch from an employee",
         "Lunch toegevoegd": "Lunch added",
-        "lunches deze maand": "lunches this month"
-
+        "lunches deze maand": "lunches this month",
+        "Er zijn geen lunches deze maand": "There are no lunches this month",
+        "Maak een gebruiker aan": "Create a user",
+        "Voornaam": "First name",
+        "Achternaam": "Last name",
+        "Bevestig": "Confirm",
+        "Account succesvol ge(de)blokkeerd": "Account successfully (de)blocked",
+        "Totaal aantal gebruikers": "Total amount of users",
+        "Naam": "Name",
+        "Rol": "Role",
+        "Wijzigingen opslaan": "Save changes",
+        "Omschrijving": "Description",
+        "Jouw profiel": "Your profile",
+        "Wijzig wachtwoord": "Change password",
+        "Stuur nieuwe pincode": "Send new pincode",
 
       }
   };
