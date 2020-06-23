@@ -38,6 +38,7 @@ let en = {
         "Jouw profiel": "Your profile",
         "Wijzig wachtwoord": "Change password",
         "Stuur nieuwe pincode": "Send new pincode",
+        "Wachtwoord herhalen": "Repeat password"
 
       }
   };

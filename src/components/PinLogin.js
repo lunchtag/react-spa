@@ -69,7 +69,7 @@ function PinLogin(props) {
 	let secondRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
 	let thirdRow = ["z", "x", "c", "v", "b", "n", "m"];
 
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 
 	function filterUsers(letter) {
 		let filterUsersArray = props.users.filter(
